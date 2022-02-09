@@ -1,10 +1,11 @@
-import React,{useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Form, FloatingLabel, Modal, Button} from "react-bootstrap";
 import InsuranceApi from "../../Service/InsuranceApi";
 import {DatePicker, DateTimePicker, LocalizationProvider} from "@mui/lab";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { TextField} from "@mui/material";
 import moment from "moment";
+import EditCandidate from "./EditCandidate";
 
 
 const AddCandidate = () => {
@@ -18,14 +19,42 @@ const AddCandidate = () => {
     const [proofId, setProofId] = useState(" ");
     const [appointment, setAppointment] = useState(" ");
     const [highestQualification, setHighestQualification] = useState(" ");
+    const [proofs, setProofs] = useState([]);
+    const [communications, setCommunications] = useState([]);
+    const [degree, setDegree] = useState([]);
+
+
+    useEffect(() => {
+       InsuranceApi.getParameterRule("P0001").then((res) => {
+           setProofs(res.data);
+       })
+           .catch((error) => {
+               console.log(error)
+           });
+
+        InsuranceApi.getParameterRule("C0001").then((res) => {
+            setCommunications(res.data);
+        })
+            .catch((error) => {
+                console.log(error)
+            });
+
+        InsuranceApi.getParameterRule("E0001").then((res) => {
+            setDegree(res.data);
+        })
+            .catch((error) => {
+                console.log(error)
+            });
+    }, []);
+
 
 
     const saveCandidate = () => {
 
-       const dateOfBirth = moment(dateofBirth).format("DD-MM-YYYY")
+       const dateOfBirth = moment(dateofBirth).format("MM-DD-YYYY")
 
         const availableDateAndTime =  moment(appointment).format(
-            "DD-MM-YYYY HH:mm"
+            "MM-DD-YYYY HH:mm"
         )
 
        const candidate = {name, mobileNumber, email,  dateOfBirth , communication, proof, proofId, availableDateAndTime, highestQualification };
@@ -68,7 +97,7 @@ const AddCandidate = () => {
                         <div className="col">
                     <FloatingLabel
                         controlId="floatingInput"
-                        style={{color:"purple"}}
+                        style={{color:"red"}}
                         className="mb-3"
                         label="Enter your name ......"
                     >
@@ -82,7 +111,7 @@ const AddCandidate = () => {
                     <FloatingLabel
                         controlId="floatingInput"
                         label="Enter your mobile number......"
-                        style={{color:"purple"}}
+                        style={{color:"red"}}
                         className="mb-3"
                     >
                         <Form.Control type="number" placeholder="Mobile Number" id={mobileNumber} onChange={(e) => setMobileNumber(e.target.value)} />
@@ -95,7 +124,7 @@ const AddCandidate = () => {
                     <FloatingLabel
                         controlId="floatingInput"
                         label="Email address"
-                        style={{color:"purple"}}
+                        style={{color:"red"}}
                         className="mb-3"
                     >
                         <Form.Control type="email" placeholder="Email address" id={email} onChange={(e) =>setEmail(e.target.value)} />
@@ -111,7 +140,7 @@ const AddCandidate = () => {
                             id="dateOfJoin"
                             name="dateOfJoin"
                             label="Date of Birth"
-                            style={{color:"purple"}}
+                            style={{color:"red"}}
                             value={dateofBirth}
                             onChange={(date) => setDateofBirth(date)}
                             renderInput={(params) => <TextField {...params} />}
@@ -128,10 +157,23 @@ const AddCandidate = () => {
                                 <FloatingLabel
                                     controlId="floatingInput"
                                     label="Highest Qualification"
-                                    style={{color:"purple"}}
+                                    style={{color:"red"}}
                                     className="mb-3"
                                 >
-                                    <Form.Control type="text" placeholder= "Highest Qualification" id={highestQualification} onChange={(e) =>setHighestQualification(e.target.value)} />
+                                    <Form.Select
+                                        id={highestQualification}
+                                        value={highestQualification}
+                                        onChange={(e) => setHighestQualification(e.target.value)}
+                                    >
+                                        <option> Select your option </option>
+                                        {
+                                            degree.map((value) => (
+                                                <option value={value}> {value} </option>
+                                            ))
+                                        }
+                                    </Form.Select>
+
+
                                 </FloatingLabel>
                             </div>
                         </div>
@@ -142,7 +184,7 @@ const AddCandidate = () => {
                                 <FloatingLabel
                                     controlId="floatingInput"
                                     label="Institution of your highest qualification"
-                                    style={{color:"purple"}}
+                                    style={{color:"red"}}
                                     className="mb-3"
                                 >
                                     <Form.Control type="text" placeholder= "Highest Qualification" />
@@ -156,7 +198,7 @@ const AddCandidate = () => {
                                 <FloatingLabel
                                     controlId="floatingInput"
                                     label="Overall Percentage"
-                                    style={{color:"purple"}}
+                                    style={{color:"red"}}
                                     className="mb-3"
                                 >
                                     <Form.Control type="number" placeholder= "Highest Qualification" />
@@ -179,12 +221,14 @@ const AddCandidate = () => {
                                     <Form.Select
                                         id={proof}
                                         onChange={(e) => setProof(e.target.value)}
-                                        style={{color:"purple"}}
+                                        style={{color:"red"}}
                                     >
                                         <option/>
-                                        <option value="AADHAR">Aadhar Card</option>
-                                        <option value="PAN">Pan Card</option>
-                                        <option value="VOTER_ID">Voter's ID</option>
+                                        {
+                                            proofs.map((value) => (
+                                                <option value={value}> {value} </option>
+                                            ))
+                                        }
                                     </Form.Select>
                                 </FloatingLabel></div>
                             <div className="row"> <h6> Select any of the listed proof available here </h6></div>
@@ -196,7 +240,7 @@ const AddCandidate = () => {
                             <FloatingLabel
                         controlId="floatingInput"
                         label="Proof's ID"
-                        style={{color:"purple"}}
+                        style={{color:"red"}}
                         className="mb-3"
                     >
                         <Form.Control type="text" placeholder="Proof's ID" id={proofId} onChange={(e) => setProofId(e.target.value)} />
@@ -210,13 +254,16 @@ const AddCandidate = () => {
                     <FloatingLabel controlId="floatingSelect" label="Preferred Mode of Communication">
                         <Form.Select
                             id={communication}
-                            style={{color:"purple"}}
+                            value={communication}
+                            style={{color:"red"}}
                             onChange={(e) => setCommunication(e.target.value)}
                         >
                             <option/>
-                            <option value="MOBILE">Through phone call or SMS</option>
-                            <option value="WHATSAPP"> Via Whatsapp</option>
-                            <option value="EMAIL">Via E-Mail</option>
+                            {
+                                communications.map((value) => (
+                                    <option value={value}> {value} </option>
+                                ))
+                            }
                         </Form.Select>
                     </FloatingLabel> </div>
                         <div className="row"> <h6> Please provide us a specific date and time so that our staff will  </h6> </div>
@@ -229,9 +276,10 @@ const AddCandidate = () => {
                             <div className="col">
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DateTimePicker
+                            inputFormat="dd-MM-yyyy HH:mm"
                             label="Available Date and Time"
                             value={appointment}
-                            style={{color:"purple"}}
+                            style={{color:"red"}}
                             onChange={(date) => setAppointment(date)}
                             renderInput={(params) => <TextField {...params} />}
                         />
@@ -244,7 +292,7 @@ const AddCandidate = () => {
                         <div className="container">
                 <Button
                     className="btn"
-                    style={{background:"purple", color:"whitesmoke", marginLeft: 1200}}
+                    style={{background:"red", color:"whitesmoke", marginLeft: 1200}}
                     onClick={showmodal}
                     >
                     Submit
@@ -268,15 +316,19 @@ const AddCandidate = () => {
 
                     <button
                         className="btn"
-                        style={{color:"purple"}}
+                        style={{color:"whitesmoke", background:"red"}}
                         onClick={(e) => saveCandidate(e)}
                     >
                         Okay
                     </button>
                 </Modal.Footer>
             </Modal>
-            
-            
+
+            <EditCandidate
+                communications={communications}
+                proofs={proofs}
+                degree={degree}
+            />
         </div>
     );
 

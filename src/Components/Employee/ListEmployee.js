@@ -3,7 +3,7 @@ import InsuranceApi from "../../Service/InsuranceApi";
 import {Modal, Table} from "react-bootstrap";
 import {MdOutlineViewInAr} from "react-icons/md";
 
-const ListEmployee = (props) => {
+const ListEmployee = () => {
 
     const [employees, setEmployees] = useState([]);
     const [candidates, setAssignedcandidates] = useState([]);
@@ -47,6 +47,7 @@ const ListEmployee = (props) => {
                             <tr>
                                 <td> Employee Name </td>
                                 <td> Employee ID </td>
+                                <td> Employee E-Mail </td>
                                 <td> Employee Designation </td>
                                 <td> Assigned Candidates </td>
                             </tr>
@@ -58,6 +59,7 @@ const ListEmployee = (props) => {
                                     <tr key={index}>
                                         <td> {value.employeeName}</td>
                                         <td> {value.employeeId} </td>
+                                        <td> {value.employeeEmail} </td>
                                         <td> {value.employeeDesignation} </td>
                                         <td>
                                             <MdOutlineViewInAr
@@ -75,7 +77,6 @@ const ListEmployee = (props) => {
             </div>
 
             <Modal
-                {...props}
                 show={empmodal}
                 onHide={hideempmodal}
                 centered

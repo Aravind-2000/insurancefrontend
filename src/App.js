@@ -7,6 +7,7 @@ import Mainpage from "./Components/Mainpage";
 import Sidebar from "./Components/Sidebar";
 import Footer from "./Components/Footer";
 import ListEmployee from "./Components/Employee/ListEmployee";
+import EmployeeDashboard from "./Components/Employee/EmployeeDashboard";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
                   <Route exact path={"/candidates"} element={<ListCandidates/>} />
                   <Route  exact path={"/add"} element={<AddCandidate/>}/>
                   <Route  exact path={"/employee"} element={<ListEmployee/>}/>
+                  <Route exact path={"/emp-dashboard"} element={<EmployeeDashboard/>} />
               </Routes>
           </div>
       </div>

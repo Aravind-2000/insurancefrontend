@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Form, Modal, Button} from "react-bootstrap";
+import {Form, Modal} from "react-bootstrap";
 
 
 
@@ -23,7 +23,7 @@ const Mainpage = (props) => {
             <div className="container">
 
                 <button
-                    className="btn btn-primary"
+                    className="btn btn-danger"
                     onClick={showtermsmodal}
                     >
                     Enroll Now
@@ -63,7 +63,7 @@ const Mainpage = (props) => {
 
                             <button
                                 type="submit button"
-                                className="btn btn-warning"
+                                className="btn btn-danger"
                             >
                                 Ok, I understand
 

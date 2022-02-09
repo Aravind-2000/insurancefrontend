@@ -1,10 +1,43 @@
 import React, {useEffect, useState} from 'react';
 import InsuranceApi from "../../Service/InsuranceApi";
 import {Table} from "react-bootstrap";
+import ViewCandidate from "./ViewCandidate";
+import {MdViewList} from "react-icons/md";
+import {AiFillEdit} from "react-icons/ai";
+import EditCandidate from "./EditCandidate";
 
 const ListCandidates = () => {
 
     const [candidates, setCandidates] = useState([]);
+    const [candidaterecord, setCandidaterecord] = useState("");
+
+
+    const [view, setView] = useState(false);
+    const handleformview = (id) => {
+        InsuranceApi.getcandidatebyid(id).then((res) => {
+            setCandidaterecord(res.data);
+            console.log(res.data);
+        })
+            .catch((error) => {
+                console.log(error);
+            })
+        setView(true);
+    }
+    const hideeformview = () =>setView(false);
+
+    const [edit, setEdit] = useState(false);
+    const handleformedit = (id) => {
+        InsuranceApi.getcandidatebyid(id).then((res) => {
+            setCandidaterecord(res.data);
+            console.log(res.data);
+        })
+            .catch((error) => {
+                console.log(error);
+            })
+        setEdit(true);
+    }
+    const hideformedit = () =>setEdit(false);
+
 
     useEffect(() => {
         InsuranceApi.getCandidates().then((res) => {
@@ -20,22 +53,15 @@ const ListCandidates = () => {
         <div>
             <br /> <br /> <br />
             <div >
-                <div className="card card-lg shadow-lg p-3 mb-5 bg-body rounded">
-                    <div className="card-body">
-                <Table striped bordered>
+                <div className="container container-md container-sm container-lg container-xl">
+                <Table striped bordered className="sm md lg xl">
                     <thead>
                     <tr>
                         <td> Name </td>
                         <td> Mobile Number </td>
                         <td> E-Mail </td>
-                        <td> Date of Birth </td>
-                        <td> Highest Qualification </td>
-                        <td> Communication Mode </td>
-                        <td> Proof </td>
-                        <td> Proof ID </td>
-                        <td> Available Date </td>
-                        <td> Assigned Employee </td>
                         <td> Current Status of Candidate </td>
+                        <td> Actions </td>
                     </tr>
                     </thead>
 
@@ -46,24 +72,39 @@ const ListCandidates = () => {
                                 <td> {value.name}</td>
                                 <td> {value.mobileNumber} </td>
                                 <td> {value.email} </td>
-                                <td> {
-                                 value.dateOfBirth
-                                } </td>
-                                <td> {value.highestQualification} </td>
-                                <td> {value.communication} </td>
-                                <td> {value.proof} </td>
-                                <td> {value.proofId} </td>
-                                <td> {value.availableDateAndTime} </td>
-                                <td> {value.employee} </td>
                                 <td> {value.currentStatus} </td>
+                                <td>
+                                    {/*<MdViewList*/}
+                                    {/*    style={{cursor:"pointer", marginLeft:10, color:"red"}}*/}
+                                    {/*    onClick={() => handleformview(value.id)}*/}
+                                    {/*    />*/}
+
+                                    <AiFillEdit
+                                        style={{cursor:"pointer", marginLeft:20, color:"red"}}
+                                        onClick={() => handleformedit(value.id)}
+                                    />
+                                </td>
                             </tr>
                         ))
                     }
                     </tbody>
                 </Table>
-            </div>
                 </div>
             </div>
+
+            <ViewCandidate
+                open={view}
+                close={() => hideeformview()}
+                record={candidaterecord}
+                setRecord={setCandidaterecord}
+            />
+
+            <EditCandidate
+                open={edit}
+                close={() => hideformedit()}
+                record = {candidaterecord}
+                setRecord = {setCandidaterecord}
+            />
         </div>
     );
 };
