@@ -4,16 +4,16 @@ import {Route,Routes} from "react-router-dom";
 import AddCandidate from "./Components/Candidates/AddCandidate";
 import ListCandidates from "./Components/Candidates/ListCandidates";
 import Mainpage from "./Components/Mainpage";
-import Sidebar from "./Components/Sidebar";
-import Footer from "./Components/Footer";
 import ListEmployee from "./Components/Employee/ListEmployee";
 import EmployeeDashboard from "./Components/Employee/EmployeeDashboard";
+import Navbar from "./Components/Header/Navbar";
 
 const App = () => {
   return (
       <div>
-          <Sidebar/>
+          <Navbar/>
           <div className="container container-md container-lg">
+              <br/> <br/>
               <Routes>
                   <Route exact path={"/"} element={<Mainpage/>} />
                   <Route exact path={"/candidates"} element={<ListCandidates/>} />
