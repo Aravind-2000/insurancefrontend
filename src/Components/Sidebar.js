@@ -29,14 +29,15 @@ const Sidebar = () => {
                         <ProSidebar collapsed={menuCollapse}>
                             <SidebarHeader>
                                 <div className="logotext">
-                                    <h4 style={{color: "red", marginLeft:10}} >{menuCollapse ? "FI" : "FuturaInstech"}</h4>
+                                    <h4 style={{color: "red", marginLeft:20, marginTop:20}} >{menuCollapse ? "FI" : "FuturaInstech"}</h4>
                                 </div>
 
-                                <div className="closemenu" onClick={menuIconClick} style={{marginRight:30, backgroundColor: "whitesmoke"}} >
+                                <div className="closemenu" onClick={menuIconClick} style={{marginRight:30, marginTop:24, backgroundColor: "whitesmoke"}} >
                                     {menuCollapse ? <AiOutlineMenuUnfold /> : <AiOutlineMenuFold />}
                                 </div>
                                 <br />
                             </SidebarHeader>
+                            <br/>
                             <SidebarContent>
                                 <Menu iconShape="square">
                                     <MenuItem   icon={<FiHome />}>
