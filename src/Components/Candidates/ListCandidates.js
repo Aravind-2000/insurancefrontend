@@ -10,6 +10,9 @@ const ListCandidates = () => {
 
     const [candidates, setCandidates] = useState([]);
     const [candidaterecord, setCandidaterecord] = useState("");
+    const [proofs, setProofs] = useState([]);
+    const [communications, setCommunications] = useState([]);
+    const [degree, setDegree] = useState([]);
 
 
     const [view, setView] = useState(false);
@@ -45,13 +48,36 @@ const ListCandidates = () => {
         })
             .catch((error) => {
                 console.log(error);
-            })
+            });
+        InsuranceApi.getParameterRule("P0001").then((res) => {
+            setProofs(res.data);
+        })
+            .catch((error) => {
+                console.log(error)
+            });
+
+        InsuranceApi.getParameterRule("C0001").then((res) => {
+            setCommunications(res.data);
+        })
+            .catch((error) => {
+                console.log(error)
+            });
+
+        InsuranceApi.getParameterRule("E0001").then((res) => {
+            setDegree(res.data);
+        })
+            .catch((error) => {
+                console.log(error)
+            });
     }, []);
 
 
     return (
         <div>
+
             <br /> <br /> <br />
+            <h4 style={{color:"red"}}> Enrolled Candidates  </h4>
+            <br/>
             <div >
                 <div className="container container-md container-sm container-lg container-xl">
                 <Table striped bordered className="sm md lg xl">
@@ -61,6 +87,7 @@ const ListCandidates = () => {
                         <td> Mobile Number </td>
                         <td> E-Mail </td>
                         <td> Current Status of Candidate </td>
+                        <td> Result </td>
                         <td> Actions </td>
                     </tr>
                     </thead>
@@ -73,11 +100,12 @@ const ListCandidates = () => {
                                 <td> {value.mobileNumber} </td>
                                 <td> {value.email} </td>
                                 <td> {value.currentStatus} </td>
+                                <td> {value.quants?.result} </td>
                                 <td>
-                                    {/*<MdViewList*/}
-                                    {/*    style={{cursor:"pointer", marginLeft:10, color:"red"}}*/}
-                                    {/*    onClick={() => handleformview(value.id)}*/}
-                                    {/*    />*/}
+                                    <MdViewList
+                                        style={{cursor:"pointer", marginLeft:10, color:"red"}}
+                                        onClick={() => handleformview(value.id)}
+                                        />
 
                                     <AiFillEdit
                                         style={{cursor:"pointer", marginLeft:20, color:"red"}}
@@ -104,6 +132,9 @@ const ListCandidates = () => {
                 close={() => hideformedit()}
                 record = {candidaterecord}
                 setRecord = {setCandidaterecord}
+                proofs={proofs}
+                communications={communications}
+                degrees={degree}
             />
         </div>
     );

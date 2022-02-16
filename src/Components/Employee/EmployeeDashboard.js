@@ -2,6 +2,9 @@ import React, {useState, useEffect} from 'react';
 import InsuranceApi from "../../Service/InsuranceApi";
 import {Button, Form} from "react-bootstrap";
 import moment from "moment";
+import "../../CSS/MyStyles.css"
+import {BsFileEarmarkPlus} from "react-icons/bs";
+import CandidateMarkingSystem from "../Candidates/CandidateMarkingSystem";
 
 const EmployeeDashboard = () => {
 
@@ -10,6 +13,19 @@ const EmployeeDashboard = () => {
     const [candidate, setCandidate] = useState([]);
     const [empid, setEmpid] = useState(0);
 
+    const [markId, setMarkId] = useState(0);
+    const [markName, setMarkName] = useState("");
+    const [markcandidate, setMarkcandidate] = useState(" ");
+    const [marking, setMarking] = useState(false);
+    const markingOpen = (quants,id, name) => {
+        setMarkId(id);
+        setMarkName(name)
+        setMarkcandidate(quants);
+        setMarking(true);
+    }
+    const markingClose = () => {
+        setMarking(false);
+    }
 
     useEffect(() => {
         InsuranceApi.getEmployees().then((res) => {
@@ -29,13 +45,12 @@ const EmployeeDashboard = () => {
                 console.log(error)
             })
     }
-
     return (
         <div>
 
             <br/> <br/> <br/> <br/>
-            <div className="container">
-                <h4 style={{color:"red"}}>  Employee Dashboard </h4>
+            <div className="container dashboard">
+                <h4 style={{color:"black"}}>  Employee Dashboard </h4>
 
                 <div>
                     <Form className="container">
@@ -43,11 +58,11 @@ const EmployeeDashboard = () => {
                             <br/>
                             <label style={{color:"red"}}> Select a Employee Name </label>
                             <Form.Select
-                                style={{width:170, color:"red"}}
+                                style={{width:200, color:"red", marginTop:10}}
                                 value={empid}
                                 onChange={(e) => setEmpid(e.target.value) }
                             >
-                                <option> Select a Option </option>
+                                <option> Select your option </option>
                                 {
                                     employees.map((value, index) => (
                                              <option value={value.id}>  {value.employeeName} </option>
@@ -88,7 +103,7 @@ const EmployeeDashboard = () => {
 
 
                 <br/>
-                <h4 style={{color:"red"}}> Assigned Candidates </h4>
+                <h4 style={{color:"blueviolet"}}> Assigned Candidates  </h4>
                 <br/>
                     {
                         <div>
@@ -100,6 +115,13 @@ const EmployeeDashboard = () => {
                                 <div className="col">
                                     <p style={{color: 'red'}}> Candidate Name : {value.name}  </p>
                                 </div>
+                                    <div className="col"/>
+                                    <div className="col">
+                                        <BsFileEarmarkPlus
+                                            style={{cursor:"pointer", color:"blueviolet", marginLeft:300}}
+                                            onClick={() => markingOpen(value.quants, value.id, value.name)}
+                                        />
+                                    </div>
                             </div>
                             <div className="row">
                             <div className="col">
@@ -126,6 +148,14 @@ const EmployeeDashboard = () => {
                     }
             </div>
 
+            <CandidateMarkingSystem
+                open={marking}
+                close={() => markingClose()}
+                candidate={markcandidate}
+                setcandidate={setMarkcandidate}
+                markid={markId}
+                markname={markName}
+            />
         </div>
     );
 };

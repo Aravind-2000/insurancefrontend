@@ -6,7 +6,10 @@ const addCandidates = "http://localhost:8090/candidates/savedetails";
 const updatecandidateDetails = "http://localhost:8090/candidates/update/"
 const getallemployees = "http://localhost:8090/employee/getall";
 const getempbyid = "http://localhost:8090/employee/";
-const paramsurl = "http://localhost:8090/param/"
+const paramsurl = "http://localhost:8090/param/";
+const errorurl = "http://localhost:8090/error/";
+const quantsbyId = "http://localhost:8090/quants/"
+const updateQuants = "http://localhost:8090/quants/save";
 
 
 class InsuranceApi{
@@ -31,6 +34,15 @@ class InsuranceApi{
     }
     getParameterRule(ruleid){
          return axios.get(paramsurl + ruleid);
+    }
+    getError(errorid){
+         return axios.get(errorurl + errorid);
+    }
+    getMarksById(id){
+         return axios.get(quantsbyId + id);
+    }
+    updateQuantsDetails(value){
+         return axios.post(updateQuants , value);
     }
 }
 
