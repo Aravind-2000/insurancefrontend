@@ -18,7 +18,7 @@ const EditCandidate = (
         setRecord,
         proofs,
         communications,
-        degree
+        degrees
     }
 ) => {
     const [employees, setEmployees] = useState([]);
@@ -76,6 +76,7 @@ const EditCandidate = (
     }
 
 
+    console.log(proofs, "proofs")
 
     return (
         <div>
@@ -147,20 +148,34 @@ const EditCandidate = (
                                 className="mb-3"
 
                             >
-                                <Form.Control
+                                <Form.Select
                                     id="highestQualification"
                                     value={record?.highestQualification}
                                     onChange={(e) => editChange(e)}
-                                />
+                                >
+                                    {
+                                        degrees.map((value) => (
+                                            <option value={value}> {value} </option>
+                                        ))
+                                    }
+
+                                </Form.Select>
                             </FloatingLabel>
 
                             <FloatingLabel controlId="floatingSelect" label="Proof">
-                                <Form.Control
+                                <Form.Select
                                     id="proof"
                                     value={record?.proof}
                                     style={{color:"red"}}
                                     onChange={(e) => editChange(e)}
-                                />
+                                >
+                                    {
+                                        proofs.map((value) => (
+                                            <option value={value}> {value} </option>
+                                        ))
+                                    }
+
+                                </Form.Select>
                             </FloatingLabel>
 
                             <br/>
@@ -176,12 +191,18 @@ const EditCandidate = (
                             </FloatingLabel>
 
                             <FloatingLabel controlId="floatingSelect" label="Preferred Mode of Communication">
-                                <Form.Control
+                                <Form.Select
                                     id="communication"
                                     style={{color:"red"}}
                                     value={record?.communication}
                                     onChange={(e) => editChange(e)}
-                                />
+                                >
+                                    {
+                                        communications.map((value) => (
+                                            <option value={value}> {value} </option>
+                                        ))
+                                    }
+                                </Form.Select>
                             </FloatingLabel>
 
                             <p> </p>

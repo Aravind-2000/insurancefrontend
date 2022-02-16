@@ -5,7 +5,6 @@ import {DatePicker, DateTimePicker, LocalizationProvider} from "@mui/lab";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { TextField} from "@mui/material";
 import moment from "moment";
-import EditCandidate from "./EditCandidate";
 
 
 const AddCandidate = () => {
@@ -22,7 +21,6 @@ const AddCandidate = () => {
     const [proofs, setProofs] = useState([]);
     const [communications, setCommunications] = useState([]);
     const [degree, setDegree] = useState([]);
-
 
     useEffect(() => {
        InsuranceApi.getParameterRule("P0001").then((res) => {
@@ -46,7 +44,6 @@ const AddCandidate = () => {
                 console.log(error)
             });
     }, []);
-
 
 
     const saveCandidate = () => {
@@ -79,6 +76,13 @@ const AddCandidate = () => {
         window.location.reload();
     }
 
+    const geterror = (id) =>{
+        InsuranceApi.getError(id).then((res) => {
+            return(
+                res.data
+            )
+        })
+    }
 
     return (
         <div>
@@ -101,9 +105,12 @@ const AddCandidate = () => {
                         className="mb-3"
                         label="Enter your name ......"
                     >
-                        <Form.Control type="text" placeholder="Candidate Name" id={name} onChange={(e) => setName(e.target.value)} />
+                        <Form.Control type="text" placeholder="Candidate Name"  id={name} style={{color:"red"}} onChange={(e) => setName(e.target.value)} />
                     </FloatingLabel> </div>  </div>
 
+                        {
+                            name === "" ? <span style={{color:"red"}}> {geterror("ER001")}  </span> : null
+                        }
 
                     <div className="row">
                         <div className="col"> <h6> Enter your personal details such as name, email, date of birth and mobile number.  </h6> </div>
@@ -114,7 +121,7 @@ const AddCandidate = () => {
                         style={{color:"red"}}
                         className="mb-3"
                     >
-                        <Form.Control type="number" placeholder="Mobile Number" id={mobileNumber} onChange={(e) => setMobileNumber(e.target.value)} />
+                        <Form.Control type="number" placeholder="Mobile Number" id={mobileNumber} style={{color:"red"}} onChange={(e) => setMobileNumber(e.target.value)} />
                     </FloatingLabel> </div> </div>
 
 
@@ -127,7 +134,7 @@ const AddCandidate = () => {
                         style={{color:"red"}}
                         className="mb-3"
                     >
-                        <Form.Control type="email" placeholder="Email address" id={email} onChange={(e) =>setEmail(e.target.value)} />
+                        <Form.Control type="email" placeholder="Email address" id={email} style={{color:"red"}} onChange={(e) =>setEmail(e.target.value)} />
                     </FloatingLabel> </div> </div>
 
 
@@ -163,6 +170,7 @@ const AddCandidate = () => {
                                     <Form.Select
                                         id={highestQualification}
                                         value={highestQualification}
+                                        style={{color:"red"}}
                                         onChange={(e) => setHighestQualification(e.target.value)}
                                     >
                                         <option> Select your option </option>
@@ -217,13 +225,13 @@ const AddCandidate = () => {
 
                             <div className="col"> <h3>   Identity Proof  </h3> </div>
                             <div className="col">
-                                <FloatingLabel controlId="floatingSelect" label="Proof">
+                                <FloatingLabel controlId="floatingSelect" label="Proof" style={{color:"red"}}>
                                     <Form.Select
                                         id={proof}
                                         onChange={(e) => setProof(e.target.value)}
                                         style={{color:"red"}}
                                     >
-                                        <option/>
+                                        <option> Select your option </option>
                                         {
                                             proofs.map((value) => (
                                                 <option value={value}> {value} </option>
@@ -243,7 +251,7 @@ const AddCandidate = () => {
                         style={{color:"red"}}
                         className="mb-3"
                     >
-                        <Form.Control type="text" placeholder="Proof's ID" id={proofId} onChange={(e) => setProofId(e.target.value)} />
+                        <Form.Control type="text" placeholder="Proof's ID" style={{color:"red"}} id={proofId} onChange={(e) => setProofId(e.target.value)} />
                             </FloatingLabel> </div> </div> </div>
 
                     <br/><br/>
@@ -251,14 +259,14 @@ const AddCandidate = () => {
                     <div className="row">
                         <div className="col"> <h3> Communication Mode and Availability </h3> </div>
                         <div className="col">
-                    <FloatingLabel controlId="floatingSelect" label="Preferred Mode of Communication">
+                    <FloatingLabel controlId="floatingSelect" label="Preferred Mode of Communication" style={{color:"red"}}>
                         <Form.Select
                             id={communication}
                             value={communication}
                             style={{color:"red"}}
                             onChange={(e) => setCommunication(e.target.value)}
                         >
-                            <option/>
+                            <option> Select your option </option>
                             {
                                 communications.map((value) => (
                                     <option value={value}> {value} </option>
@@ -324,11 +332,6 @@ const AddCandidate = () => {
                 </Modal.Footer>
             </Modal>
 
-            <EditCandidate
-                communications={communications}
-                proofs={proofs}
-                degree={degree}
-            />
         </div>
     );
 
