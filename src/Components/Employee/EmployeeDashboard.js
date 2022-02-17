@@ -56,9 +56,9 @@ const EmployeeDashboard = () => {
                     <Form className="container">
                         <Form.Group>
                             <br/>
-                            <label style={{color:"red"}}> Select a Employee Name </label>
+                            <label style={{color:"black"}}> Select a Employee Name </label>
                             <Form.Select
-                                style={{width:200, color:"red", marginTop:10}}
+                                style={{width:200, color:"black", marginTop:10}}
                                 value={empid}
                                 onChange={(e) => setEmpid(e.target.value) }
                             >
@@ -89,16 +89,16 @@ const EmployeeDashboard = () => {
 
                     <div className="row">
                         <div className="col">
-                            <p style={{color:"red"}}> Employee Name :  {employee.employeeName} </p> </div>
+                            <p style={{color:"black"}}> Employee Name :  {employee.employeeName} </p> </div>
                         <div className="col">
-                            <p style={{color:"red"}}> Employee ID : {employee.employeeId} </p> </div> </div>
+                            <p style={{color:"black"}}> Employee ID : {employee.employeeId} </p> </div> </div>
                     <p> </p>
 
                     <div className="row">
                         <div className="col">
-                            <p style={{color:"red"}}> Employee Designation : {employee.employeeDesignation} </p> </div>
+                            <p style={{color:"black"}}> Employee Designation : {employee.employeeDesignation} </p> </div>
                         <div className="col">
-                            <p style={{color:"red"}}> Employee E-Mail : {employee.employeeEmail} </p> </div> </div>
+                            <p style={{color:"black"}}> Employee E-Mail : {employee.employeeEmail} </p> </div> </div>
                 </div>
 
 
@@ -113,7 +113,7 @@ const EmployeeDashboard = () => {
                             <div className="container" style={{backgroundColor:"ghostwhite"}}>
                                 <div className="row">
                                 <div className="col">
-                                    <p style={{color: 'red'}}> Candidate Name : {value.name}  </p>
+                                    <p style={{color: 'red'}}> Candidate Name :  {value.name}   </p>
                                 </div>
                                     <div className="col"/>
                                     <div className="col">

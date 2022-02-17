@@ -76,14 +76,6 @@ const AddCandidate = () => {
         window.location.reload();
     }
 
-    const geterror = (id) =>{
-        InsuranceApi.getError(id).then((res) => {
-            return(
-                res.data
-            )
-        })
-    }
-
     return (
         <div>
             <br/> <br/> <br/> <br/> <br/>
@@ -105,12 +97,10 @@ const AddCandidate = () => {
                         className="mb-3"
                         label="Enter your name ......"
                     >
-                        <Form.Control type="text" placeholder="Candidate Name"  id={name} style={{color:"red"}} onChange={(e) => setName(e.target.value)} />
+                        <Form.Control type="text" placeholder="Candidate Name"  id={name} style={{color:"red"}} onChange={(e) => setName(e.target.value)} required/>
                     </FloatingLabel> </div>  </div>
 
-                        {
-                            name === "" ? <span style={{color:"red"}}> {geterror("ER001")}  </span> : null
-                        }
+
 
                     <div className="row">
                         <div className="col"> <h6> Enter your personal details such as name, email, date of birth and mobile number.  </h6> </div>
@@ -121,7 +111,7 @@ const AddCandidate = () => {
                         style={{color:"red"}}
                         className="mb-3"
                     >
-                        <Form.Control type="number" placeholder="Mobile Number" id={mobileNumber} style={{color:"red"}} onChange={(e) => setMobileNumber(e.target.value)} />
+                        <Form.Control type="number" placeholder="Mobile Number" id={mobileNumber} style={{color:"red"}} onChange={(e) => setMobileNumber(e.target.value)} required/>
                     </FloatingLabel> </div> </div>
 
 
@@ -134,7 +124,7 @@ const AddCandidate = () => {
                         style={{color:"red"}}
                         className="mb-3"
                     >
-                        <Form.Control type="email" placeholder="Email address" id={email} style={{color:"red"}} onChange={(e) =>setEmail(e.target.value)} />
+                        <Form.Control type="email" placeholder="Email address" id={email} style={{color:"red"}} onChange={(e) =>setEmail(e.target.value)} required/>
                     </FloatingLabel> </div> </div>
 
 
@@ -151,6 +141,7 @@ const AddCandidate = () => {
                             value={dateofBirth}
                             onChange={(date) => setDateofBirth(date)}
                             renderInput={(params) => <TextField {...params} />}
+                            required
                         />
                     </LocalizationProvider> </div> </div> </div>
 
@@ -172,6 +163,7 @@ const AddCandidate = () => {
                                         value={highestQualification}
                                         style={{color:"red"}}
                                         onChange={(e) => setHighestQualification(e.target.value)}
+                                        required
                                     >
                                         <option> Select your option </option>
                                         {
@@ -230,6 +222,7 @@ const AddCandidate = () => {
                                         id={proof}
                                         onChange={(e) => setProof(e.target.value)}
                                         style={{color:"red"}}
+                                        required
                                     >
                                         <option> Select your option </option>
                                         {
@@ -251,7 +244,7 @@ const AddCandidate = () => {
                         style={{color:"red"}}
                         className="mb-3"
                     >
-                        <Form.Control type="text" placeholder="Proof's ID" style={{color:"red"}} id={proofId} onChange={(e) => setProofId(e.target.value)} />
+                        <Form.Control type="text" placeholder="Proof's ID" style={{color:"red"}} id={proofId} onChange={(e) => setProofId(e.target.value)} required/>
                             </FloatingLabel> </div> </div> </div>
 
                     <br/><br/>
@@ -265,6 +258,7 @@ const AddCandidate = () => {
                             value={communication}
                             style={{color:"red"}}
                             onChange={(e) => setCommunication(e.target.value)}
+                            required
                         >
                             <option> Select your option </option>
                             {
@@ -290,6 +284,7 @@ const AddCandidate = () => {
                             style={{color:"red"}}
                             onChange={(date) => setAppointment(date)}
                             renderInput={(params) => <TextField {...params} />}
+                            required
                         />
                     </LocalizationProvider> </div> </div>
                     </div>

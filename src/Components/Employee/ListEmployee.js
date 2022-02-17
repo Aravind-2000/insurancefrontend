@@ -80,8 +80,8 @@ const ListEmployee = () => {
                 show={empmodal}
                 onHide={hideempmodal}
                 centered
-                dialogClassName="modal-100w"
-                aria-labelledby="example-custom-modal-styling-title"
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
             >
                 <Modal.Header closeButton>
                     <Modal.Title > Assigned Candidates </Modal.Title>
@@ -94,12 +94,8 @@ const ListEmployee = () => {
                             <td> Name </td>
                             <td> Mobile Number </td>
                             <td> E-Mail </td>
-                            <td> Date of Birth </td>
                             <td> Highest Qualification </td>
                             <td> Communication Mode </td>
-                            <td> Proof </td>
-                            <td> Proof ID </td>
-                            <td> Available Date </td>
                             <td> Current Status of Candidate </td>
                         </tr>
                         </thead>
@@ -110,14 +106,8 @@ const ListEmployee = () => {
                                     <td> {value.name}</td>
                                     <td> {value.mobileNumber} </td>
                                     <td> {value.email} </td>
-                                    <td> {
-                                        value.dateOfBirth
-                                    } </td>
                                     <td> {value.highestQualification} </td>
                                     <td> {value.communication} </td>
-                                    <td> {value.proof} </td>
-                                    <td> {value.proofId} </td>
-                                    <td> {value.availableDateAndTime} </td>
                                     <td> {value.currentStatus} </td>
                                 </tr>
                             ))
