@@ -98,6 +98,9 @@ const EditCandidate = (
                 <Modal.Body>
                     <Form className="container" >
                         <Form.Group>
+
+                            <div className="row">
+                                <div className="col">
                             <FloatingLabel
                                 controlId="floatingInput"
                                 style={{color:"red"}}
@@ -105,8 +108,9 @@ const EditCandidate = (
                                 label="Name"
                             >
                                 <Form.Control type="text" value={record?.name} placeholder="Candidate Name" id="name" onChange={(e) => editChange(e)}  />
-                            </FloatingLabel>
+                            </FloatingLabel></div>
 
+                                <div className="col">
                             <FloatingLabel
                                 controlId="floatingInput"
                                 label="Mobile Number"
@@ -115,9 +119,11 @@ const EditCandidate = (
 
                             >
                                 <Form.Control type="number" value={record?.mobileNumber} placeholder="Mobile Number" id="mobileNumber" onChange={(e) => editChange(e)} />
-                            </FloatingLabel>
+                            </FloatingLabel></div> </div>
 
 
+                            <div className="row">
+                                <div className="col">
                             <FloatingLabel
                                 controlId="floatingInput"
                                 label="Email address"
@@ -125,9 +131,10 @@ const EditCandidate = (
                                 className="mb-3"
                             >
                                 <Form.Control type="email" placeholder="Email address" value={record?.email} id="email" onChange={(e) =>editChange(e)}/>
-                            </FloatingLabel>
+                            </FloatingLabel></div>
 
 
+                                <div className="col">
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <DatePicker
                                     inputFormat="dd-MM-yyyy"
@@ -138,7 +145,7 @@ const EditCandidate = (
                                     onChange={(date) => dateChange(date)}
                                     renderInput={(params) => <TextField {...params} />}
                                 />
-                            </LocalizationProvider>
+                            </LocalizationProvider></div> </div>
 
                             <p> </p>
                             <FloatingLabel
@@ -190,6 +197,8 @@ const EditCandidate = (
                                 <Form.Control type="text" value={record?.proofId}  onChange={(e) => editChange(e)} placeholder="Proof's ID" id="proofId" />
                             </FloatingLabel>
 
+                            <div className="row">
+                                <div className="col">
                             <FloatingLabel controlId="floatingSelect" label="Preferred Mode of Communication">
                                 <Form.Select
                                     id="communication"
@@ -203,10 +212,11 @@ const EditCandidate = (
                                         ))
                                     }
                                 </Form.Select>
-                            </FloatingLabel>
+                            </FloatingLabel> </div>
 
-                            <p> </p>
 
+
+                                <div className="col">
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <DateTimePicker
                                     inputFormat="dd-MM-yyyy HH:mm"
@@ -217,7 +227,7 @@ const EditCandidate = (
                                     onChange={(date) => dateAndTimeChange(date)}
                                     renderInput={(params) => <TextField {...params} />}
                                 />
-                            </LocalizationProvider>
+                            </LocalizationProvider></div> </div>
 
                             <p> </p>
 

@@ -102,10 +102,10 @@ const ListCandidates = () => {
                                 <td> {value.currentStatus} </td>
                                 <td> {value.quants?.result} </td>
                                 <td>
-                                    <MdViewList
-                                        style={{cursor:"pointer", marginLeft:10, color:"red"}}
-                                        onClick={() => handleformview(value.id)}
-                                        />
+                                    {/*<MdViewList*/}
+                                    {/*    style={{cursor:"pointer", marginLeft:10, color:"red"}}*/}
+                                    {/*    onClick={() => handleformview(value.id)}*/}
+                                    {/*    />*/}
 
                                     <AiFillEdit
                                         style={{cursor:"pointer", marginLeft:20, color:"red"}}
