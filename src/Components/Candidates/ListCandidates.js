@@ -41,14 +41,18 @@ const ListCandidates = () => {
     }
     const hideformedit = () =>setEdit(false);
 
-
-    useEffect(() => {
+    const getAllCandidates = () => {
         InsuranceApi.getCandidates().then((res) => {
             setCandidates(res.data);
         })
             .catch((error) => {
                 console.log(error);
             });
+    }
+
+    useEffect(() => {
+
+        getAllCandidates();
         InsuranceApi.getParameterRule("P0001").then((res) => {
             setProofs(res.data);
         })
@@ -71,6 +75,18 @@ const ListCandidates = () => {
             });
     }, []);
 
+    const [search, setSearch] = useState("");
+
+    function getByNameLike(val){
+        console.log(val, "value");
+         val === "" ? getAllCandidates() : InsuranceApi.seacrhAll(val).then((res) => {
+            setCandidates(res.data);
+            console.log(res.data)
+        })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
 
     return (
         <div>
@@ -80,6 +96,8 @@ const ListCandidates = () => {
             <br/>
             <div >
                 <div className="container container-md container-sm container-lg container-xl">
+                    <input type="search" placeholder="search" value={search} onChange={(e) => {setSearch(e.target.value); getByNameLike(e.target.value)}} />
+                    <p/>
                 <Table striped bordered className="sm md lg xl">
                     <thead>
                     <tr>
@@ -100,7 +118,7 @@ const ListCandidates = () => {
                                 <td> {value.mobileNumber} </td>
                                 <td> {value.email} </td>
                                 <td> {value.currentStatus} </td>
-                                <td> {value.quants?.result} </td>
+                                <td> {value.result} </td>
                                 <td>
                                     {/*<MdViewList*/}
                                     {/*    style={{cursor:"pointer", marginLeft:10, color:"red"}}*/}
