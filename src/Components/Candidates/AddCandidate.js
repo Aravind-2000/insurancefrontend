@@ -97,14 +97,14 @@ const AddCandidate = () => {
                         className="mb-3"
                         label="Enter your name ......"
                     >
-                        <Form.Control type="text" placeholder="Candidate Name"  id={name} style={{color:"red"}} onChange={(e) => setName(e.target.value)} required/>
+                        <Form.Control type="text" placeholder="Candidate Name"  id={name} style={{color:"red"}}  onChange={(e) => setName(e.target.value)} required/>
                     </FloatingLabel> </div>  </div>
 
 
 
                     <div className="row">
                         <div className="col"> <h6> Enter your personal details such as name, email, date of birth and mobile number.  </h6> </div>
-                        <div className="col">
+                        <div className="col ">
                     <FloatingLabel
                         controlId="floatingInput"
                         label="Enter your mobile number......"

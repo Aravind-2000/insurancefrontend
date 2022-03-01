@@ -76,8 +76,6 @@ const EditCandidate = (
     }
 
 
-    console.log(proofs, "proofs")
-
     return (
         <div>
             <Modal
@@ -88,10 +86,10 @@ const EditCandidate = (
                 centered
             >
                 <Modal.Header closeButton>
-                    <GrDocumentPdf
-                        style={{cursor:"pointer", color:"red", marginRight:20}}
-                        onClick={() => window.print()}
-                    />
+                    {/*<GrDocumentPdf*/}
+                    {/*    style={{cursor:"pointer", color:"red", marginRight:20}}*/}
+                    {/*    onClick={() => window.print()}*/}
+                    {/*/>*/}
 
                 </Modal.Header>
 
