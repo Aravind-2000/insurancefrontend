@@ -10,6 +10,8 @@ const paramsurl = "http://localhost:8090/param/";
 const errorurl = "http://localhost:8090/error/";
 const quantsbyId = "http://localhost:8090/quants/"
 const updateQuants = "http://localhost:8090/quants/save";
+const nameLike = "http://localhost:8090/candidates/search/name/";
+const search = "http://localhost:8090/candidates/search/";
 
 
 class InsuranceApi{
@@ -43,6 +45,12 @@ class InsuranceApi{
     }
     updateQuantsDetails(value){
          return axios.post(updateQuants , value);
+    }
+    getNameLike(val){
+         return axios.get(nameLike + val);
+    }
+    seacrhAll(value){
+         return axios.get(search + value);
     }
 }
 
