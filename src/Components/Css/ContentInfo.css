@@ -1,0 +1,30 @@
+ 
+.formtext {
+  width: 48%;
+  margin-left: 0.5rem !important;
+}
+.inputLabel {
+  margin-left: 0.5rem;
+}
+.radioClass {
+  display: flex;
+}
+.selectText {
+  background-color: white !important;
+}
+.displayStyle {
+  display: flex;
+}
+.headings {
+  background-color: #80227e;
+  color: aliceblue;
+  font-family: BerkshireSwash-Regular;
+  font-style: italic;
+  font-weight: bold;
+  padding: 0.5rem 0.5rem;
+  margin: -10px -50px;
+  text-align: center;
+  border-radius: 10px 10px 0 0;
+  font-family: BerkshireSwash-Regular;
+  font-style: italic;
+}

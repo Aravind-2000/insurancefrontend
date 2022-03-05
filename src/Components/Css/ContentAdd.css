@@ -1,0 +1,28 @@
+.formtext {
+  margin-left: 1.5rem !important;
+}
+.inputLabel {
+  margin-left: 0.5rem;
+}
+.radioClass {
+  display: flex;
+}
+.displayStyle {
+  display: flex;
+}
+.checktext {
+  margin-left: 0.5rem !important;
+}
+.headings {
+  background-color: black;
+  color: aliceblue;
+  font-family: BerkshireSwash-Regular;
+  font-style: italic;
+  font-weight: bold;
+  padding: 0.5rem 0.5rem;
+  margin: -10px -50px;
+  text-align: center;
+  border-radius: 10px 10px 0 0;
+  font-family: BerkshireSwash-Regular;
+  font-style: italic;
+}

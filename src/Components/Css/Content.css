@@ -1,0 +1,86 @@
+.mainClass {
+  display: flex;
+}
+.formClass {
+  margin-top: 1rem;
+}
+.selectClass {
+  width: 15rem;
+  margin-right: 10rem;
+  height: 3rem;
+  padding: 0.5rem;
+}
+.TableClass {
+  display: flex;
+}
+.classTitle {
+  font-family: BerkshireSwash-Regular;
+  background-color: black;
+  color: azure;
+  padding: 0 1rem 0 1rem;
+  border-radius: 20%;
+  font-style: italic;
+  margin-top: 1rem;
+}
+.classTitle h2 {
+  text-align: center;
+}
+.buttonClass {
+  max-width: 30px;
+  max-height: 30px;
+  min-width: 30px;
+  min-height: 30px;
+}
+.innerClass {
+  margin-left: 45rem;
+}
+.outlinedInput {
+  height: 2.5rem;
+  margin-left: 3rem;
+}
+.classDelete {
+  margin-left: 0.5rem;
+}
+.table td {
+  text-align: center;
+  padding: 10px;
+}
+.tableheader {
+  background-color: black;
+  position: sticky;
+  inset-block-start: 0;
+}
+.tblhd {
+  font-family: BerkshireSwash-Regular !important;
+  color: azure !important;
+  font-size: medium !important ;
+  font-style: italic;
+}
+
+.tablefooter {
+  background-color: black;
+}
+
+.footerdescription {
+  background-color: #8c898d;
+}
+.footerContent {
+  padding: 0.5rem;
+  text-align: center;
+}
+.contentPagination {
+  background-color: #d3d1d4;
+  position: sticky;
+  inset-block-end: 0;
+}
+.classEven {
+  background-color: #c9c5ca;
+}
+.classOdd {
+  background-color: white;
+}
+.paperStyle {
+  height: auto;
+  width: 100%;
+  margin: 20px auto;
+}
