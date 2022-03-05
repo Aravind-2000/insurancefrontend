@@ -39,7 +39,7 @@ const ListEmployee = () => {
     return (
         <div>
             <br /> <br /> <br />
-            <div >
+            <div className="container" >
                 <div className="card card-lg shadow-lg p-3 mb-5 bg-body rounded">
                     <div className="card-body">
                         <Table striped bordered>

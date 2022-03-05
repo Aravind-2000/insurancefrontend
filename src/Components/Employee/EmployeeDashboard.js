@@ -5,6 +5,7 @@ import moment from "moment";
 import "../../CSS/MyStyles.css"
 import {BsFileEarmarkPlus} from "react-icons/bs";
 import CandidateMarkingSystem from "../Candidates/CandidateMarkingSystem";
+import NotificationTable from "../Notification/NotificationTable";
 
 const EmployeeDashboard = () => {
 
@@ -48,10 +49,11 @@ const EmployeeDashboard = () => {
     return (
         <div>
 
-            <br/> <br/> <br/> <br/>
-            <div className="container dashboard">
-                <h4 style={{color:"black"}}>  Employee Dashboard </h4>
-
+            <br/> <br/>
+            <div className="dashboard">
+                    <h4 style={{color:"black"}}>  Employee Dashboard </h4>
+                <div className="row">
+                    <div className="col">
                 <div>
                     <Form className="container">
                         <Form.Group>
@@ -60,7 +62,7 @@ const EmployeeDashboard = () => {
                             <Form.Select
                                 style={{width:200, color:"black", marginTop:10}}
                                 value={empid}
-                                onChange={(e) => setEmpid(e.target.value) }
+                                onChange={(e) => {setEmpid(e.target.value);} }
                             >
                                 <option> Select your option </option>
                                 {
@@ -144,8 +146,22 @@ const EmployeeDashboard = () => {
                             </>
                         ))
                             }
+
+
                         </div>
                     }
+                </div>
+
+                    <div className="col">
+                        <h4 style={{color:"black"}}>  Notifications </h4>
+                        <br/>
+                 <NotificationTable
+                    empid={empid}
+                    employees={employee}
+                 />
+
+                    </div>
+                </div>
             </div>
 
             <CandidateMarkingSystem

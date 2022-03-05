@@ -91,13 +91,13 @@ const ListCandidates = () => {
     return (
         <div>
 
-            <br /> <br /> <br />
-            <h4 style={{color:"red"}}> Enrolled Candidates  </h4>
+            <br /> <br />
             <br/>
             <div >
                 <div className="container container-md container-sm container-lg container-xl">
+                    <h4 style={{color:"red"}}> Enrolled Candidates  </h4> <br/>
                     <input type="search" placeholder="search" value={search} onChange={(e) => {setSearch(e.target.value); getByNameLike(e.target.value)}} />
-                    <p/>
+                    <p/>  <br/>
                 <Table striped bordered className="sm md lg xl">
                     <thead>
                     <tr>
