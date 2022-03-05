@@ -29,6 +29,15 @@ const Navbar = () => {
                     <NavLink to='/emp-dashboard' activeStyle>
                         Dashboard
                     </NavLink>
+                    <NavLink to="/bank" activeStyle>
+                        Bank Accounts
+                    </NavLink>
+                    <NavLink to="/address" activeStyle>
+                        Address
+                    </NavLink>
+                    <NavLink to="/client" activeStyle>
+                        Clients
+                    </NavLink>
                 </NavMenu>
                 {/*<NavBtn>*/}
                 {/*    <NavBtnLink to='/signin'>Sign In</NavBtnLink>*/}
