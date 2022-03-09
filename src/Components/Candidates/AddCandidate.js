@@ -46,7 +46,8 @@ const AddCandidate = () => {
     }, []);
 
 
-    const saveCandidate = () => {
+    const saveCandidate = (e) => {
+        e.preventDefault();
 
        const dateOfBirth = moment(dateofBirth).format("MM-DD-YYYY")
 
@@ -54,7 +55,7 @@ const AddCandidate = () => {
             "MM-DD-YYYY HH:mm"
         )
 
-       const candidate = {name, mobileNumber, email,  dateOfBirth , communication, proof, proofId, availableDateAndTime, highestQualification };
+       const candidate = {name, mobileNumber, email,  dateOfBirth , communication, proof, proofId, availableDateAndTime, highestQualification, resume };
 
        InsuranceApi.addCandidate(candidate).then((res) => {
            console.log(res.data);
@@ -73,8 +74,34 @@ const AddCandidate = () => {
     }
     const hidemodal = () => {
         setModal(false);
-        window.location.reload();
+        // window.location.reload();
     }
+
+
+    // Upload file method 1
+    let resume = []
+    const uploadResume = async (e) => {
+        resume = await getAsByteArray(e.target.files[0])
+        console.log(resume, "input")
+    }
+
+    async function getAsByteArray(file) {
+        return new Uint8Array(await readFile(file))
+    }
+
+    async function readFile(file) {
+        return new Promise((resolve, reject) => {
+            // Create file reader
+            let reader = new FileReader()
+            // Register event listeners
+            reader.addEventListener("loadend", e => resolve(e.target.result))
+            reader.addEventListener("error", reject)
+            // Read file
+            reader.readAsArrayBuffer(file)
+        })
+    }
+
+
 
     return (
         <div>
@@ -288,6 +315,19 @@ const AddCandidate = () => {
                         />
                     </LocalizationProvider> </div> </div>
                     </div>
+
+                    <p/>
+                    <div className="row">
+                        <div className="col"> Upload your resume </div>
+                        <div className="col">
+                            <input
+                                type="file"
+                                id="file"
+                                onChange={(e) => uploadResume(e)}
+                            />
+                        </div>
+                    </div>
+
                     <br/>
                 </Form.Group>
 <hr/>
