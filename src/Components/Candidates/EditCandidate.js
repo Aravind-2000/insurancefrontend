@@ -18,7 +18,7 @@ const EditCandidate = (
         setRecord,
         proofs,
         communications,
-        degrees
+        degrees, getall
     }
 ) => {
     const [employees, setEmployees] = useState([]);
@@ -56,6 +56,7 @@ const EditCandidate = (
             }
         InsuranceApi.updatecandidate(id, body).then((respo) => {
             console.log(respo.data);
+            getall();
         })
             .catch((error) => {
                 console.log(error);
