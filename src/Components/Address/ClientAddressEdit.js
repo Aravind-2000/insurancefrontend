@@ -65,7 +65,7 @@ function ClientAddressEdit({ open, close,data, setData, getall
                 aria-describedby="alert-dialog-description"
                 maxWidth="md"
             >
-                <h2 className="headings">Client Details Add</h2>
+                <h2 className="headings">Client Address Add</h2>
                 <DialogContent>
                     <form autoComplete="off">
                         <Box sx={{ flexGrow: 1 }}>

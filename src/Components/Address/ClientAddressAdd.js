@@ -16,7 +16,7 @@ import { Checkbox, MenuItem } from "@material-ui/core";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import InsuranceApi from "../../Service/InsuranceApi";
 
-function ClientAddressAdd({ open, handleClose,getall
+function ClientAddressAdd({ close
 }) {
 
   const [toAddress, setToAddress] = useState("");
@@ -48,8 +48,7 @@ function ClientAddressAdd({ open, handleClose,getall
 
     InsuranceApi.saveAddress(data).then((res) => {
       console.log(res.data);
-      handleClose();
-      getall();
+      close();
     })
         .catch((error) => {
           console.log(error);
@@ -63,15 +62,6 @@ function ClientAddressAdd({ open, handleClose,getall
 
   return (
     <div>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-        maxWidth="md"
-      >
-        <h2 className="headings">Client Details Add</h2>
-        <DialogContent>
           <form autoComplete="off">
             <Box sx={{ flexGrow: 1 }}>
               <Grid container spacing={2}>
@@ -203,16 +193,10 @@ function ClientAddressAdd({ open, handleClose,getall
               </Grid>
             </Box>
           </form>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="error" variant="contained">
-            Cancel
-          </Button>
+      <br/>
           <Button color="primary" variant="contained" onClick={(e) => addAddress(e)}>
             {"Submit"}
           </Button>
-        </DialogActions>
-      </Dialog>
     </div>
   );
 }

@@ -31,6 +31,7 @@ import {
 import InsuranceApi from "../../Service/InsuranceApi";
 import ClientAddressEdit from "./ClientAddressEdit";
 import ClientDetailsAdd from "../Client/ClientDetailsAdd";
+import {Dialog, DialogContent} from "@mui/material";
 
 
 
@@ -137,13 +138,23 @@ function ClientAddress() {
         })
   }
 
+  const [search, setSearch] = useState("");
+
+  const globalsearch = (val) => {
+    val === "" ? getAllAddress() : axios.get(`http://localhost:8090/address/search/${val}`).then((res) => {
+      setAllData(res.data)
+    })
+        .catch((err) => {
+          console.log(err)
+        })
+  }
 
   return (
     <div>
       <div className="container">
         <div className="classTitle">
           <h2>
-            <b>Client Address Table</b>
+            <b>Client Address</b>
           </h2>
         </div>
         <br/>
@@ -154,8 +165,7 @@ function ClientAddress() {
               onClick={handleClickOpen}
           />
         </Button>
-
-
+        <input type="search" placeholder="search" value={search} onChange={(e) => {setSearch(e.target.value); globalsearch(e.target.value)}} />
         <div className="mainClass">
           {/* <OutlinedInput
             className="outlinedInput"
@@ -193,11 +203,8 @@ function ClientAddress() {
                   <TableCell className="tblhd" align="left">
                     To Address
                   </TableCell>
-                  <TableCell className="tblhd" align="left">
-                    Address Line 1
-                  </TableCell>
-                  <TableCell className="tblhd" align="left">
-                    Address Line 2
+                  <TableCell className="tblhd" align="justify">
+                    Address Line
                   </TableCell>
                   <TableCell className="tblhd" align="left">
                     City
@@ -233,8 +240,7 @@ function ClientAddress() {
                     >
                       {/*<TableCell align="left">{value.id}</TableCell>*/}
                       <TableCell align="left">{value.toAddress}</TableCell>
-                      <TableCell align="left">{value.addressLine1}</TableCell>
-                      <TableCell align="left">{value.addressLine2}</TableCell>
+                      <TableCell align="left">{value.addressLine1} {value.addressLine2}</TableCell>
                       <TableCell align="left">{value.city}</TableCell>
                       <TableCell align="left">{value.state}</TableCell>
                       <TableCell align="left">{value.country}</TableCell>
@@ -246,7 +252,7 @@ function ClientAddress() {
                         <div className="TableClass">
                           <EditIcon
                             color="primary"
-                            style={{cursor:"pointer"}}
+                            style={{cursor:"pointer", marginRight:10}}
                             onClick={() => editClickOpen(value)}
                           />
                           <DeleteIcon
@@ -261,6 +267,7 @@ function ClientAddress() {
                   ))}
               </TableBody>
             </Table>
+            <br/>
             <TablePagination
                 className="contentPagination"
                 rowsPerPageOptions={[5, 10, 25, 50, 100]}
@@ -274,9 +281,28 @@ function ClientAddress() {
           </TableContainer>
 
           <br />
-          <ClientAddressAdd open={open} handleClose={handleClose} getall={getAllAddress} />
+
+
+          <Dialog
+              open={open}
+              onClose={handleClose}
+              maxWidth="lg"
+          >
+            <>
+              <h4 style={{backgroundColor:"Black", color:"White", textAlign:"center"}}>  Client Address Add </h4>
+              <DialogContent>
+                <ClientAddressAdd/>
+                <br/>
+                <Button
+                    color="error"
+                    variant="contained"
+                    onClick={() => handleClose()}> Cancel </Button>
+              </DialogContent>
+            </>
+          </Dialog>
+
+
           <ClientAddressEdit open={editOpen} close={editClickClose} data={record} setData={setRecord} getall={getAllAddress} />
-          <ClientDetailsAdd openAddress={() => handleClickOpen()} setopenAddress={setOpen}/>
         </Paper>
       </div>
 
