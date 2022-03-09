@@ -84,6 +84,9 @@ class InsuranceApi{
     updateClient(id, client){
          return axios.patch(updateclient + id, client)
     }
+    saveProofs(proof){
+         return axios.post("http://localhost:8090/proof/add", proof)
+    }
 
 
 
