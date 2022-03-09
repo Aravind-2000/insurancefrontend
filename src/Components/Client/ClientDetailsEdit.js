@@ -124,7 +124,7 @@ function ClientDetailsEdit({ open,close, data, setData, getall}) {
             country: data.country,
             nationality: data.nationality,
             companyDoctor: data.companyDoctor,
-            birthDate: moment(data.birthDate).format("DD-MM-YYYY"),
+            birthDate: moment(data.birthDate).format("MM-DD-YYYY"),
             birthPlace: data.birthPlace,
             language: data.language,
             category: data.category,
@@ -133,17 +133,15 @@ function ClientDetailsEdit({ open,close, data, setData, getall}) {
             bankId: data.bankId
         }
 
-
         InsuranceApi.updateClient(id, client).then((res) => {
             console.log(res.data)
+            close();
+            getall();
         })
             .catch((err) => {
                 console.log(err)
             })
-        close();
-        getall();
     }
-
 
     return (
         <div>
@@ -155,7 +153,7 @@ function ClientDetailsEdit({ open,close, data, setData, getall}) {
                 maxWidth="md"
             >
                 <>
-                    <h2 className="headings">Client Details Add</h2>
+                    <h2 className="headings">Client Details Edit</h2>
                     <DialogContent>
                         <form autoComplete="off">
                             <Box sx={{ flexGrow: 1 }}>
@@ -308,12 +306,9 @@ function ClientDetailsEdit({ open,close, data, setData, getall}) {
                                         >
                                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                                 <DatePicker
-                                                    inputFormat="dd-MM-yyyy"
+                                                    inputFormat="dd/MM/yyyy"
                                                     label="Birth Date"
-                                                    placeholder="Birth Date"
-                                                    fullWidth
                                                     name="birthDate"
-                                                    id="birthDate"
                                                     value={data?.birthDate}
                                                     onChange={(date) => datebirthchange(date)}
                                                     renderInput={(params) => <TextField {...params} />}
@@ -325,8 +320,9 @@ function ClientDetailsEdit({ open,close, data, setData, getall}) {
                                         <FormControlLabel
                                             fullWidth
                                             className="checktext"
+                                            label="Company Doctor"
                                             control={<Checkbox lable="Company Doctor:" checked={data?.companyDoctor}   />}
-                                            label="Company Doctor:"
+
                                         />
                                     </Grid>
 
