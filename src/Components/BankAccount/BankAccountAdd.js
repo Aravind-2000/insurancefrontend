@@ -1,31 +1,39 @@
-import React from "react";
+import React,{useState} from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
+import axios from "axios";
 
 function BankAccountAdd({
-    open,
-    data,
-    handleClickClose,
-    onChange,
-    handleFormSubmit,
+
+    handleClickClose,close
   }) {
-    let {  accountHolderName,accountNumber, bankName, ifscCode, bankBranch, isActive} = data;
+
+
+    const [accountHolderName, setAccountHolderName] = useState(" ");
+    const [accountNumber, setAccountNumber] = useState("");
+    const [ifscCode, setIfscCode] = useState("");
+    const [bankName, setBankName] = useState("");
+    const [bankBranch, setBankBranch] = useState("");
+
+
+
+
+    const handleFormSubmit = () => {
+
+        const bankAccountData={accountNumber, accountHolderName, ifscCode, bankBranch, bankName};
+
+        axios
+            .post(`http://localhost:8090/bank/add`, bankAccountData)
+            .then((resp) => {
+                console.log(resp);
+                close();
+                handleClickClose();
+
+            });
+    };
+
     return (
       <div>
-        <Dialog open={open} onClose={handleClickClose}>
-          <h2
-            style={{
-              backgroundColor: "red",
-              color: "white",
-              textAlign: "center",
-            }}
-          >
-            Add New BankAccount 
-          </h2>
-          <DialogContent>
             <form>
               <div style={{ display: "flex" }}>
               {/* <div>
@@ -42,10 +50,9 @@ function BankAccountAdd({
                   <TextField
                   placeholder="bank client name"
                     name="accountHolderName"
-                    value={accountHolderName}
                     margin="dense"
                     variant="outlined"
-                    onChange={(e) => onChange(e)}
+                    onChange={(e) => setAccountHolderName(e.target.value)}
                   />
                 </div>
                 <div>
@@ -55,7 +62,7 @@ function BankAccountAdd({
                     value={accountNumber}
                     margin="dense"
                     variant="outlined"
-                    onChange={(e) => onChange(e)}
+                    onChange={(e) => setAccountNumber(e.target.value)}
                   />
                 </div>
                 </div>
@@ -67,7 +74,7 @@ function BankAccountAdd({
                     value={bankName}
                     margin="dense"
                     variant="outlined"
-                    onChange={(e) => onChange(e)}
+                    onChange={(e) => setBankName(e.target.value)}
                   />
                 </div>
                 <div>
@@ -77,7 +84,7 @@ function BankAccountAdd({
                     value={ifscCode}
                     margin="dense"
                     variant="outlined"
-                    onChange={(e) => onChange(e)}
+                    onChange={(e) => setIfscCode(e.target.value)}
                   />
                 </div>
                 </div>
@@ -90,7 +97,7 @@ function BankAccountAdd({
                     value={bankBranch}
                     margin="dense"
                     variant="outlined"
-                    onChange={(e) => onChange(e)}
+                    onChange={(e) => setBankBranch(e.target.value)}
                   />
                 </div>
                 {/* <div>
@@ -127,11 +134,7 @@ function BankAccountAdd({
                 {/*</div>*/}
                 
             </form>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClickClose} color="error" variant="outlined">
-              Cancel
-            </Button>
+          <br/>
             <Button
               color="primary"
               variant="contained"
@@ -139,8 +142,6 @@ function BankAccountAdd({
             >
               Submit
             </Button>
-          </DialogActions>
-        </Dialog>
       </div>
     );
   }
