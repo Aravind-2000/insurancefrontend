@@ -1,13 +1,7 @@
-import React, {useState, useEffect, useCallback} from "react";
-import {Modal} from "react-bootstrap";
+import React, {useState, useEffect} from "react";
 import Button from "@mui/material/Button";
 import {
   TextField,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  InputLabel,
-  Select,
   FormControl,
   Grid,
   Box,
@@ -23,24 +17,14 @@ import "../Css/Content.css"
 import InsuranceApi from "../../Service/InsuranceApi";
 import moment from "moment";
 import ClientDetailsEdit from "./ClientDetailsEdit";
+import ClientAddressAdd from "../Address/ClientAddressAdd";
+import BankAccountAdd from "../BankAccount/BankAccountAdd";
+import {Modal} from "react-bootstrap";
 
 function ClientDetailsAdd({ open, handleClose, getall }) {
 
 
-
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-
-    const [address, setAddress] = useState([]);
+  const [address, setAddress] = useState([]);
     const [bankAccount, setBankAccount] = useState([]);
     const [gender1, setGender1] = useState([]);
     const [gender2, setGender2] = useState([]);
@@ -116,13 +100,18 @@ function ClientDetailsAdd({ open, handleClose, getall }) {
     return !value;
   }
 
+
+
+  const [applicationId, setApplicationId] = useState("");
+  const [application, setApplication] = useState(" ");
+
     const [surName, setSurName] = useState("");
-    const [givenName, setGivenName] = useState("");
+    const [givenName, setGivenName] = useState(" ");
     const [salutation, setSalutation] = useState("");
     const [gender, setGender] = useState("");
     const [marritalStatus, setMarritalStatus] = useState("");
-  const [mobileNumber, setMobileNumber] = useState(0);
-  const [postalCode, setPostalCode] = useState(0);
+    const [mobileNumber, setMobileNumber] = useState("");
+    const [postalCode, setPostalCode] = useState(0);
     const [country, setCountry] = useState("");
     const [nationality, setNationality] = useState("");
     const [companyDoctor, setCompanyDoctor] = useState(false);
@@ -131,39 +120,101 @@ function ClientDetailsAdd({ open, handleClose, getall }) {
     const [language, setLanguage] = useState("");
     const [category, setCategory] = useState("");
     const [occupation, setOccupation] = useState("");
-  const [addressid, setAddressid] = useState(0);
+    const [addressid, setAddressid] = useState(0);
     const [bankId, setBankId] = useState(0);
+
+
+  const getapplication = (id) => {
+    axios.get(`http://localhost:8090/candidates/application/${id}`).then((res) => {
+      setApplication(res.data);
+    })
+        .catch((err) => {
+          console.log(err);
+        })
+  }
+
 
 
     const saveClient = () => {
 
-      const birthDate = moment(birthdate).format("DD-MM-YYYY")
+      const birthDate = moment(birthdate).format("MM-DD-YYYY")
 
       const client = {surName, givenName, salutation, gender, marritalStatus, mobileNumber, postalCode, country, nationality, companyDoctor, birthDate, birthPlace, language, category, occupation, addressid, bankId};
 
       InsuranceApi.addClients(client).then((res) => {
         console.log(res.data)
+        getall();
+        handleClose();
+
       })
           .catch((err) => {
             console.log(err)
           })
-      handleClose();
-      getall();
     }
+
+
+  //For address
+  const [addressopen, setAddressopen] = useState(false);
+  const showaddress = () => {
+    setAddressopen(true);
+  };
+
+  const closeaddress = () => {
+    setAddressopen(false);
+      InsuranceApi.getAllAddress().then((res) => {
+        setAddress(res.data);
+      })
+          .catch((err) => {
+            console.log(err)
+          })
+  };
+
+  //for bank
+  const [bankopen, setBankopen] = useState(false);
+  const showBank = () => {
+    setBankopen(true);
+  };
+
+  const closeBank = () => {
+    setBankopen(false);
+    axios.get(`http://localhost:8090/bank/getall`).then((res) => {
+      setBankAccount(res.data);
+    })
+        .catch((err) => {
+          console.log(err)
+        })
+  };
 
 
   return (
     <div>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-        maxWidth="md"
+      <Modal
+        show={open}
+        onHide={handleClose}
+        size="lg"
+        centered
       >
-          <>
-            <h2 className="headings">Client Details Add</h2>
-            <DialogContent>
+        <Modal.Header closeButton> <Modal.Title> <h4>  Client Details </h4> </Modal.Title> </Modal.Header>
+
+            <Modal.Body>
+
+              <br/>
+              <div className="row">
+                <div className="col">
+                  <input type="text" onChange={(e) => setApplicationId(e.target.value)}/>
+                </div>
+                <div className="col">
+                  <Button
+                      color="primary"
+                      onClick={() => getapplication(applicationId)}
+                  >
+                    Get
+                  </Button>
+                </div>
+              </div>
+
+              <hr/>
+
               <form autoComplete="off">
                 <Box sx={{ flexGrow: 1 }}>
                   <Grid container spacing={2}>
@@ -383,7 +434,7 @@ function ClientDetailsAdd({ open, handleClose, getall }) {
                       >
                           {
                               address.map((address) => (
-                                  <MenuItem value={address.id}> {address.id} - {address.toAddress} </MenuItem>
+                                  <MenuItem value={address.id}>  {address.toAddress} - {address.id}  </MenuItem>
                               ))
                           }
                       </TextField>
@@ -393,6 +444,7 @@ function ClientDetailsAdd({ open, handleClose, getall }) {
                         style={{ marginTop: "1rem" }}
                         variant="contained"
                         color="error"
+                        onClick={() => showaddress()}
                         startIcon={<AddCircleIcon />}
                       />
                     </Grid>
@@ -412,7 +464,7 @@ function ClientDetailsAdd({ open, handleClose, getall }) {
                     >
                       {
                         bankAccount.map((bank) => (
-                            <MenuItem value={bank.id}> {bank.id} - {bank.accountHolderName} </MenuItem>
+                            <MenuItem value={bank.id}> {bank.accountHolderName} - {bank.id} </MenuItem>
                         ))
                       }
                     </TextField>
@@ -422,26 +474,63 @@ function ClientDetailsAdd({ open, handleClose, getall }) {
                         style={{ marginTop: "1rem" }}
                         variant="contained"
                         color="error"
+                        onClick={(e) => showBank()}
                         startIcon={<AddCircleIcon />}
                     />
                   </Grid> </Grid>
-                  <Grid container spacing={2}>
-
-                  </Grid>
                 </Box>
               </form>
-            </DialogContent>
-            <DialogActions>
+            </Modal.Body>
+        <Modal.Footer>
+          <Button color="primary" variant="contained" onClick={(e) => saveClient(e)}>
+            {"Submit"}
+          </Button>
               <Button onClick={handleClose} color="error" variant="contained">
                 Cancel
               </Button>
-              <Button color="primary" variant="contained" onClick={(e) => saveClient(e)}>
-                {"Submit"}
-              </Button>
-            </DialogActions>
-          </>
-      </Dialog>
+
+        </Modal.Footer>
+      </Modal>
+
       <ClientDetailsEdit address={address} bankAccount={bankAccount} gender1={gender1} gender2={gender2} work={work}  relationship={relationship}/>
+
+      <Modal
+          show={addressopen}
+          onHide={closeaddress}
+          size="lg"
+          centered
+      >
+        <Modal.Header closeButton> <Modal.Title> <h4>  Client Address Add </h4> </Modal.Title> </Modal.Header>
+          <Modal.Body>
+            <ClientAddressAdd close={closeaddress}/>
+            <br/>
+            <Button
+              color="error"
+              variant="contained"
+              onClick={() => closeaddress()}> Cancel </Button>
+          </Modal.Body>
+      </Modal>
+
+
+
+      <Modal
+          show={bankopen}
+          onHide={closeBank}
+          size="lg"
+          centered
+      >
+
+        <Modal.Header closeButton><Modal.Title> <h4>  Client Bank Add </h4> </Modal.Title> </Modal.Header>
+          <Modal.Body>
+            <BankAccountAdd close={closeBank}/>
+            <br/>
+            <Button
+                color="error"
+                variant="contained"
+                onClick={() => closeBank()}> Cancel </Button>
+          </Modal.Body>
+      </Modal>
+
     </div>
   );
 }

@@ -4,6 +4,7 @@ import axios from "axios";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -30,6 +31,10 @@ import {
 } from "@material-ui/core";
 import InsuranceApi from "../../Service/InsuranceApi";
 import ClientDetailsEdit from "./ClientDetailsEdit";
+import {Dialog, DialogContent} from "@mui/material";
+import ProofsAdd from "../Proofs/ProofsAdd";
+import ClientAddressAdd from "../Address/ClientAddressAdd";
+import {Modal} from "react-bootstrap";
 
 // const initialPValue = {
 //   id: "",
@@ -52,9 +57,7 @@ const useStyles = makeStyles((theme) => ({
 function ClientDetails() {
 
 
-  useEffect(() => {
-    getAllClients();
-  }, []);
+
 
 
   const getAllClients = () => {
@@ -71,6 +74,9 @@ function ClientDetails() {
   const [allData, setAllData] = useState([]);
   const [open, setOpen] = useState(false);
 
+  useEffect(() => {
+    getAllClients();
+  }, []);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -84,13 +90,7 @@ function ClientDetails() {
   const [editOpen, setEditOpen] = useState(false);
   const [record, setRecord] = useState("");
   const editClickOpen = (item) => {
-    InsuranceApi.getClient(item.id).then((res) => {
-      setRecord(res.data);
-      console.log(res.data)
-    })
-        .catch((err) => {
-          console.log(err)
-        })
+    setRecord(item);
     setEditOpen(true);
   }
 
@@ -123,15 +123,50 @@ function ClientDetails() {
   //     );
   //   }
 
+  const [search, setSearch] = useState("");
+  const globalsearch = (val) =>{
+    val === "" ? getAllClients() : axios.get(`http://localhost:8090/client/search/${val}`).then((res) => {
+      setAllData(res.data);
+    })
+        .catch((err) => {
+          console.log(err)
+        })
+
+  }
+
+  const deleteClient = (id) => {
+    axios.patch(`http://localhost:8090/client/del/${id}`).then((res) => {
+      console.log(res.data);
+      getAllClients();
+    })
+        .catch((err) => {
+          console.log(err)
+        })
+  }
+
+  //For Proofs
+  const [clientID, setClientID] = useState("");
+  const [proofList, setProofList] = useState([]);
+  const [proofsModal, setProofsModal] = useState(false);
+  const handleproofopen = (id, prooflist) => {
+    setClientID(id);
+    setProofList(prooflist);
+    setProofsModal(true);
+  }
+  const handleproofclose = () => {
+    setProofsModal(false);
+  }
+
+
   return (
     <div>
       <div className="container">
-        <br/>
         <div className="classTitle">
           <h2>
-            <b>Client Details Table</b>
+            <b>Client Details</b>
           </h2>
         </div>
+        <br/>
         <Button>
           <AddBoxIcon
               fontSize="large"
@@ -139,7 +174,7 @@ function ClientDetails() {
               onClick={handleClickOpen}
           />
         </Button>
-
+        <input type="search" placeholder="search" value={search} onChange={(e) => {setSearch(e.target.value); globalsearch(e.target.value)}} />
         <div className="mainClass">
           {/* <OutlinedInput
             className="outlinedInput"
@@ -224,24 +259,32 @@ function ClientDetails() {
                               style={{cursor:"pointer"}}
                             className="deleteClass"
                             color="error"
+                              onClick={() => deleteClient(value.id)}
                           />
+                          <LibraryBooksIcon
+                              style={{cursor:"pointer", marginLeft:5}}
+                              color="primary"
+                              onClick={() => handleproofopen(value.id, value.proofList)}
+                              />
                         </div>
                       </TableCell>
                     </TableRow>
                   ))}
               </TableBody>
             </Table>
+            <br/>
+            <TablePagination
+                className="contentPagination"
+                rowsPerPageOptions={[5, 10, 25, 50, 100]}
+                component="div"
+                count={allData.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+            />
           </TableContainer>
-          <TablePagination
-            className="contentPagination"
-            rowsPerPageOptions={[5, 10, 25, 50, 100]}
-            component="div"
-            count={allData.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onChangePage={handleChangePage}
-            onChangeRowsPerPage={handleChangeRowsPerPage}
-          />
+
           <br />
 
         </Paper>
@@ -255,6 +298,18 @@ function ClientDetails() {
       <br />
       <ClientDetailsAdd open={open} handleClose={handleClose} getall={getAllClients} />
       <ClientDetailsEdit open={editOpen} close={editClickClose} data={record} setData={setRecord}  getall={getAllClients} />
+
+      <Modal
+          show={proofsModal}
+          onHide={handleproofclose}
+          size="lg"
+          centered
+      >
+        <Modal.Header closeButton><Modal.Title> <h4>  Proofs </h4> </Modal.Title> </Modal.Header>
+
+            <ProofsAdd clientid={clientID} getall={getAllClients}  close={handleproofclose} proofs={proofList} setproofs={setProofList}/>
+
+      </Modal>
     </div>
   );
 }
