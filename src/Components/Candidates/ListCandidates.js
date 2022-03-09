@@ -5,6 +5,8 @@ import ViewCandidate from "./ViewCandidate";
 import {MdViewList} from "react-icons/md";
 import {AiFillEdit} from "react-icons/ai";
 import EditCandidate from "./EditCandidate";
+import {TablePagination} from "@material-ui/core";
+import "../Css/Content.css";
 
 const ListCandidates = () => {
 
@@ -13,6 +15,17 @@ const ListCandidates = () => {
     const [proofs, setProofs] = useState([]);
     const [communications, setCommunications] = useState([]);
     const [degree, setDegree] = useState([]);
+
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
 
 
     const [view, setView] = useState(false);
@@ -95,25 +108,29 @@ const ListCandidates = () => {
             <br/>
             <div >
                 <div className="container container-md container-sm container-lg container-xl">
-                    <h4 style={{color:"red"}}> Enrolled Candidates  </h4> <br/>
+                    <h4  style={{color:"red"}}> Enrolled Candidates  </h4> <br/>
                     <input type="search" placeholder="search" value={search} onChange={(e) => {setSearch(e.target.value); getByNameLike(e.target.value)}} />
                     <p/>  <br/>
                 <Table striped bordered className="sm md lg xl">
-                    <thead>
-                    <tr>
-                        <td> Name </td>
-                        <td> Mobile Number </td>
-                        <td> E-Mail </td>
-                        <td> Current Status of Candidate </td>
-                        <td> Result </td>
-                        <td> Actions </td>
+                    <thead className="tableheader">
+                    <tr className="tablerow">
+                        <td className="tblhd" align="left"> Name </td>
+                        <td className="tblhd" align="left"> Mobile Number </td>
+                        <td className="tblhd" align="left"> E-Mail </td>
+                        <td className="tblhd" align="left"> Current Status of Candidate </td>
+                        <td className="tblhd" align="left"> Result </td>
+                        <td className="tblhd" align="left"> Actions </td>
                     </tr>
                     </thead>
 
                     <tbody>
                     {
-                        candidates.map((value, index) => (
-                            <tr key={index}>
+                        candidates
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((value, index) => (
+                            <tr
+                                className={index % 2 ? "classEven" : "classOdd"}
+                                key={index}>
                                 <td> {value.name}</td>
                                 <td> {value.mobileNumber} </td>
                                 <td> {value.email} </td>
@@ -135,6 +152,16 @@ const ListCandidates = () => {
                     }
                     </tbody>
                 </Table>
+                    <TablePagination
+                        className="contentPagination"
+                        rowsPerPageOptions={[5, 10, 25, 50, 100]}
+                        component="div"
+                        count={candidates.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onChangePage={handleChangePage}
+                        onChangeRowsPerPage={handleChangeRowsPerPage}
+                    />
                 </div>
             </div>
 
@@ -153,6 +180,7 @@ const ListCandidates = () => {
                 proofs={proofs}
                 communications={communications}
                 degrees={degree}
+                getall={getAllCandidates}
             />
         </div>
     );

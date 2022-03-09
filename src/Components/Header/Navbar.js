@@ -17,11 +17,11 @@ const Navbar = () => {
                 </NavLink>
                 <Bars />
                 <NavMenu>
-                    <NavLink to='/candidates' activeStyle>
-                        Candidates
-                    </NavLink>
                     <NavLink to='/add' activeStyle>
                         Enroll Now
+                    </NavLink>
+                    <NavLink to='/candidates' activeStyle>
+                        Candidates
                     </NavLink>
                     <NavLink to='/employee' activeStyle>
                         Employees
