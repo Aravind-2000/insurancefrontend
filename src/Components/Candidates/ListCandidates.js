@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import InsuranceApi from "../../Service/InsuranceApi";
 import {Table} from "react-bootstrap";
 import ViewCandidate from "./ViewCandidate";
-import {MdViewList} from "react-icons/md";
 import {AiFillEdit} from "react-icons/ai";
 import EditCandidate from "./EditCandidate";
 import {TablePagination} from "@material-ui/core";
@@ -29,16 +28,16 @@ const ListCandidates = () => {
 
 
     const [view, setView] = useState(false);
-    const handleformview = (id) => {
-        InsuranceApi.getcandidatebyid(id).then((res) => {
-            setCandidaterecord(res.data);
-            console.log(res.data);
-        })
-            .catch((error) => {
-                console.log(error);
-            })
-        setView(true);
-    }
+    // const handleformview = (id) => {
+    //     InsuranceApi.getcandidatebyid(id).then((res) => {
+    //         setCandidaterecord(res.data);
+    //         console.log(res.data);
+    //     })
+    //         .catch((error) => {
+    //             console.log(error);
+    //         })
+    //     setView(true);
+    // }
     const hideeformview = () =>setView(false);
 
     const [edit, setEdit] = useState(false);
@@ -105,13 +104,13 @@ const ListCandidates = () => {
         <div>
 
             <br /> <br />
-            <br/>
             <div >
                 <div className="container container-md container-sm container-lg container-xl">
-                    <h4  style={{color:"red"}}> Enrolled Candidates  </h4> <br/>
+                    <div className="classTitle">
+                        <h2> <b> Enrolled Candidates </b>  </h2> </div> <br/>
                     <input type="search" placeholder="search" value={search} onChange={(e) => {setSearch(e.target.value); getByNameLike(e.target.value)}} />
                     <p/>  <br/>
-                <Table striped bordered className="sm md lg xl">
+                <Table  bordered className="sm md lg xl">
                     <thead className="tableheader">
                     <tr className="tablerow">
                         <td className="tblhd" align="left"> Name </td>
@@ -128,9 +127,7 @@ const ListCandidates = () => {
                         candidates
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((value, index) => (
-                            <tr
-                                className={index % 2 ? "classEven" : "classOdd"}
-                                key={index}>
+                            <tr key={index}>
                                 <td> {value.name}</td>
                                 <td> {value.mobileNumber} </td>
                                 <td> {value.email} </td>
@@ -147,7 +144,8 @@ const ListCandidates = () => {
                                         onClick={() => handleformedit(value.id)}
                                     />
                                 </td>
-                            </tr>
+                            </tr
+                                >
                         ))
                     }
                     </tbody>
