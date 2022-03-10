@@ -334,19 +334,19 @@ const AddCandidate = () => {
                     </div>
 
                     <p/> <br/>
-                    <div className="row">
-                        <div className="col"> <h3> Upload your resume </h3> </div>
-                        <div className="col">
-                            <input
-                                type="file"
-                                id="file"
-                                onChange={(e) => filechange(e)}
-                            />
-                        </div>
-                    </div>
-                    <div className="row">
-                        <h6> File name should be "your name - your email" </h6>
-                    </div>
+                    {/*<div className="row">*/}
+                    {/*    <div className="col"> <h3> Upload your resume </h3> </div>*/}
+                    {/*    <div className="col">*/}
+                    {/*        <input*/}
+                    {/*            type="file"*/}
+                    {/*            id="file"*/}
+                    {/*            onChange={(e) => filechange(e)}*/}
+                    {/*        />*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
+                    {/*<div className="row">*/}
+                    {/*    <h6> File name should be "your name - your email" </h6>*/}
+                    {/*</div>*/}
 
                     <br/>
                 </Form.Group>
