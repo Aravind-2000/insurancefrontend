@@ -21,7 +21,7 @@ import ClientAddressAdd from "../Address/ClientAddressAdd";
 import BankAccountAdd from "../BankAccount/BankAccountAdd";
 import {Modal} from "react-bootstrap";
 
-function ClientDetailsAdd({ open, handleClose, getall }) {
+function ClientDetailsAdd({ clientclose, handleClose, getall }) {
 
 
   const [address, setAddress] = useState([]);
@@ -144,7 +144,7 @@ function ClientDetailsAdd({ open, handleClose, getall }) {
       InsuranceApi.addClients(client).then((res) => {
         console.log(res.data)
         getall();
-        handleClose();
+        handleClose(); clientclose();
 
       })
           .catch((err) => {
@@ -188,30 +188,21 @@ function ClientDetailsAdd({ open, handleClose, getall }) {
 
   return (
     <div>
-      <Modal
-        show={open}
-        onHide={handleClose}
-        size="lg"
-        centered
-      >
-        <Modal.Header closeButton> <Modal.Title> <h4>  Client Details </h4> </Modal.Title> </Modal.Header>
-
-            <Modal.Body>
 
               <br/>
-              <div className="row">
-                <div className="col">
-                  <input type="text" onChange={(e) => setApplicationId(e.target.value)}/>
-                </div>
-                <div className="col">
-                  <Button
-                      color="primary"
-                      onClick={() => getapplication(applicationId)}
-                  >
-                    Get
-                  </Button>
-                </div>
-              </div>
+              {/*<div className="row">*/}
+              {/*  <div className="col">*/}
+              {/*    <input type="text" onChange={(e) => setApplicationId(e.target.value)}/>*/}
+              {/*  </div>*/}
+              {/*  <div className="col">*/}
+              {/*    <Button*/}
+              {/*        color="primary"*/}
+              {/*        onClick={() => getapplication(applicationId)}*/}
+              {/*    >*/}
+              {/*      Get*/}
+              {/*    </Button>*/}
+              {/*  </div>*/}
+              {/*</div>*/}
 
               <hr/>
 
@@ -480,17 +471,14 @@ function ClientDetailsAdd({ open, handleClose, getall }) {
                   </Grid> </Grid>
                 </Box>
               </form>
-            </Modal.Body>
-        <Modal.Footer>
+
+      <br/>
           <Button color="primary" variant="contained" onClick={(e) => saveClient(e)}>
             {"Submit"}
           </Button>
               <Button onClick={handleClose} color="error" variant="contained">
                 Cancel
               </Button>
-
-        </Modal.Footer>
-      </Modal>
 
       <ClientDetailsEdit address={address} bankAccount={bankAccount} gender1={gender1} gender2={gender2} work={work}  relationship={relationship}/>
 

@@ -9,11 +9,7 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
-import Tooltip from "@mui/material/Tooltip";
-import InfoIcon from "@mui/icons-material/Info";
 import moment from "moment";
-import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
-import SearchIcon from "@mui/icons-material/Search";
 import "../Css/Content.css"
 import "../Css/ContentAdd.css"
 import ClientAddressAdd from "./ClientAddressAdd";
@@ -23,14 +19,10 @@ import {
   Paper,
   TablePagination,
   Button,
-  TextField,
-  OutlinedInput,
-  InputAdornment,
   makeStyles,
 } from "@material-ui/core";
 import InsuranceApi from "../../Service/InsuranceApi";
 import ClientAddressEdit from "./ClientAddressEdit";
-import ClientDetailsAdd from "../Client/ClientDetailsAdd";
 import {Dialog, DialogContent} from "@mui/material";
 
 
@@ -42,19 +34,6 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
   },
 }));
-
-var initialPValue = {
-  id: "",
-  toAddress: "",
-  addressLine1: "",
-  addressLine2: "",
-  city: "",
-  pincode: "",
-  state: "",
-  country: "",
-  isPresentAddress: "",
-  addressType: "",
-};
 
 
 function ClientAddress() {
@@ -76,7 +55,6 @@ function ClientAddress() {
   }
 
 
-  let m = moment();
   const classes = useStyles();
   const [allData, setAllData] = useState([]);
   const [open, setOpen] = useState(false);
@@ -100,7 +78,6 @@ function ClientAddress() {
     setEditOpen(false);
   }
 
-  const clickHandler = () => window.print();
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -235,7 +212,6 @@ function ClientAddress() {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((value, index) => (
                     <TableRow
-                      className={index % 2 ? "classEven" : "classOdd"}
                       key={index}
                     >
                       {/*<TableCell align="left">{value.id}</TableCell>*/}

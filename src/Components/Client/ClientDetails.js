@@ -10,11 +10,7 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
-import Tooltip from "@mui/material/Tooltip";
-import InfoIcon from "@mui/icons-material/Info";
 import moment from "moment";
-import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
-import SearchIcon from "@mui/icons-material/Search";
 import "../Css/Content.css";
 import "../Css/ContentAdd.css";
 import ClientDetailsAdd from "./ClientDetailsAdd";
@@ -24,16 +20,11 @@ import {
   Paper,
   TablePagination,
   Button,
-  TextField,
-  OutlinedInput,
-  InputAdornment,
   makeStyles,
 } from "@material-ui/core";
 import InsuranceApi from "../../Service/InsuranceApi";
 import ClientDetailsEdit from "./ClientDetailsEdit";
-import {Dialog, DialogContent} from "@mui/material";
 import ProofsAdd from "../Proofs/ProofsAdd";
-import ClientAddressAdd from "../Address/ClientAddressAdd";
 import {Modal} from "react-bootstrap";
 
 // const initialPValue = {
@@ -46,7 +37,6 @@ import {Modal} from "react-bootstrap";
 //   addressid:"",
 //
 // };
-const initialCheck = {};
 const useStyles = makeStyles((theme) => ({
   BackGround: {
     backgroundColor: "#d50000",
@@ -68,8 +58,6 @@ function ClientDetails() {
           console.log(error);
         })
   }
-
-  let m = moment();
   const classes = useStyles();
   const [allData, setAllData] = useState([]);
   const [open, setOpen] = useState(false);
@@ -237,7 +225,6 @@ function ClientDetails() {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((value, index) => (
                     <TableRow
-                      className={index % 2 ? "classEven" : "classOdd"}
                       key={index}
                     >
                       <TableCell align="left">{value.givenName} {value.surName}</TableCell>
@@ -296,7 +283,19 @@ function ClientDetails() {
         </h6>
       </div>
       <br />
-      <ClientDetailsAdd open={open} handleClose={handleClose} getall={getAllClients} />
+
+
+      <Modal
+          show={open}
+          onHide={handleClose}
+          size="lg"
+          centered
+      >
+        <Modal.Header closeButton> <Modal.Title> <h4>  Client Details </h4> </Modal.Title> </Modal.Header>
+        <Modal.Body>
+      <ClientDetailsAdd handleClose={handleClose} getall={getAllClients} />
+          </Modal.Body>
+      </Modal>
       <ClientDetailsEdit open={editOpen} close={editClickClose} data={record} setData={setRecord}  getall={getAllClients} />
 
       <Modal

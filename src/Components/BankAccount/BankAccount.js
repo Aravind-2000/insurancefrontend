@@ -178,7 +178,6 @@ function BankAccount() {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((value, index) => (
                 <TableRow
-                    className={index % 2 ? "classEven" : "classOdd"}
                     key={index}
                 >
                   {/*<TableCell  align="left">{value.id}</TableCell>*/}
