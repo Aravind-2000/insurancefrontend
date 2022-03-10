@@ -38,6 +38,9 @@ const Navbar = () => {
                     <NavLink to="/client" activeStyle>
                         Clients
                     </NavLink>
+                    <NavLink to="/agent" activeStyle>
+                        Agent
+                    </NavLink>
                 </NavMenu>
                 {/*<NavBtn>*/}
                 {/*    <NavBtnLink to='/signin'>Sign In</NavBtnLink>*/}
