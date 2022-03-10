@@ -30,8 +30,8 @@ class InsuranceApi{
     getcandidatebyid(id){
          return axios.get(getCandidatebyid + id);
     }
-    addCandidate(candidate){
-         return axios.post(addCandidates, candidate);
+    addCandidate(candidate, file){
+         return axios.post(addCandidates, candidate, file);
     }
     updatecandidate(id, candidate){
          return axios.patch(updatecandidateDetails + id, candidate);
@@ -87,8 +87,18 @@ class InsuranceApi{
     saveProofs(proof){
          return axios.post("http://localhost:8090/proof/add", proof)
     }
-
-
+    getAgents(){
+         return axios.get("http://localhost:8090/agent/getall")
+    }
+    deleteAgent(id){
+         return axios.patch("http://localhost:8090/agent/delete/" + id)
+    }
+    saveAgent(agent){
+         return axios.post("http://localhost:8090/agent/add", agent)
+    }
+    updateAgent(id, agent){
+         return axios.patch("http://localhost:8090/agent/" + id, agent)
+    }
 
 }
 
