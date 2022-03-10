@@ -14,12 +14,10 @@
   display: flex;
 }
 .classTitle {
-  font-family: BerkshireSwash-Regular;
-  background-color: black;
-  color: azure;
+  font-family: sans-serif;
+  color: Red;
   padding: 0 1rem 0 1rem;
   border-radius: 20%;
-  font-style: italic;
   margin-top: 1rem;
 }
 .classTitle h2 {
@@ -46,7 +44,7 @@
   padding: 10px;
 }
 .tableheader {
-  background-color: black;
+  background-color: #3b3837;
   position: sticky;
   inset-block-start: 0;
 }
