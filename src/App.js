@@ -12,6 +12,7 @@ import BankAccount from "./Components/BankAccount/BankAccount";
 import ClientAddress from "./Components/Address/ClientAddress";
 import ClientDetails from "./Components/Client/ClientDetails";
 import ClientAddressAdd from "./Components/Address/ClientAddressAdd";
+import AgentDetails from "./Components/Agent/AgentDetails";
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
                   <Route exact path={"/address"} element={<ClientAddress/>} />
                   <Route exact path={"/address-add"} element={<ClientAddressAdd/>} />
                   <Route exact path={"/client"} element={<ClientDetails/>} />
+                  <Route exact path={"/agent"} element={<AgentDetails/>} />
               </Routes>
           </div>
       </div>
