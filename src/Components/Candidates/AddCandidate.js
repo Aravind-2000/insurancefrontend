@@ -5,7 +5,6 @@ import {DatePicker, DateTimePicker, LocalizationProvider} from "@mui/lab";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { TextField} from "@mui/material";
 import moment from "moment";
-import axios from "axios";
 
 
 const AddCandidate = () => {
@@ -22,7 +21,7 @@ const AddCandidate = () => {
     const [proofs, setProofs] = useState([]);
     const [communications, setCommunications] = useState([]);
     const [degree, setDegree] = useState([]);
-    const [file, setFile] = useState(null);
+    const [resume, setResume] = useState([]);
 
     useEffect(() => {
        InsuranceApi.getParameterRule("P0001").then((res) => {
@@ -48,15 +47,10 @@ const AddCandidate = () => {
     }, []);
 
 
-    const filechange = (e) => {
-        console.log(e.target.files[0])
-        setFile(e.target.files[0]);
-    }
 
-    const FormData = require('form-data');
-    const data = new FormData();
+
+
     const saveCandidate =  (e) => {
-        e.preventDefault();
 
         const dateOfBirth = moment(dateofBirth).format("MM-DD-YYYY")
 
@@ -76,34 +70,12 @@ const AddCandidate = () => {
             highestQualification
         };
 
-        // InsuranceApi.addCandidate(candidate).then((res) => {
-        //     console.log(res.data);
-        // })
-        //     .catch((error) => {
-        //         console.log(error);
-        //     })
-
-
-        data.append('details', candidate)
-        data.append('file', file)
-        console.log(data, "FORM")
-
-
-        axios({
-            method: 'post',
-            url: 'http://localhost:8090/candidates/savedetails',
-            data: data,
-            headers: {'Content-Type': 'multipart/form-data'
-            }
+        InsuranceApi.addCandidate(candidate).then((res) => {
+            console.log(res.data);
         })
-            .then( (res) => {
-                //handle success
-                console.log(res.data);
+            .catch((error) => {
+                console.log(error);
             })
-            .catch((err) => {
-                //handle error
-                console.log(err);
-            });
         hidemodal();
     }
 
@@ -114,7 +86,7 @@ const AddCandidate = () => {
     }
     const hidemodal = () => {
         setModal(false);
-        // window.location.reload();
+        window.location.reload();
     }
 
 
@@ -334,19 +306,22 @@ const AddCandidate = () => {
                     </div>
 
                     <p/> <br/>
-                    {/*<div className="row">*/}
-                    {/*    <div className="col"> <h3> Upload your resume </h3> </div>*/}
-                    {/*    <div className="col">*/}
-                    {/*        <input*/}
-                    {/*            type="file"*/}
-                    {/*            id="file"*/}
-                    {/*            onChange={(e) => filechange(e)}*/}
-                    {/*        />*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
-                    {/*<div className="row">*/}
-                    {/*    <h6> File name should be "your name - your email" </h6>*/}
-                    {/*</div>*/}
+                    <div className="row">
+                        <div className="col"> <h3> Upload your resume </h3> </div>
+                        <div className="col">
+                            <input
+                                type="file"
+                                id="file"
+
+                            />
+                        </div>
+                    </div>
+                    <div className="row">
+                        <h6> File name should be "your name - your email" </h6>
+                    </div>
+                    <div className="row">
+                        <h6> send in .pdf (or) .docx format </h6>
+                    </div>
 
                     <br/>
                 </Form.Group>
