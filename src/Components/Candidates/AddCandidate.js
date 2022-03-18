@@ -21,7 +21,6 @@ const AddCandidate = () => {
     const [proofs, setProofs] = useState([]);
     const [communications, setCommunications] = useState([]);
     const [degree, setDegree] = useState([]);
-    const [resume, setResume] = useState([]);
 
     useEffect(() => {
        InsuranceApi.getParameterRule("P0001").then((res) => {
@@ -77,6 +76,10 @@ const AddCandidate = () => {
                 console.log(error);
             })
         hidemodal();
+
+        window.location.reload();
+        window.location.href = "/";
+
     }
 
 
@@ -86,7 +89,6 @@ const AddCandidate = () => {
     }
     const hidemodal = () => {
         setModal(false);
-        window.location.reload();
     }
 
 
@@ -306,22 +308,22 @@ const AddCandidate = () => {
                     </div>
 
                     <p/> <br/>
-                    <div className="row">
-                        <div className="col"> <h3> Upload your resume </h3> </div>
-                        <div className="col">
-                            <input
-                                type="file"
-                                id="file"
+                    {/*<div className="row">*/}
+                    {/*    <div className="col"> <h3> Upload your resume </h3> </div>*/}
+                    {/*    <div className="col">*/}
+                    {/*        <input*/}
+                    {/*            type="file"*/}
+                    {/*            id="file"*/}
 
-                            />
-                        </div>
-                    </div>
-                    <div className="row">
-                        <h6> File name should be "your name - your email" </h6>
-                    </div>
-                    <div className="row">
-                        <h6> send in .pdf (or) .docx format </h6>
-                    </div>
+                    {/*        />*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
+                    {/*<div className="row">*/}
+                    {/*    <h6> File name should be "your name - your email" </h6>*/}
+                    {/*</div>*/}
+                    {/*<div className="row">*/}
+                    {/*    <h6> send in .pdf (or) .docx format </h6>*/}
+                    {/*</div>*/}
 
                     <br/>
                 </Form.Group>
@@ -343,9 +345,8 @@ const AddCandidate = () => {
             <Modal
                 show={modal}
                 onHide={hidemodal}
-                backdrop="static"
-                keyboard={false}
             >
+                <Modal.Header closeButton> </Modal.Header>
                 <Modal.Body>
                     <h6> Thanks for applying with our company. Soon our company staff will reach you out. </h6>
                     <h6>  For queries reach us at queriesFutura@futurainstech.com </h6>
