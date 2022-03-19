@@ -100,10 +100,11 @@ const AddCandidate = () => {
             <div className="container">
 
 
-                    <Form className="container" encType="multipart/form-data">
+                    <Form className="container">
                 <Form.Group>
 
                     <div>
+                        <br/>
                     <div className="row">
 
                         <div className="col"> <h3> Personal Details </h3> </div>
