@@ -5,9 +5,6 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    InputLabel,
-    Select,
-    FormControl,
     Grid,
     Box,
 } from "@mui/material";
@@ -192,7 +189,8 @@ function ClientAddressEdit({ open, close,data, setData, getall
                                     <FormControlLabel
                                         fullWidth
                                         className="checktext"
-                                        control={<Checkbox lable="isPresentAddress:"  name="isPresentAddress" checked={data.isPresentAddress} onChange={(e) => editCheck(e)} />}
+                                        control={<Checkbox lable="isPresentAddress:"  name="isPresentAddress" value={data?.isPresentAddress}
+                                                          checked={data?.isPresentAddress === true ? true : false} onChange={(e) => editCheck(e)} />}
                                         label="isPresentAddress:"
                                     />
                                 </Grid>

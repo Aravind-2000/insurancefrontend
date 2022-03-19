@@ -56,7 +56,7 @@ const ListEmployee = () => {
                             <tbody>
                             {
                                 employees.map((value, index) => (
-                                    <tr key={index}>
+                                    <tr key={index} className={index % 2 ? "classEven" : "classOdd"}>
                                         <td> {value.employeeName}</td>
                                         <td> {value.employeeId} </td>
                                         <td> {value.employeeEmail} </td>

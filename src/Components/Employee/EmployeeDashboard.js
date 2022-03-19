@@ -87,8 +87,9 @@ const EmployeeDashboard = () => {
 
                 <br/> <br/>
 
-                <div className="container" style={{backgroundColor:"ghostwhite"}} >
+                <div className="container" style={{backgroundColor:"antiquewhite"}} >
 
+                    <br/>
                     <div className="row">
                         <div className="col">
                             <p style={{color:"black"}}> Employee Name :  {employee.employeeName} </p> </div>
@@ -112,7 +113,8 @@ const EmployeeDashboard = () => {
                             {
                         candidate.map((value, index) => (
                             <>
-                            <div className="container" style={{backgroundColor:"ghostwhite"}}>
+                            <div className="container" style={{backgroundColor:"antiquewhite"}}>
+                                <br/>
                                 <div className="row">
                                 <div className="col">
                                     <p style={{color: 'red'}}> Candidate Name :  {value.name}   </p>
@@ -120,7 +122,7 @@ const EmployeeDashboard = () => {
                                     <div className="col"/>
                                     <div className="col">
                                         <BsFileEarmarkPlus
-                                            style={{cursor:"pointer", color:"blueviolet", marginLeft:300}}
+                                            style={{cursor:"pointer", color:"black", marginLeft:300}}
                                             onClick={() => markingOpen(value.quants, value.id, value.name)}
                                         />
                                     </div>

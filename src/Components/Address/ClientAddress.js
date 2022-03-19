@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import EditIcon from "@mui/icons-material/Edit";
+import SearchIcon from "@mui/icons-material/Search";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -23,11 +24,9 @@ import {
 } from "@material-ui/core";
 import InsuranceApi from "../../Service/InsuranceApi";
 import ClientAddressEdit from "./ClientAddressEdit";
-import {Dialog, DialogContent} from "@mui/material";
+import {Dialog, DialogContent, InputAdornment, OutlinedInput} from "@mui/material";
 
 
-
-// var initialCheck = {};
 const useStyles = makeStyles((theme) => ({
   BackGround: {
     backgroundColor: "#d50000",
@@ -37,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 function ClientAddress() {
-
 
   useEffect(() => {
     getAllAddress();
@@ -142,7 +140,20 @@ function ClientAddress() {
               onClick={handleClickOpen}
           />
         </Button>
-        <input type="search" placeholder="search" value={search} onChange={(e) => {setSearch(e.target.value); globalsearch(e.target.value)}} />
+        {/*<input type="search" placeholder="search" value={search} onChange={(e) => {setSearch(e.target.value); globalsearch(e.target.value)}} />*/}
+         <OutlinedInput
+            className="outlinedInput"
+            type="text"
+            label="Search"
+            value={search}
+            onChange={(e) => {setSearch(e.target.value); globalsearch(e.target.value)}}
+            endAdornment={
+              <InputAdornment position="end">
+                <SearchIcon/>
+              </InputAdornment>
+            }
+            fullwidth
+          />
         <div className="mainClass">
           {/* <OutlinedInput
             className="outlinedInput"
@@ -212,6 +223,7 @@ function ClientAddress() {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((value, index) => (
                     <TableRow
+                        className={index % 2 ? "classEven" : "classOdd"}
                       key={index}
                     >
                       {/*<TableCell align="left">{value.id}</TableCell>*/}

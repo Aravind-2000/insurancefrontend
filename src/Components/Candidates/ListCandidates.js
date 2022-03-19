@@ -6,6 +6,8 @@ import {AiFillEdit} from "react-icons/ai";
 import EditCandidate from "./EditCandidate";
 import {TablePagination} from "@material-ui/core";
 import "../Css/Content.css";
+import {InputAdornment, OutlinedInput} from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 
 const ListCandidates = () => {
 
@@ -108,7 +110,20 @@ const ListCandidates = () => {
                 <div className="container container-md container-sm container-lg container-xl">
                     <div className="classTitle">
                         <h2> <b> Enrolled Candidates </b>  </h2> </div> <br/>
-                    <input type="search" placeholder="search" value={search} onChange={(e) => {setSearch(e.target.value); getByNameLike(e.target.value)}} />
+                    {/*<input type="search" placeholder="search" value={search} onChange={(e) => {setSearch(e.target.value); getByNameLike(e.target.value)}} />*/}
+                    <OutlinedInput
+                        className="outlinedInput"
+                        type="text"
+                        label="Search"
+                        value={search}
+                        onChange={(e) => {setSearch(e.target.value); getByNameLike(e.target.value)}}
+                        endAdornment={
+                            <InputAdornment position="end">
+                                <SearchIcon/>
+                            </InputAdornment>
+                        }
+                        fullwidth
+                    />
                     <p/>  <br/>
                 <Table  bordered className="sm md lg xl">
                     <thead className="tableheader">
@@ -127,7 +142,7 @@ const ListCandidates = () => {
                         candidates
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((value, index) => (
-                            <tr key={index}>
+                            <tr key={index} className={index % 2 ? "classEven" : "classOdd"}>
                                 <td> {value.name}</td>
                                 <td> {value.mobileNumber} </td>
                                 <td> {value.email} </td>

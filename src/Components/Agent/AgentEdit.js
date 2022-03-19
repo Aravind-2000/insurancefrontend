@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { Modal } from "react-bootstrap";
+import React from "react";
 import InsuranceApi from "../../Service/InsuranceApi";
 import { Box, FormControl, Grid, MenuItem, TextField } from "@mui/material";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
@@ -7,7 +6,6 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import DatePicker from "@mui/lab/DatePicker";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { Checkbox } from "@material-ui/core";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Button from "@mui/material/Button";
 import moment from "moment";
 
@@ -41,6 +39,12 @@ const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employe
         const { name, value } = e.target;
         setRecord({ ...record, [name]: value });
     };
+
+    const editCheck = (e) => {
+        const { checked, name } = e.target;
+
+        setRecord({ ...record, [name]: checked });
+    }
 
     const editDateAppointed = (date) => {
         setRecord({ ...record, dateAppointed: date });
@@ -144,10 +148,13 @@ const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employe
                             <FormControlLabel
                                 fullWidth
                                 className="checktext"
+                                onChange={(e) => editCheck(e) }
                                 control={
                                     <Checkbox
                                         name="previousAgent"
                                         value={previousAgent}
+                                        checked={previousAgent === true ? true : false}
+                                        onChange={(e) => editCheck(e) }
                                         lable="Previous Agent:"
                                     />
                                 }

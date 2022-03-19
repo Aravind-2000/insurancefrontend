@@ -13,6 +13,8 @@ import {Modal} from "react-bootstrap";
 import AgentAdd from "./AgentAdd";
 import AgentEdit from "./AgentEdit";
 import moment from "moment";
+import {InputAdornment, OutlinedInput} from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -136,7 +138,20 @@ const AgentDetails = () => {
                         onClick={addOpen}
                     />
                 </Button>
-                <input type="search" placeholder="search" value={search} onChange={(e) => {setSearch(e.target.value); globalsearch(e.target.value)}} />
+                {/*<input type="search" placeholder="search" value={search} onChange={(e) => {setSearch(e.target.value); globalsearch(e.target.value)}} />*/}
+                <OutlinedInput
+                    className="outlinedInput"
+                    type="text"
+                    label="Search"
+                    value={search}
+                    onChange={(e) => {setSearch(e.target.value); globalsearch(e.target.value)}}
+                    endAdornment={
+                        <InputAdornment position="end">
+                            <SearchIcon/>
+                        </InputAdornment>
+                    }
+                    fullwidth
+                />
                 <Paper className="paperStyle">
                     <TableContainer sx={{ maxHeight: 440, maxWidth: 1200, marginLeft:5 }}>
                         <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -168,7 +183,7 @@ const AgentDetails = () => {
                                     agents
                                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                         .map((value, index) => (
-                                            <TableRow key={index}>
+                                            <TableRow key={index} className={index % 2 ? "classEven" : "classOdd"}>
                                                 <TableCell align="left">{value.client?.givenName} {value.client?.surName} </TableCell>
                                                 <TableCell align="left">{moment(value.dateAppointed).format("DD-MM-YYYY")}</TableCell>
                                                 <TableCell align="left">{value.distributionChannel}</TableCell>

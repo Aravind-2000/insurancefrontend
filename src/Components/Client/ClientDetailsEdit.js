@@ -1,13 +1,10 @@
-import React, {useState, useEffect, useCallback} from "react";
-import {Modal} from "react-bootstrap";
+import React, {useState, useEffect} from "react";
 import Button from "@mui/material/Button";
 import {
     TextField,
     Dialog,
     DialogActions,
     DialogContent,
-    InputLabel,
-    Select,
     FormControl,
     Grid,
     Box,
@@ -97,10 +94,12 @@ function ClientDetailsEdit({ open,close, data, setData, getall}) {
     }
 
 
+    const editCheck = (e) => {
+        const { checked, name } = e.target;
 
-    function toggle(value){
-        return !value;
+        setData({ ...data, [name]: checked });
     }
+
 
     const datebirthchange = (date) =>{
         setData({...data, birthDate: date});
@@ -321,8 +320,10 @@ function ClientDetailsEdit({ open,close, data, setData, getall}) {
                                             fullWidth
                                             className="checktext"
                                             label="Company Doctor"
-                                            control={<Checkbox lable="Company Doctor:" checked={data?.companyDoctor}   />}
-
+                                            control={<Checkbox lable="Company Doctor:" name="companyDoctor" value={data?.companyDoctor} checked={data?.companyDoctor === true ? true : false}
+                                                               onChange={(e) => editCheck(e) }
+                                            />
+                                        }
                                         />
                                     </Grid>
 

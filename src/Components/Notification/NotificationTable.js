@@ -27,11 +27,11 @@ function NotificationTable(
   return (
     <div>
     <div>
-    <Stack sx={{ width: '50%'}} spacing={2} flexDirection="column-reverse" alignItems="center" alignContent="center">
+    <Stack  sx={{ width: '50%'}} spacing={2} flexDirection="column-reverse" alignItems="center" alignContent="center">
         {
            notifications.map(
                notification =>
-               <Stack key={notification.id} sx={{ width: '90%' }} spacing={6}>
+               <Stack style={{backgroundColor:"antiquewhite"}} key={notification.id} sx={{ width: '90%' }} spacing={6}>
                    {
                        (notification.notificationPriority === "Low") &&
                        (
