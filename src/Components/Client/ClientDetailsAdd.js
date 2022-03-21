@@ -145,12 +145,7 @@ function ClientDetailsAdd({ clientclose, modal,  handleClose, open , getall }) {
         console.log(res.data)
         getall();
         // modal === true ? clientclose() : handleClose()
-        if(modal === true){
-          clientclose();
-        }
-        else{
-          handleClose();
-        }
+        clientclose();
 
 
 

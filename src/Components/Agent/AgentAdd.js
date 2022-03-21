@@ -144,26 +144,58 @@ const AgentAdd = ({
                                 label="Previous Agent : "
                             />
                         </Grid>
-                        <Grid item xs={8} md={6} lg={4}>
+
+                        {
+
+                            previousAgent === true ?
+
+                            <Grid item xs={8} md={6} lg={4}>
                                 <FormControl
-                                style={{marginTop: "0.5rem"}}
-                                className="formtext"
-                                fullWidth
+                                    style={{marginTop: "0.5rem"}}
+                                    className="formtext"
+                                    fullWidth
+                                >
+                                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                        <DatePicker
+                                            inputFormat="dd/MM/yyyy"
+                                            label="Previous Date of Termination"
+                                            placeholder="Previous Date of Termination"
+                                            fullWidth
+                                            name={prevdateoftermination}
+                                            id="prevdateoftermination"
+                                            value={prevdateoftermination}
+                                            onChange={(date) => setPrevdateoftermination(date)}
+                                            renderInput={(params) => <TextField {...params} />}
+                                        />
+                                    </LocalizationProvider>
+                                </FormControl>
+                            </Grid>
+
+                                :
+
+                            <Grid item xs={8} md={6} lg={4}>
+                            <FormControl
+                            style={{marginTop: "0.5rem"}}
+                            className="formtext"
+                            fullWidth
                             >
-                                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                    <DatePicker
-                                        inputFormat="dd/MM/yyyy"
-                                        label="Previous Date of Termination"
-                                        placeholder="Previous Date of Termination"
-                                        fullWidth
-                                        name={prevdateoftermination}
-                                        value={prevdateoftermination}
-                                        onChange={(date) => setPrevdateoftermination(date)}
-                                        renderInput={(params) => <TextField {...params} />}
-                                    />
-                                </LocalizationProvider>
+                            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DatePicker
+                            inputFormat="dd/MM/yyyy"
+                            label="Previous Date of Termination"
+                            placeholder="Previous Date of Termination"
+                            fullWidth
+                            name={prevdateoftermination}
+                            id="prevdateoftermination"
+                            disabled
+                            value={prevdateoftermination}
+                            onChange={(date) => setPrevdateoftermination(date)}
+                            renderInput={(params) => <TextField {...params} />}
+                            />
+                            </LocalizationProvider>
                             </FormControl>
-                        </Grid>
+                            </Grid>
+                        }
                         <Grid item xs={8} md={6} lg={4}>
                             <TextField
                                 label="Distribution Channel"
