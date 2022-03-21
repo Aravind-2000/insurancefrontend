@@ -293,7 +293,8 @@ function ClientDetails() {
       >
         <Modal.Header closeButton> <Modal.Title> <h4>  Client Details </h4> </Modal.Title> </Modal.Header>
         <Modal.Body>
-      <ClientDetailsAdd handleClose={handleClose} getall={getAllClients} />
+          <div className="container">
+            <ClientDetailsAdd handleClose={handleClose} open={open} getall={getAllClients} /> </div>
           </Modal.Body>
       </Modal>
       <ClientDetailsEdit open={editOpen} close={editClickClose} data={record} setData={setRecord}  getall={getAllClients} />

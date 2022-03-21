@@ -21,7 +21,7 @@ import ClientAddressAdd from "../Address/ClientAddressAdd";
 import BankAccountAdd from "../BankAccount/BankAccountAdd";
 import {Modal} from "react-bootstrap";
 
-function ClientDetailsAdd({ clientclose, handleClose, getall }) {
+function ClientDetailsAdd({ clientclose, modal,  handleClose, open , getall }) {
 
 
   const [address, setAddress] = useState([]);
@@ -144,7 +144,15 @@ function ClientDetailsAdd({ clientclose, handleClose, getall }) {
       InsuranceApi.addClients(client).then((res) => {
         console.log(res.data)
         getall();
-        handleClose(); clientclose();
+        // modal === true ? clientclose() : handleClose()
+        if(modal === true){
+          clientclose();
+        }
+        else{
+          handleClose();
+        }
+
+
 
       })
           .catch((err) => {
@@ -473,12 +481,13 @@ function ClientDetailsAdd({ clientclose, handleClose, getall }) {
               </form>
 
       <br/>
-          <Button color="primary" variant="contained" onClick={(e) => saveClient(e)}>
+          <Button style={{marginRight:10}} color="primary" variant="contained" onClick={(e) => saveClient(e)}>
             {"Submit"}
           </Button>
-              <Button onClick={handleClose} color="error" variant="contained">
-                Cancel
-              </Button>
+      { open === true ?
+        <Button onClick={handleClose} color="error" variant="contained">
+        Cancel
+      </Button> : null }
 
       <ClientDetailsEdit address={address} bankAccount={bankAccount} gender1={gender1} gender2={gender2} work={work}  relationship={relationship}/>
 
@@ -490,7 +499,9 @@ function ClientDetailsAdd({ clientclose, handleClose, getall }) {
       >
         <Modal.Header closeButton> <Modal.Title> <h4>  Client Address Add </h4> </Modal.Title> </Modal.Header>
           <Modal.Body>
+            <div className="container">
             <ClientAddressAdd close={closeaddress}/>
+            </div>
             <br/>
             <Button
               color="error"
@@ -510,7 +521,8 @@ function ClientDetailsAdd({ clientclose, handleClose, getall }) {
 
         <Modal.Header closeButton><Modal.Title> <h4>  Client Bank Add </h4> </Modal.Title> </Modal.Header>
           <Modal.Body>
-            <BankAccountAdd close={closeBank}/>
+            <div className="container">
+              <BankAccountAdd close={closeBank}/></div>
             <br/>
             <Button
                 color="error"

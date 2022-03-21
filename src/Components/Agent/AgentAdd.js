@@ -145,8 +145,8 @@ const AgentAdd = ({
                             />
                         </Grid>
                         <Grid item xs={8} md={6} lg={4}>
-                            <FormControl
-                                style={{ marginTop: "0.5rem" }}
+                                <FormControl
+                                style={{marginTop: "0.5rem"}}
                                 className="formtext"
                                 fullWidth
                             >
@@ -158,8 +158,8 @@ const AgentAdd = ({
                                         fullWidth
                                         name={prevdateoftermination}
                                         value={prevdateoftermination}
-                                        onChange={(date) => setPrevdateoftermination(date) }
-                                            renderInput={(params) => <TextField {...params} />}
+                                        onChange={(date) => setPrevdateoftermination(date)}
+                                        renderInput={(params) => <TextField {...params} />}
                                     />
                                 </LocalizationProvider>
                             </FormControl>
@@ -365,9 +365,17 @@ const AgentAdd = ({
             >
                 <Modal.Header closeButton> <Modal.Title> Client Add </Modal.Title> </Modal.Header>
                 <Modal.Body>
-                    <ClientDetailsAdd clientclose={clientClose}/>
+                    <div className="container">
+                    <ClientDetailsAdd modal={clientmodal} clientclose={clientClose}/>
+                    <br/>
+                    {
+                        clientmodal === true ? <Button
+                            color="error"
+                            variant="contained"
+                            onClick={() => clientClose()}> Cancel </Button> : null
+                    }
+                    </div>
                 </Modal.Body>
-
             </Modal>
 
 

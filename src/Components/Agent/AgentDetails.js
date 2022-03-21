@@ -225,13 +225,15 @@ const AgentDetails = () => {
                 show={add}
                 onHide={addClose}
                 centered
-                size="lg"
+                size="xl"
             >
                 <Modal.Header closeButton>
                     <Modal.Title> Add Agent Details </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <AgentAdd close={addClose} getall={getallAgents} clients={clients} setClients={setClients} employees={employees} paymethod={paymethod} agenttype={agenttype}/>
+                    <div className="container">
+                        <AgentAdd close={addClose} getall={getallAgents} clients={clients} setClients={setClients} employees={employees} paymethod={paymethod} agenttype={agenttype}/>
+                    </div>
                 </Modal.Body>
             </Modal>
 
@@ -246,7 +248,9 @@ const AgentDetails = () => {
                     <Modal.Title> Edit Agent Details </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    <div className="container">
                     <AgentEdit close={editClose} getAll={getallAgents} record={record} setRecord={setRecord} clients={clients}  employees={employees} paymethod={paymethod} agenttype={agenttype} />
+                    </div>
                 </Modal.Body>
             </Modal>
 
