@@ -143,12 +143,11 @@ function ClientDetailsAdd({ clientclose, modal,  handleClose, open , getall }) {
 
       InsuranceApi.addClients(client).then((res) => {
         console.log(res.data)
-        getall();
-        // modal === true ? clientclose() : handleClose()
-        clientclose();
-
-
-
+       if(modal === true){
+         clientclose();
+       }
+       handleClose();
+       getall();
       })
           .catch((err) => {
             console.log(err)
