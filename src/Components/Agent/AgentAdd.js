@@ -49,16 +49,29 @@ const AgentAdd = ({
         const dateAppointed = moment(dateappointed).format("MM-DD-YYYY")
         const prevDateOfTermination  = moment(prevdateoftermination).format("MM-DD-YYYY")
 
-        const agent = {clientId, dateAppointed, exclusive, previousAgent, prevDateOfTermination, distributionChannel
-        , branch, areaCode, agentType, reportingTo, payMethod, payFrequency, currencyType, minimumAmount, bonusAllocation,
-            basicCommission, renewalCommission, servicingCommission, commissionClass} ;
+        if(previousAgent === true){
+             const agent = {clientId, dateAppointed, exclusive, previousAgent, prevDateOfTermination, distributionChannel
+                , branch, areaCode, agentType, reportingTo, payMethod, payFrequency, currencyType, minimumAmount, bonusAllocation,
+                basicCommission, renewalCommission, servicingCommission, commissionClass} ;
 
+            InsuranceApi.saveAgent(agent).then((res) => {
+                console.log(res.data)
+                getall();
+                close();
+            }).catch((err) => {console.log(err)})
+        }
+        else{
+            const agent = {clientId, dateAppointed, exclusive, previousAgent, distributionChannel
+                , branch, areaCode, agentType, reportingTo, payMethod, payFrequency, currencyType, minimumAmount, bonusAllocation,
+                basicCommission, renewalCommission, servicingCommission, commissionClass} ;
 
-        InsuranceApi.saveAgent(agent).then((res) => {
-            console.log(res.data)
-            getall();
-            close();
-        }).catch((err) => {console.log(err)})
+            InsuranceApi.saveAgent(agent).then((res) => {
+                console.log(res.data)
+                getall();
+                close();
+            }).catch((err) => {console.log(err)})
+        }
+
     }
 
     const [clientmodal, setClientmodal] = useState(false);
@@ -174,26 +187,26 @@ const AgentAdd = ({
                                 :
 
                             <Grid item xs={8} md={6} lg={4}>
-                            <FormControl
-                            style={{marginTop: "0.5rem"}}
-                            className="formtext"
-                            fullWidth
-                            >
-                            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                            <DatePicker
-                            inputFormat="dd/MM/yyyy"
-                            label="Previous Date of Termination"
-                            placeholder="Previous Date of Termination"
-                            fullWidth
-                            name={prevdateoftermination}
-                            id="prevdateoftermination"
-                            disabled
-                            value={prevdateoftermination}
-                            onChange={(date) => setPrevdateoftermination(date)}
-                            renderInput={(params) => <TextField {...params} />}
-                            />
-                            </LocalizationProvider>
-                            </FormControl>
+                                    <FormControl
+                                    style={{marginTop: "0.5rem"}}
+                                    className="formtext"
+                                    fullWidth
+                                    >
+                                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                        <DatePicker
+                                            inputFormat="dd/MM/yyyy"
+                                            label="Previous Date of Termination"
+                                            placeholder="Previous Date of Termination"
+                                            fullWidth
+                                            name={prevdateoftermination}
+                                            id="prevdateoftermination"
+                                            disabled
+                                            value={prevdateoftermination}
+                                            onChange={(date) => setPrevdateoftermination(date)}
+                                            renderInput={(params) => <TextField {...params} />}
+                                        />
+                                    </LocalizationProvider>
+                                    </FormControl>
                             </Grid>
                         }
                         <Grid item xs={8} md={6} lg={4}>
