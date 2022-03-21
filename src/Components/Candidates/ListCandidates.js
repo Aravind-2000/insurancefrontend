@@ -8,6 +8,7 @@ import {TablePagination} from "@material-ui/core";
 import "../Css/Content.css";
 import {InputAdornment, OutlinedInput} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import moment from "moment";
 
 const ListCandidates = () => {
 
@@ -176,6 +177,12 @@ const ListCandidates = () => {
                         onChangeRowsPerPage={handleChangeRowsPerPage}
                     />
                 </div>
+            </div>
+            <br/>
+            <div className="footerdescription">
+                <h6 className="footerContent">
+                    Copyright © www.futurainstech.com @{moment().format("YYYY")}
+                </h6>
             </div>
 
             <ViewCandidate

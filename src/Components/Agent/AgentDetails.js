@@ -220,6 +220,11 @@ const AgentDetails = () => {
                     </TableContainer>
                 </Paper>
             </div>
+            <div className="footerdescription">
+                <h6 className="footerContent">
+                    Copyright © www.futurainstech.com @{moment().format("YYYY")}
+                </h6>
+            </div>
 
             <Modal
                 show={add}
