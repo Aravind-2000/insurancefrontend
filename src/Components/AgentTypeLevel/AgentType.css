@@ -1,0 +1,18 @@
+.paperDesign{
+    width: 75%;
+    height: auto;
+    margin: 4rem auto;
+    padding-top: 10px;
+  
+  }
+
+  .tableHeader {
+    background-color: rgb(252, 204, 72);
+    height: 70px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    left: 0;
+    right: 0;
+  }
