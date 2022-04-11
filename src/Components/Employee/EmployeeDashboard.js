@@ -155,7 +155,7 @@ const EmployeeDashboard = () => {
                 </div>
 
                     <div className="col">
-                        <h4 style={{color:"black"}}>  Notifications </h4>
+                        <h4 style={{color:"black"}}>  Event Log </h4>
                         <br/>
                  <NotificationTable
                     empid={empid}
