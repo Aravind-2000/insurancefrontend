@@ -25,7 +25,17 @@ const Navbar = () => {
                     <img  src={require("../Logo/futuralogo.png")}   alt="logo"/>
                 </NavLink>
                 <Bars />
+
                 <NavMenu>
+                    {
+                        item === "true" ? null :
+
+                            <NavLink to="login" activeStyle>
+                                <AccountCircleIcon/>
+                            </NavLink>}
+                    <NavLink to="/logindetails" activeStyle>
+                        <p style={{color:"white", marginTop:15}}>  {sessionStorage.getItem("username")} </p>
+                    </NavLink>
                     {
                         item === "true" ?
                             <NavDropdown  title={navigation}>
@@ -42,16 +52,8 @@ const Navbar = () => {
 
                             : null
                     }
-                    {
-                        item === "true" ? null :
 
-                        <NavLink to="login" activeStyle>
-                        <AccountCircleIcon/>
-                    </NavLink>}
 
-                    <NavLink to="/logindetails" activeStyle>
-                        <p style={{color:"white", marginTop:15}}>  {sessionStorage.getItem("username")} </p>
-                    </NavLink>
                     {/*<NavLink to='/add' activeStyle>*/}
                     {/*    Enroll Now*/}
                     {/*</NavLink>*/}
