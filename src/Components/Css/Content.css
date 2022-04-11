@@ -82,3 +82,6 @@
   width: 100%;
   margin: 20px auto;
 }
+.modal-header{
+  cursor: move;
+}
