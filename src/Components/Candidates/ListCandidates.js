@@ -12,6 +12,8 @@ import moment from "moment";
 
 const ListCandidates = () => {
 
+    const access = JSON.parse(sessionStorage.getItem("specialaccess"))
+
     const [candidates, setCandidates] = useState([]);
     const [candidaterecord, setCandidaterecord] = useState("");
     const [proofs, setProofs] = useState([]);
@@ -45,14 +47,19 @@ const ListCandidates = () => {
 
     const [edit, setEdit] = useState(false);
     const handleformedit = (id) => {
-        InsuranceApi.getcandidatebyid(id).then((res) => {
-            setCandidaterecord(res.data);
-            console.log(res.data);
-        })
-            .catch((error) => {
-                console.log(error);
+        if(access.find(element => element === "get-candidate")){
+            InsuranceApi.getcandidatebyid(id).then((res) => {
+                setCandidaterecord(res.data);
+                console.log(res.data);
             })
-        setEdit(true);
+                .catch((error) => {
+                    console.log(error);
+                })
+            setEdit(true);
+        }
+        else{
+            window.alert("UNAUTHORIZED")
+        }
     }
     const hideformedit = () =>setEdit(false);
 

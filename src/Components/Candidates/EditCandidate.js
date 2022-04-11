@@ -20,6 +20,9 @@ const EditCandidate = (
         degrees, getall
     }
 ) => {
+
+    const access = JSON.parse(sessionStorage.getItem("specialaccess"));
+
     const [employees, setEmployees] = useState([]);
     useEffect(() => {
         insuranceApi.getEmployees().then((res) =>{
@@ -53,13 +56,17 @@ const EditCandidate = (
                 employee: record.employee,
                 currentStatus: record.currentStatus
             }
-        InsuranceApi.updatecandidate(id, body).then((respo) => {
-            console.log(respo.data);
-            getall();
-        })
-            .catch((error) => {
-                console.log(error);
-            })
+
+        if(access.find(element => element === "update-candidate")){
+            InsuranceApi.updatecandidate(id, body).then((respo) => {
+                close()
+                getall()
+                window.location.href = "/candidates"
+            }).catch((error) => console.log(error))
+        }
+        else{
+            window.alert("UNAUTHORIZED")
+        }
     }
 
     const editChange = (e) => {
@@ -86,13 +93,7 @@ const EditCandidate = (
                 centered
             >
                 <Modal.Header closeButton>
-                    {/*<GrDocumentPdf*/}
-                    {/*    style={{cursor:"pointer", color:"red", marginRight:20}}*/}
-                    {/*    onClick={() => window.print()}*/}
-                    {/*/>*/}
-
                 </Modal.Header>
-
                 <Modal.Body>
                     <Form className="container" >
                         <Form.Group>
