@@ -15,6 +15,8 @@ import AgentEdit from "./AgentEdit";
 import moment from "moment";
 import {InputAdornment, OutlinedInput} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import DraggableComponent from "../../Service/DraggableComponent";
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -31,6 +33,11 @@ const AgentDetails = () => {
     const [employees, setEmployees] = useState([]);
     const [paymethod, setPaymethod] = useState([]);
     const [agenttype, setAgenttype] = useState([]);
+    const [offices, setOffices] = useState([]);
+    const [currencyType, setCurrencyType] = useState([]);
+    const [payFrequency, setPayFrequency] = useState([]);
+    const [invalids, setInvalids] = useState([]);
+    const [ex, setEx] = useState([]);
 
     useEffect(() => {
         getallAgents()
@@ -38,18 +45,57 @@ const AgentDetails = () => {
         getallEmps()
         getpayemthod()
         getagentType()
+        getOffices()
+        getCurrency()
+        getPayFrequency()
+        getInvalidAgents()
+        getExclusives()
     }, []);
 
 
+    const getExclusives = () => {
+        InsuranceApi.getParameterRule("EX001").then((res) => {
+            setEx(res.data)
+        }).catch((err) => console.log(err))
+    }
+
+    const getInvalidAgents = () => {
+        axios.get(`http://localhost:8090/agent/getallinvalids`).then((res) => {
+            console.log(res.data)
+            setInvalids(res.data)
+        }).catch((err) => console.log(err))
+    }
+
+    const getPayFrequency = () => {
+        InsuranceApi.getParameterRule("PF001").then((res) => {
+            setPayFrequency(res.data)
+        }).catch((err) => console.log(err))
+    }
+
+    const getCurrency = () => {
+        InsuranceApi.getParameterRule("CR001").then((res) => {
+            setCurrencyType(res.data)
+        }).catch((err) => console.log(err))
+    }
+
+    const getOffices = () => {
+        axios.get(`http://localhost:8090/officestructure/getall/` + sessionStorage.getItem("userid"), {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            }
+        }).then((res) => {
+            setOffices(res.data)
+        }).catch((err) => console.log(err))
+    }
 
     const getallAgents = () => {
-        InsuranceApi.getAgents().then((res) => {
+        InsuranceApi.getAgents(sessionStorage.getItem("userid")).then((res) => {
             setAgents(res.data)
-        }).catch((err) => {console.log(err)})
+        }).catch((err) => console.log(err))
     }
 
     const getAllClients = () => {
-        InsuranceApi.getAllClients().then((res) => {
+        InsuranceApi.getAllClients(sessionStorage.getItem("userid")).then((res) => {
             setClients(res.data)
         }).catch((err) => {console.log(err)})
     }
@@ -67,7 +113,7 @@ const AgentDetails = () => {
     }
 
     const getagentType = () => {
-        InsuranceApi.getParameterRule("AT001").then((res) => {
+        InsuranceApi.getAllAgentType().then((res) => {
             setAgenttype(res.data)
         }).catch((err) => {console.log(err)})
     }
@@ -88,7 +134,12 @@ const AgentDetails = () => {
     //Add Open
     const [add, setAdd] = useState(false);
     const addOpen = () => {
-        setAdd(true)
+        if(access.find(element => element === "add-agent")){
+            setAdd(true)
+        }
+        else{
+            window.alert("UNAUTHORIZED")
+        }
     }
     const addClose = () => {
         setAdd(false)
@@ -98,24 +149,36 @@ const AgentDetails = () => {
     const [record, setRecord] = useState("");
     const [edit, setEdit] = useState(false);
     const editOpen = (item) => {
-        setRecord(item)
-        setEdit(true)
+        if(access.find(element => element === "update-agent")){
+            setRecord(item)
+            setEdit(true)
+        }
+        else{
+            window.alert("UNAUTHORIZED")
+        }
     }
     const editClose = () => {
         setEdit(false);
     }
 
+
     //Delete
     const deleteAgent = (id) => {
-        InsuranceApi.deleteAgent(id).then((res) => {
+        InsuranceApi.deleteAgent(id, sessionStorage.getItem("userid")).then((res) => {
+            if(res.data === "UNAUTHORIZED"){
+                window.alert(res.data)
+            }
             getallAgents()
         }).catch((err) => {console.log(err)})
-
     }
 
     const [search, setSearch] = useState("");
     const globalsearch = (val) =>{
-        val === "" ? getallAgents() : axios.get(`http://localhost:8090/agent/search/${val}`).then((res) => {
+        val === "" ? getallAgents() : axios.get(`http://localhost:8090/agent/search/${val}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            }
+        }).then((res) => {
             setAgents(res.data);
         })
             .catch((err) => {
@@ -123,6 +186,9 @@ const AgentDetails = () => {
             })
 
     }
+
+    const access = JSON.parse(sessionStorage.getItem("specialaccess"))
+
 
     return (
         <div>
@@ -158,20 +224,20 @@ const AgentDetails = () => {
                             <TableHead className="tableheader">
                                 <TableRow className="tablerow">
                                     <TableCell className="tblhd" align="left">
+                                        Agent ID
+                                    </TableCell>
+                                    <TableCell className="tblhd" align="left">
                                         Name
                                     </TableCell>
-                                    <TableCell className="tblhd" align="left">
-                                        Date Appointed
-                                    </TableCell>
-                                    <TableCell className="tblhd" align="left">
-                                        Distribution Channel
-                                    </TableCell>
-                                    <TableCell className="tblhd" align="left">
-                                        Branch
-                                    </TableCell>
-                                    <TableCell className="tblhd" align="left">
-                                        Area Code
-                                    </TableCell>
+                                    {/*<TableCell className="tblhd" align="left">*/}
+                                    {/*    Date Appointed*/}
+                                    {/*</TableCell>*/}
+                                    {/*<TableCell className="tblhd" align="left">*/}
+                                    {/*    Distribution Channel*/}
+                                    {/*</TableCell>*/}
+                                    {/*<TableCell className="tblhd" align="left">*/}
+                                    {/*    Area Code*/}
+                                    {/*</TableCell>*/}
                                     <TableCell className="tblhd" align="left">
                                        Actions
                                     </TableCell>
@@ -184,24 +250,28 @@ const AgentDetails = () => {
                                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                         .map((value, index) => (
                                             <TableRow key={index} className={index % 2 ? "classEven" : "classOdd"}>
+                                                <TableCell align="left">{value.id}</TableCell>
                                                 <TableCell align="left">{value.client?.givenName} {value.client?.surName} </TableCell>
-                                                <TableCell align="left">{moment(value.dateAppointed).format("DD-MM-YYYY")}</TableCell>
-                                                <TableCell align="left">{value.distributionChannel}</TableCell>
-                                                <TableCell align="left">{value.branch}</TableCell>
-                                                <TableCell align="left">{value.areaCode}</TableCell>
+                                                {/*<TableCell align="left">{moment(value.dateAppointed).format("DD-MM-YYYY")}</TableCell>*/}
+                                                {/*<TableCell align="left">{value.distributionChannel}</TableCell>*/}
+                                                {/*<TableCell align="left">{value.areaCode}</TableCell>*/}
                                                 <TableCell align="left">
                                                     <div className="TableClass">
+
                                                         <EditIcon
                                                             color="primary"
-                                                            style={{cursor:"pointer", marginRight:10}}
+                                                            style={{cursor: "pointer", marginRight: 10}}
                                                             onClick={() => editOpen(value)}
                                                         />
+
                                                         <DeleteIcon
                                                             style={{cursor:"pointer"}}
                                                             className="deleteClass"
                                                             color="error"
                                                             onClick={() => deleteAgent(value.id)}
-                                                        /> </div> </TableCell>
+                                                        />
+                                                    </div>
+                                                </TableCell>
                                             </TableRow>
                                         ))}
                             </TableBody>
@@ -237,7 +307,7 @@ const AgentDetails = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="container">
-                        <AgentAdd close={addClose} getall={getallAgents} clients={clients} setClients={setClients} employees={employees} paymethod={paymethod} agenttype={agenttype}/>
+                        <AgentAdd close={addClose} Exclusives={ex} Invalid={invalids} Paying={payFrequency} Currency = {currencyType} Offices={offices} Agents={agents} getall={getallAgents} clients={clients} setClients={setClients} employees={employees} paymethod={paymethod} agenttype={agenttype}/>
                     </div>
                 </Modal.Body>
             </Modal>
@@ -254,7 +324,7 @@ const AgentDetails = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="container">
-                    <AgentEdit close={editClose} getAll={getallAgents} record={record} setRecord={setRecord} clients={clients}  employees={employees} paymethod={paymethod} agenttype={agenttype} />
+                    <AgentEdit close={editClose} Exclusives={ex} Paying={payFrequency} Currency = {currencyType} Offices = {offices} Agents={agents} getAll={getallAgents} record={record} setRecord={setRecord} clients={clients}  employees={employees} paymethod={paymethod} agenttype={agenttype} />
                     </div>
                 </Modal.Body>
             </Modal>

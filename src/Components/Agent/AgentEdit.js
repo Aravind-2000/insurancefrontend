@@ -9,19 +9,19 @@ import { Checkbox } from "@material-ui/core";
 import Button from "@mui/material/Button";
 import moment from "moment";
 
-const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employees, paymethod }) => {
+const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employees, paymethod, Agents, Offices }) => {
     let {
         id,
         client,
+        upLevelAgentId,
         dateAppointed,
         exclusive,
         previousAgent,
         prevDateOfTermination,
         distributionChannel,
-        branch,
+        officeId,
         areaCode,
-        agentType,
-        reportingTo,
+        agentTypeLevel,
         payMethod,
         payFrequency,
         currencyType,
@@ -55,33 +55,60 @@ const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employe
 
     const updateAgent = (id) => {
 
-        const body = {
-
-            clientId : record.clientId,
-            dateAppointed: moment(record.dateAppointed).format("MM-DD-YYYY"),
-            exclusive: record.exclusive,
-            previousAgent: record.previousAgent,
-            prevDateOfTermination: moment(record.prevDateOfTermination).format("MM-DD-YYYY"),
-            distributionChannel: record.distributionChannel,
-            branch:  record.branch,
-            areaCode:  record.areaCode,
-            agentType:  record.agentType,
-            reportingTo:  record.reportingTo,
-            payMethod:  record.payMethod,
-            payFrequency:  record.payFrequency,
-            currencyType:  record.currencyType,
-            minimumAmount:  record.minimumAmount,
-            bonusAllocation:  record.bonusAllocation,
-            basicCommission:  record.basicCommission,
-            renewalCommission:  record.renewalCommission,
-            servicingCommission:  record.servicingCommission,
-            commissionClass:  record.commissionClass,
+        if(previousAgent === true){
+            const body = {
+                clientId : record.clientId,
+                dateAppointed: moment(record.dateAppointed).format("MM-DD-YYYY"),
+                exclusive: record.exclusive,
+                previousAgent: record.previousAgent,
+                prevDateOfTermination: moment(record.prevDateOfTermination).format("MM-DD-YYYY"),
+                distributionChannel: record.distributionChannel,
+                officeId:  record.officeId,
+                areaCode:  record.areaCode,
+                agentType:  record.agentType,
+                upLevelAgentId:  record.upLevelAgentId,
+                payMethod:  record.payMethod,
+                payFrequency:  record.payFrequency,
+                currencyType:  record.currencyType,
+                minimumAmount:  record.minimumAmount,
+                bonusAllocation:  record.bonusAllocation,
+                basicCommission:  record.basicCommission,
+                renewalCommission:  record.renewalCommission,
+                servicingCommission:  record.servicingCommission,
+                commissionClass:  record.commissionClass,
+            }
+            InsuranceApi.updateAgent(id, body).then((res) => {
+                getAll();
+                close();
+            }).catch((err) => {console.log(err)})
         }
+        else{
+            const body = {
+                clientId : record.clientId,
+                dateAppointed: moment(record.dateAppointed).format("MM-DD-YYYY"),
+                exclusive: record.exclusive,
+                previousAgent: record.previousAgent,
+                distributionChannel: record.distributionChannel,
+                officeId:  record.officeId,
+                areaCode:  record.areaCode,
+                agentType:  record.agentType,
+                upLevelAgentId:  record.upLevelAgentId,
+                payMethod:  record.payMethod,
+                payFrequency:  record.payFrequency,
+                currencyType:  record.currencyType,
+                minimumAmount:  record.minimumAmount,
+                bonusAllocation:  record.bonusAllocation,
+                basicCommission:  record.basicCommission,
+                renewalCommission:  record.renewalCommission,
+                servicingCommission:  record.servicingCommission,
+                commissionClass:  record.commissionClass,
+            }
+            InsuranceApi.updateAgent(id, body).then((res) => {
+                getAll();
+                close();
+            }).catch((err) => {console.log(err)})
 
-        InsuranceApi.updateAgent(id, body).then((res) => {
-            getAll();
-            close();
-        }).catch((err) => {console.log(err)})
+        }
 
     }
 
@@ -111,6 +138,29 @@ const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employe
                                 ))}
                             </TextField>
                         </Grid>
+
+                        <Grid item xs={8} md={6} lg={4}>
+                            <TextField
+                                select
+                                label="Reporting To"
+                                name="upLevelAgentId"
+                                className="formtext"
+                                placeholder="Up Level Agent ID"
+                                fullWidth
+                                value={upLevelAgentId}
+                                variant="outlined"
+                                onChange={(e) => editChange(e) }
+                                margin="dense"
+                            >
+                                <MenuItem value={0}> --NULL-- </MenuItem>
+                                {
+                                    Agents.map((value) => (
+                                        <MenuItem value={value.id}> {value.client?.givenName} {value.client?.surName} </MenuItem>
+                                    ))
+                                }
+                            </TextField>
+                        </Grid>
+
                         <Grid item xs={8} md={6} lg={4}>
                             <FormControl
                                 style={{ marginTop: "0.5rem" }}
@@ -161,9 +211,12 @@ const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employe
                                 label="Previous Agent : "
                             />
                         </Grid>
-                        <Grid item xs={8} md={6} lg={4}>
+                        {
+                            previousAgent === true ?
+
+                            <Grid item xs={8} md={6} lg={4}>
                             <FormControl
-                                style={{ marginTop: "0.5rem" }}
+                                style={{marginTop: "0.5rem"}}
                                 className="formtext"
                                 fullWidth
                             >
@@ -181,6 +234,32 @@ const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employe
                                 </LocalizationProvider>
                             </FormControl>
                         </Grid>
+
+                            :
+
+                            <Grid item xs={8} md={6} lg={4}>
+                            <FormControl
+                            style={{marginTop: "0.5rem"}}
+                            className="formtext"
+                            fullWidth
+                            >
+                            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DatePicker
+                            inputFormat="dd/MM/yyyy"
+                            label="Previous Date of Termination"
+                            placeholder="Previous Date of Termination"
+                            fullWidth
+                            name="prevdateoftermination"
+                            disabled
+                            value={prevDateOfTermination}
+                            onChange={(date) => editPrevDateDetermination(date)}
+                            renderInput={(params) => <TextField {...params} />}
+                            />
+                            </LocalizationProvider>
+                            </FormControl>
+                            </Grid>
+                        }
+
                         <Grid item xs={8} md={6} lg={4}>
                             <TextField
                                 name="distributionChannel"
@@ -196,8 +275,9 @@ const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employe
                         </Grid>
                         <Grid item xs={8} md={6} lg={4}>
                             <TextField
-                                name="branch"
-                                value={branch}
+                                name="officeId"
+                                select
+                                value={officeId}
                                 label="Branch"
                                 className="formtext"
                                 placeholder="Branch"
@@ -205,7 +285,13 @@ const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employe
                                 variant="outlined"
                                 onChange={(e) => editChange(e)}
                                 margin="dense"
-                            />
+                            >
+                                {
+                                    Offices.map((value, index) => (
+                                        <MenuItem value={value.officeId}> {value.officeName} - {value?.company?.companyName} </MenuItem>
+                                    ))
+                                }
+                            </TextField>
                         </Grid>
                         <Grid item xs={8} md={6} lg={4}>
                             <TextField
@@ -224,7 +310,7 @@ const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employe
                             <TextField
                                 select
                                 name="agentType"
-                                value={agentType}
+                                value={agentTypeLevel?.id}
                                 label="Agent Type"
                                 className="formtext"
                                 placeholder="Agent Type"
@@ -235,30 +321,9 @@ const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employe
                             >
                                 {
                                     agenttype.map((type) => (
-                                        <MenuItem value={type}> {type} </MenuItem>
+                                        <MenuItem value={type.id}> {type.agentLevelDesc} - {type.agentLevelId} </MenuItem>
                                     ))
                                 }
-                            </TextField>
-                        </Grid>
-                        <Grid item xs={8} md={6} lg={4}>
-                            <TextField
-                                select
-                                name="reportingTo"
-                                value={reportingTo}
-                                label="Reporting To"
-                                className="formtext"
-                                placeholder="Reporting To"
-                                fullWidth
-                                variant="outlined"
-                                onChange={(e) => editChange(e)}
-                                margin="dense"
-                            >
-                                {employees.map((emp) => (
-                                    <MenuItem value={emp.employeeName}>
-                                        {" "}
-                                        {emp.employeeName}{" "}
-                                    </MenuItem>
-                                ))}
                             </TextField>
                         </Grid>
                         <Grid item xs={8} md={6} lg={4}>
@@ -395,13 +460,11 @@ const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employe
                     style={{ marginRight: 10 }}
                     onClick={() => updateAgent(id)}
                 >
-                    {" "}
-                    Submit{" "}
+                    Submit
                 </Button>
 
                 <Button color="error" variant="contained" onClick={() => close()}>
-                    {" "}
-                    Cancel{" "}
+                    Cancel
                 </Button>
             </div>
         </div>
