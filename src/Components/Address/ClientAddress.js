@@ -37,13 +37,15 @@ const useStyles = makeStyles((theme) => ({
 
 function ClientAddress() {
 
+  const access = JSON.parse(sessionStorage.getItem("specialaccess"))
+
   useEffect(() => {
     getAllAddress();
   }, []);
 
 
   const getAllAddress = () => {
-    InsuranceApi.getAllAddress().then((res) => {
+    InsuranceApi.getAllAddress(sessionStorage.getItem("userid")).then((res) => {
       setAllData(res.data);
       console.log(allData);
     })
@@ -58,7 +60,12 @@ function ClientAddress() {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
-    setOpen(true);
+    if(access.find(element => element === "add-address")){
+      setOpen(true);
+    }
+    else{
+      window.alert("UNAUTHORIZED")
+    }
   };
 
   const handleClose = () => {
@@ -67,9 +74,16 @@ function ClientAddress() {
 
   const [record, setRecord] = useState("");
   const [editOpen, setEditOpen] = useState(false);
+
+
   const editClickOpen = (item) => {
-    setEditOpen(true);
-    setRecord(item);
+    if(access.find(element => element ==="update-address")){
+      setEditOpen(true);
+      setRecord(item);
+    }
+    else{
+      window.alert("UNAUTHORIZED")
+    }
   }
 
   const editClickClose = () => {
@@ -104,7 +118,15 @@ function ClientAddress() {
 
 
   const deleteAddress = (id) => {
-    axios.patch(`http://localhost:8090/address/delete/${id}`).then((res) => {
+    const userid = sessionStorage.getItem("userid")
+    axios.patch(`http://localhost:8090/address/delete/${id}/${userid}`, {}, {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      }
+    }).then((res) => {
+      if(res.data === "UNAUTHORIZED"){
+        window.alert(res.data)
+      }
       console.log(res.data);
       getAllAddress();
     })
@@ -116,7 +138,11 @@ function ClientAddress() {
   const [search, setSearch] = useState("");
 
   const globalsearch = (val) => {
-    val === "" ? getAllAddress() : axios.get(`http://localhost:8090/address/search/${val}`).then((res) => {
+    val === "" ? getAllAddress() : axios.get(`http://localhost:8090/address/search/${val}`, {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      }
+    }).then((res) => {
       setAllData(res.data)
     })
         .catch((err) => {

@@ -46,7 +46,7 @@ function ClientAddressAdd({ close
 
     const data = {toAddress, addressLine1, addressLine2, city, state, country, pincode, addressType, isPresentAddress};
 
-    InsuranceApi.saveAddress(data).then((res) => {
+    InsuranceApi.saveAddress(data, sessionStorage.getItem("userid")).then((res) => {
       console.log(res.data);
       close();
     })
