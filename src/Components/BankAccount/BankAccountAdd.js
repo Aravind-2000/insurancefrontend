@@ -10,6 +10,7 @@ function BankAccountAdd({
   }) {
 
 
+
     const [accountHolderName, setAccountHolderName] = useState(" ");
     const [accountNumber, setAccountNumber] = useState("");
     const [ifscCode, setIfscCode] = useState("");
@@ -18,18 +19,20 @@ function BankAccountAdd({
 
 
 
-
     const handleFormSubmit = () => {
 
         const bankAccountData={accountNumber, accountHolderName, ifscCode, bankBranch, bankName};
 
         axios
-            .post(`http://localhost:8090/bank/add`, bankAccountData)
+            .post(`http://localhost:8090/bank/add`, bankAccountData, {
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+                }
+            })
             .then((resp) => {
                 console.log(resp);
                 close();
                 handleClickClose();
-
             });
     };
 

@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 function BankAccount() {
 
 
+    const access = JSON.parse(sessionStorage.getItem("specialaccess"))
 
     const classes = useStyles();
 
@@ -42,21 +43,36 @@ function BankAccount() {
   const[infoOpen, setInfoOpen] = useState(false);
 
   const handleClickOpen = () => {
-    setOpen(true);
+      if(access.find(element => element === "add-bank")){
+          setOpen(true);
+      }
+      else{
+          window.alert("UNAUTHORIZED")
+      }
   };
   const handleClickClose = () => {
     setOpen(false);
   };
   const editClickOpen = (item) => {
-    setRecord(item);
-    setEditOpen(true);
+      if(access.find(element => element === "update-bank")){
+          setRecord(item);
+          setEditOpen(true);
+      }
+      else{
+          window.alert("UNAUTHORIZED")
+      }
   };
   const editClickClose = () => {
     setEditOpen(false);
   };
   const infoClickOpen = (item) => {
-    setInfo(item);
-    setInfoOpen(true);
+      if(access.find(element => element === "get-bank")){
+          setInfo(item);
+          setInfoOpen(true);
+      }
+      else{
+          window.alert("UNAUTHORIZED")
+      }
   };
   const infoClickClose = () => {
     setInfoOpen(false);
@@ -75,7 +91,11 @@ function BankAccount() {
 
   const editFormSubmit = () => {
     axios
-      .patch(`http://localhost:8090/bank/${record.id}`, record)
+      .patch(`http://localhost:8090/bank/${record.id}`, record, {
+          headers: {
+              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+          }
+      })
       .then((resp) => {
         console.log(resp);
         editClickClose();
@@ -85,23 +105,35 @@ function BankAccount() {
   //Delete
   const handleDelete = (oldData) => {
 
-    const confirm = window.confirm(
-      "Are you sure, you want to delete this row",
-      oldData
-    );
-    if (confirm) {
-      
-      axios.patch(`http://localhost:8090/bank/delete/${oldData}`).then((resp) => {
-      console.log(resp);
-      getdata();
-    });
-    }
-    
+      if(access.find(element => element === "soft-delete-bank")){
+          const confirm = window.confirm(
+              "Are you sure, you want to delete this row",
+              oldData
+          );
+          if (confirm) {
+
+              axios.patch(`http://localhost:8090/bank/delete/${oldData}`, {}, {
+                  headers: {
+                      Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+                  }
+              }).then((resp) => {
+                  console.log(resp);
+                  getdata();
+              });
+          }
+      }
+      else{
+          window.alert("UNAUTHORIZED")
+      }
   };
 
   const getdata = () => {
     axios
-        .get(`http://localhost:8090/bank/getall`)
+        .get(`http://localhost:8090/bank/getall/` + sessionStorage.getItem("userid"), {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            }
+        })
         .then((resp) => {
         console.log(resp);
         setData(resp.data);
