@@ -51,24 +51,29 @@ const ProofsAdd = ({
     }, []);
 
 
+
+    const access = JSON.parse(sessionStorage.getItem("specialaccess"))
+
+
     const saveProofs = () => {
 
         const proof = {proofID, proofName, proofPurpose, proofFile, clientID}
 
-        InsuranceApi.saveProofs(proof).then((res) => {
-            console.log(res.data);
-            setProofId(" ");
-            setProofName(" ");
-            setProofPurpose(" ");
-            InsuranceApi.getClient(clientID).then((res) => {
-                setproofs(res.data.proofList);
-                console.log(res.data.proofList);
-            })
-        })
-            .catch((err) => {
-                console.log(err);
-            })
-
+        if(access.find(element => element === "add-proof")){
+            InsuranceApi.saveProofs(proof).then((res) => {
+                console.log(res.data);
+                setProofId(" ");
+                setProofName(" ");
+                setProofPurpose(null);
+                InsuranceApi.getClient(clientID, sessionStorage.getItem("userid")).then((res) => {
+                    setproofs(res.data.proofList);
+                    console.log(res.data.proofList);
+                })
+            }).catch((err) => console.log(err))
+        }
+        else{
+            window.alert("UNAUTHORIZED");
+        }
     }
 
     const [proofslist, setProofslist] = useState(false);
@@ -146,7 +151,7 @@ const ProofsAdd = ({
                 <br/>
                 <div className="row">
                     <div className="col" style={{marginLeft:23}}>
-                        <label> Proof File </label><br/> <br/>
+                        <label> <h5> Proof File </h5> </label><br/> <br/>
                         <input
                             type="file"
                             onChange={(e) => uploadImage(e)}
