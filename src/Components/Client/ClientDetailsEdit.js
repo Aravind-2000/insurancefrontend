@@ -76,7 +76,7 @@ function ClientDetailsEdit({ open,close, data, setData, getall}) {
     }
 
     const getAddress = () => {
-        InsuranceApi.getAllAddress().then((res) => {
+        InsuranceApi.getAllAddress(sessionStorage.getItem("userid")).then((res) => {
             setAddress(res.data);
         })
             .catch((err) => {
@@ -85,7 +85,11 @@ function ClientDetailsEdit({ open,close, data, setData, getall}) {
     }
 
     const getBankAccounts = () => {
-        axios.get(`http://localhost:8090/bank/getall`).then((res) => {
+        axios.get(`http://localhost:8090/bank/getall/` + sessionStorage.getItem("userid") , {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            }
+        }).then((res) => {
             setBankAccount(res.data);
         })
             .catch((err) => {
@@ -132,10 +136,10 @@ function ClientDetailsEdit({ open,close, data, setData, getall}) {
             bankId: data.bankId
         }
 
-        InsuranceApi.updateClient(id, client).then((res) => {
-            console.log(res.data)
+        InsuranceApi.updateClient(id, client, sessionStorage.getItem("userid")).then((res) => {
             close();
             getall();
+            window.alert(res.data)
         })
             .catch((err) => {
                 console.log(err)
@@ -395,7 +399,7 @@ function ClientDetailsEdit({ open,close, data, setData, getall}) {
                                             className="formtext"
                                             placeholder="Address"
                                             fullWidth
-                                            name="addressid"
+                                            name="address"
                                             value={data?.address?.id}
                                             onChange={(e) => editChange(e)}
                                             variant="outlined"

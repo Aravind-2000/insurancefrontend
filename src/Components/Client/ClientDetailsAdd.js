@@ -78,7 +78,7 @@ function ClientDetailsAdd({ clientclose, modal,  handleClose, open , getall }) {
     }
 
       const getAddress = () => {
-          InsuranceApi.getAllAddress().then((res) => {
+          InsuranceApi.getAllAddress(sessionStorage.getItem("userid")).then((res) => {
               setAddress(res.data);
           })
               .catch((err) => {
@@ -87,7 +87,11 @@ function ClientDetailsAdd({ clientclose, modal,  handleClose, open , getall }) {
       }
 
     const getBankAccounts = () => {
-          axios.get(`http://localhost:8090/bank/getall`).then((res) => {
+          axios.get(`http://localhost:8090/bank/getall/` + sessionStorage.getItem("userid"), {
+              headers: {
+                  Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+              }
+          }).then((res) => {
               setBankAccount(res.data);
           })
               .catch((err) => {
@@ -434,7 +438,7 @@ function ClientDetailsAdd({ clientclose, modal,  handleClose, open , getall }) {
                     </Grid>
                     <Grid item xs={8} md={6} lg={4}>
                       <Button
-                        style={{ marginTop: "1rem" }}
+                        style={{ marginTop: "1rem", paddingRight:2 }}
                         variant="contained"
                         color="error"
                         onClick={() => showaddress()}
@@ -464,7 +468,7 @@ function ClientDetailsAdd({ clientclose, modal,  handleClose, open , getall }) {
                   </Grid>
                   <Grid item xs={8} md={6} lg={4}>
                     <Button
-                        style={{ marginTop: "1rem" }}
+                        style={{ marginTop: "1rem", paddingRight:2 }}
                         variant="contained"
                         color="error"
                         onClick={(e) => showBank()}
@@ -476,7 +480,7 @@ function ClientDetailsAdd({ clientclose, modal,  handleClose, open , getall }) {
 
       <br/>
           <Button style={{marginRight:10}} color="primary" variant="contained" onClick={(e) => saveClient(e)}>
-            {"Submit"}
+            {"Save"}
           </Button>
       { open === true ?
         <Button onClick={handleClose} color="error" variant="contained">
@@ -500,6 +504,7 @@ function ClientDetailsAdd({ clientclose, modal,  handleClose, open , getall }) {
             <Button
               color="error"
               variant="contained"
+              style={{marginLeft:10}}
               onClick={() => closeaddress()}> Cancel </Button>
           </Modal.Body>
       </Modal>
@@ -521,6 +526,7 @@ function ClientDetailsAdd({ clientclose, modal,  handleClose, open , getall }) {
             <Button
                 color="error"
                 variant="contained"
+                style={{marginLeft:10}}
                 onClick={() => closeBank()}> Cancel </Button>
           </Modal.Body>
       </Modal>

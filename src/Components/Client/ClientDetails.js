@@ -47,11 +47,11 @@ const useStyles = makeStyles((theme) => ({
 function ClientDetails() {
 
 
-
+const access = JSON.parse(sessionStorage.getItem("specialaccess"))
 
 
   const getAllClients = () => {
-    InsuranceApi.getAllClients().then((res) => {
+    InsuranceApi.getAllClients(sessionStorage.getItem("userid")).then((res) => {
       setAllData(res.data);
     })
         .catch((error) => {
@@ -67,7 +67,13 @@ function ClientDetails() {
   }, []);
 
   const handleClickOpen = () => {
-    setOpen(true);
+    if(access.find(element => element === "add-client")){
+      setOpen(true);
+    }
+    else{
+      window.alert("UNAUTHORIZED")
+    }
+
   };
 
   const handleClose = () => {
@@ -78,8 +84,13 @@ function ClientDetails() {
   const [editOpen, setEditOpen] = useState(false);
   const [record, setRecord] = useState("");
   const editClickOpen = (item) => {
-    setRecord(item);
-    setEditOpen(true);
+    if(access.find(element => element === "update-client")){
+      setRecord(item);
+      setEditOpen(true);
+    }
+    else{
+      window.alert("UNAUTHORIZED")
+    }
   }
 
   const editClickClose = () => {
@@ -113,7 +124,11 @@ function ClientDetails() {
 
   const [search, setSearch] = useState("");
   const globalsearch = (val) =>{
-    val === "" ? getAllClients() : axios.get(`http://localhost:8090/client/search/${val}`).then((res) => {
+    val === "" ? getAllClients() : axios.get(`http://localhost:8090/client/search/${val}`,{
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      }
+    }).then((res) => {
       setAllData(res.data);
     })
         .catch((err) => {
@@ -123,8 +138,15 @@ function ClientDetails() {
   }
 
   const deleteClient = (id) => {
-    axios.patch(`http://localhost:8090/client/del/${id}`).then((res) => {
-      console.log(res.data);
+    const userid  = sessionStorage.getItem("userid")
+    axios.patch(`http://localhost:8090/client/del/${id}/${userid}`, {},{
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      }
+    }).then((res) => {
+      if(res.data === "UNAUTHORIZED"){
+        window.alert(res.data)
+      }
       getAllClients();
     })
         .catch((err) => {
@@ -136,14 +158,22 @@ function ClientDetails() {
   const [clientID, setClientID] = useState("");
   const [proofList, setProofList] = useState([]);
   const [proofsModal, setProofsModal] = useState(false);
+
+
   const handleproofopen = (id, prooflist) => {
-    setClientID(id);
-    setProofList(prooflist);
-    setProofsModal(true);
+    if(access.find(element => element === "get-all-active-proof")){
+      setClientID(id);
+      setProofList(prooflist);
+      setProofsModal(true);
+    }
+   else{
+     window.alert("UNAUTHORIZED")
+    }
   }
   const handleproofclose = () => {
     setProofsModal(false);
   }
+
 
 
   return (
@@ -288,7 +318,7 @@ function ClientDetails() {
       <Modal
           show={open}
           onHide={handleClose}
-          size="lg"
+          size="xl"
           centered
       >
         <Modal.Header closeButton> <Modal.Title> <h4>  Client Details </h4> </Modal.Title> </Modal.Header>
@@ -307,7 +337,9 @@ function ClientDetails() {
       >
         <Modal.Header closeButton><Modal.Title> <h4>  Proofs </h4> </Modal.Title> </Modal.Header>
 
-            <ProofsAdd clientid={clientID} getall={getAllClients}  close={handleproofclose} proofs={proofList} setproofs={setProofList}/>
+        <Modal.Body>
+          <ProofsAdd clientid={clientID} getall={getAllClients}  close={handleproofclose} proofs={proofList} setproofs={setProofList}/>
+        </Modal.Body>
 
       </Modal>
     </div>
