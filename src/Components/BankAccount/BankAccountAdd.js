@@ -24,7 +24,7 @@ function BankAccountAdd({
         const bankAccountData={accountNumber, accountHolderName, ifscCode, bankBranch, bankName};
 
         axios
-            .post(`http://localhost:8090/bank/add`, bankAccountData, {
+            .post(`http://localhost:8090/bank/add/` + sessionStorage.getItem("userid"), bankAccountData, {
                 headers: {
                     Authorization: `Bearer ${sessionStorage.getItem("token")}`,
                 }

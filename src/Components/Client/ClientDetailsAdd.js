@@ -159,15 +159,21 @@ function ClientDetailsAdd({ clientclose, modal,  handleClose, open , getall }) {
     }
 
 
+    const access = JSON.parse(sessionStorage.getItem("specialaccess"))
   //For address
   const [addressopen, setAddressopen] = useState(false);
   const showaddress = () => {
-    setAddressopen(true);
+      if(access.find(element => element === "add-bank")){
+          setAddressopen(true);
+      }
+      else{
+          window.alert("UNAUTHORIZED")
+      }
   };
 
   const closeaddress = () => {
     setAddressopen(false);
-      InsuranceApi.getAllAddress().then((res) => {
+      InsuranceApi.getAllAddress(sessionStorage.getItem("userid")).then((res) => {
         setAddress(res.data);
       })
           .catch((err) => {
@@ -175,15 +181,25 @@ function ClientDetailsAdd({ clientclose, modal,  handleClose, open , getall }) {
           })
   };
 
+
   //for bank
   const [bankopen, setBankopen] = useState(false);
   const showBank = () => {
-    setBankopen(true);
+      if(access.find(element => element === "add-bank")){
+          setBankopen(true);
+      }
+      else{
+          window.alert("UNAUTHORIZED")
+      }
   };
 
   const closeBank = () => {
     setBankopen(false);
-    axios.get(`http://localhost:8090/bank/getall`).then((res) => {
+    axios.get(`http://localhost:8090/bank/getall/` + sessionStorage.getItem("userid"), {
+        headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        }
+    }  ).then((res) => {
       setBankAccount(res.data);
     })
         .catch((err) => {

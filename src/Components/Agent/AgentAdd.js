@@ -40,7 +40,7 @@ const AgentAdd = ({
     const [renewalCommission, setRenewalCommission] = useState("");
     const [servicingCommission, setServicingCommission] = useState("");
     const [commissionClass, setCommissionClass] = useState("");
-    const [officeId, setOfficeId] = useState(" ");
+    const [officeId, setOfficeId] = useState("");
 
 
     function toggle(value){

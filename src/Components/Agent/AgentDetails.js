@@ -164,12 +164,14 @@ const AgentDetails = () => {
 
     //Delete
     const deleteAgent = (id) => {
-        InsuranceApi.deleteAgent(id, sessionStorage.getItem("userid")).then((res) => {
-            if(res.data === "UNAUTHORIZED"){
-                window.alert(res.data)
-            }
-            getallAgents()
-        }).catch((err) => {console.log(err)})
+        if(access.find(element => element === "soft-delete-agent")){
+            InsuranceApi.deleteAgent(id, sessionStorage.getItem("userid")).then((res) => {
+                getallAgents()
+            }).catch((err) => {console.log(err)})
+        }
+        else{
+            window.alert("UNAUTHORIZED")
+        }
     }
 
     const [search, setSearch] = useState("");
