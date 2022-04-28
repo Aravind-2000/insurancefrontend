@@ -68,6 +68,7 @@ class InsuranceApi{
     getError(errorid){
          return axios.get(errorurl + errorid);
     }
+
     getMarksById(id){
          return axios.get(quantsbyId + id, {
              headers: {
@@ -200,6 +201,79 @@ class InsuranceApi{
     getAllOfficeLevels(){
          return axios.get("http://localhost:8090/officeLevel/getall")
     }
+
+    getAllServices(){
+         return axios.get(`http://localhost:8090/service/getall`)
+    }
+
+    getAllPermissionMethods(){
+         return axios.get(`http://localhost:8090/permission/methods`)
+    }
+
+    addPermission(permissions){
+         const userid = sessionStorage.getItem("userid")
+         return axios.post(`http://localhost:8090/permission/add/${userid}`, permissions, {
+             headers: {
+                 Authorization: `Bearer ${sessionStorage.getItem("token")}`
+             }
+         })
+    }
+
+    doPromoteOrDemote(details){
+         const userid = sessionStorage.getItem("userid")
+        return axios.post(`http://localhost:8090/promote/add/${userid}`, details, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    getAllTrainings(){
+         const userid = sessionStorage.getItem("userid")
+        return axios.get(`http://localhost:8090/training/getall/${userid}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    getTraining(id){
+         const userid = sessionStorage.getItem("userid")
+        return axios.get(`http://localhost:8090/training/${id}/${userid}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    addTraining(details){
+         const userid = sessionStorage.getItem("userid")
+        return axios.post(`http://localhost:8090/training/add/${userid}`, details, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    updateTraining(id, details){
+        const userid = sessionStorage.getItem("userid")
+        return axios.patch(`http://localhost:8090/training/${id}/${userid}`, details, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    deactivateTraining(id){
+         const userid = sessionStorage.getItem("userid")
+        return axios.patch(`http://localhost:8090/training/softdelete/${id}/${userid}`, {}, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+
 }
 
 export default new InsuranceApi();
