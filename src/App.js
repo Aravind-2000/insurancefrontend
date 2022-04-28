@@ -18,6 +18,8 @@ import Company from "./Components/Company/Company";
 import Login from "./Components/LoginAndSignup/Login";
 import AgentLoginDetails from "./Components/LoginAndSignup/AgentLoginDetails";
 import Signup from "./Components/LoginAndSignup/Signup";
+import MainTree from "./Components/AgentTree/MainTree";
+import TrainingDetails from "./Components/Training/TrainingDetails";
 
 const App = () => {
   return (
@@ -40,8 +42,10 @@ const App = () => {
                   <Route exact path={"/address-add"} element={<ClientAddressAdd/>} />
                   <Route exact path={"/client"} element={<ClientDetails/>} />
                   <Route exact path={"/agent"} element={<AgentDetails/>} />
+                  <Route exact path={"/agenttree"} element={<MainTree />} />
                   <Route exact path={"/office"} element={<OfficeStructure/>} />
                   <Route exact path={"/company"} element={<Company/>} />
+                  <Route exact path={"/training"} element={<TrainingDetails/>} />
               </Routes>
           </div>
       </div>

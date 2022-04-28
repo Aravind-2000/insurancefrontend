@@ -28,14 +28,15 @@ const Navbar = () => {
 
                 <NavMenu>
                     {
-                        item === "true" ? null :
-
+                        item === "true" ?
+                            <NavLink to="/logindetails" activeStyle>
+                                <p style={{color:"white", marginTop:15}}>  {sessionStorage.getItem("username")} </p>
+                            </NavLink>
+                            :
                             <NavLink to="login" activeStyle>
                                 <AccountCircleIcon/>
                             </NavLink>}
-                    <NavLink to="/logindetails" activeStyle>
-                        <p style={{color:"white", marginTop:15}}>  {sessionStorage.getItem("username")} </p>
-                    </NavLink>
+
                     {
                         item === "true" ?
                             <NavDropdown  title={navigation}>
@@ -48,6 +49,8 @@ const Navbar = () => {
                                 <NavDropdown.Item href="/employee">Employee Details </NavDropdown.Item>
                                 <NavDropdown.Item href="/company">Company Details </NavDropdown.Item>
                                 <NavDropdown.Item href="/office">Office Details </NavDropdown.Item>
+                                <NavDropdown.Item href="/agenttree">Tree Structure </NavDropdown.Item>
+                                <NavDropdown.Item href="/training">Training Details </NavDropdown.Item>
                             </NavDropdown>
 
                             : null
