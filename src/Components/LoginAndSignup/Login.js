@@ -11,6 +11,7 @@ import {
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import ContextProvide from "../ContextAPI/ContextProvider";
 
 const Login = () => {
   let navigate = useNavigate();
@@ -21,7 +22,7 @@ const Login = () => {
     margin: "20px auto",
   };
   const avatarStyle = { backgroundColor: "#1bbd7e" };
-  const btnstyle = { margin: "8px 0" , marginLeft: "1.5rem"};
+  const btnstyle = { margin: "8px 0" , marginLeft: "12.5rem"};
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,6 +36,8 @@ const Login = () => {
     ))
   }
 
+  const [userDetails, setUserDetails] = useState("");
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -44,6 +47,7 @@ const Login = () => {
         password,
       })
       .then((response) => {
+        setUserDetails(response.data)
         sessionStorage.setItem("token", response.data.accessToken);
         sessionStorage.setItem("userid", response.data.id);
         sessionStorage.setItem("agent", response.data.agent.id)
@@ -54,15 +58,12 @@ const Login = () => {
         sessionStorage.setItem("specialaccess", JSON.stringify(access))
         sessionStorage.setItem("condition", "true")
         navigate('/logindetails')
-        window.location.reload()
       })
       .catch((err) => {
         console.log(err.message);
         setError(true);
       });
   };
-
-
 
   return (
     <div>
@@ -97,12 +98,15 @@ const Login = () => {
                 fullWidth
                 required
             />
+
+
+
+
             <Button
                 type="submit"
                 color="primary"
                 variant="contained"
                 style={btnstyle}
-                fullWidth
             >
               Sign in
             </Button>
@@ -127,6 +131,7 @@ const Login = () => {
           </Box>
         </form>
       </Paper>
+
     </div>
   );
 };
