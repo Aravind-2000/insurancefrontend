@@ -5,11 +5,15 @@ import {Row, Col, Modal} from "react-bootstrap";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import LogoutIcon from '@mui/icons-material/Logout';
+import SwitchAccessShortcutAddIcon from '@mui/icons-material/SwitchAccessShortcutAdd';
+import ImportExportIcon from '@mui/icons-material/ImportExport';
+import PermissionsUI from "./PermissionsUI";
+import PromoteDemote from "./PromotionDemotion";
 
 const AgentLoginDetails = () => {
     let navigate = useNavigate();
 
-    const btnstyle = { margin: "8px 0" , marginLeft: "1.5rem"};
+
     const paperStyle = {
         padding: 20,
         height: "150vh",
@@ -55,8 +59,41 @@ const AgentLoginDetails = () => {
         setModal(false)
     }
 
+    const access = JSON.parse(sessionStorage.getItem("specialaccess"))
+
+    const [permission, setPermission] = useState(false);
+    const closePermission = () => {
+        setPermission(false)
+    }
+    const showPermission = () => {
+        setPermission(true)
+    }
+
+    const [promoteDemote, setPromoteDemote] = useState(false);
+    const closePromote = () => {
+        setPromoteDemote(false)
+    }
+    const showPromote = () => {
+        setPromoteDemote(true)
+    }
+
     return (
         <div>
+                {
+                    access?.find(element => element === "add-permission") ?
+                        <Button style={{color: "white", backgroundColor: "blue", marginLeft: 400}}
+                                onClick={() => showPermission()}>
+                            <SwitchAccessShortcutAddIcon/>
+                        </Button> : null
+                }
+
+                {
+                    access?.find(element => element === "do-promote-demote") ?
+                        <Button style={{color: "white", backgroundColor: "blue", marginLeft: 100}}
+                                onClick={() => showPromote()}>
+                            <ImportExportIcon/>
+                        </Button> : null
+                }
 
             <Paper elevation={10} style={paperStyle}>
                 <div style={{display:"flex",color: "white", marginLeft:850}}>
@@ -117,7 +154,6 @@ const AgentLoginDetails = () => {
                         <p>  Commission Class : {agent.commissionClass} </p>
                     </Col>
                 </Row>
-
             </Paper>
 
             <Modal
@@ -144,6 +180,35 @@ const AgentLoginDetails = () => {
                         onClick={() => closeModal()}> No </Button>
                 </Modal.Body>
             </Modal>
+
+
+            <Modal
+                show={permission}
+                onHide={closePermission}
+                centered
+                size="lg">
+
+                <Modal.Header closeButton> <Modal.Title> Add Permission </Modal.Title> </Modal.Header>
+
+                <Modal.Body>
+                    <PermissionsUI close={closePermission}/>
+                </Modal.Body>
+            </Modal>
+
+            <Modal
+                show={promoteDemote}
+                onHide={closePromote}
+                centered
+                size="sm">
+
+                <Modal.Header closeButton> <Modal.Title> <h5> Promotion / Demotion </h5> </Modal.Title> </Modal.Header>
+
+                <Modal.Body>
+                    <PromoteDemote close={closePromote}/>
+                </Modal.Body>
+            </Modal>
+
+
         </div>
     );
 };
