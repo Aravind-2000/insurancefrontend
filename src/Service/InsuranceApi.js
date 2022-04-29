@@ -273,6 +273,14 @@ class InsuranceApi{
         })
     }
 
+    trainingDateValidation(start, end){
+         return axios.get(`http://localhost:8090/training/datevalidation/${start}/${end}`, {
+             headers: {
+                 Authorization: `Bearer ${sessionStorage.getItem("token")}`
+             }
+         })
+    }
+
     getAllAgentTrainees(){
         const userid = sessionStorage.getItem("userid")
         return axios.get(`http://localhost:8090/traineeagent/getall/${userid}`, {

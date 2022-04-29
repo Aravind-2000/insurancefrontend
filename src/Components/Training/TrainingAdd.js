@@ -3,10 +3,11 @@ import moment from "moment";
 import InsuranceApi from "../../Service/InsuranceApi";
 import {Box, Grid, MenuItem} from "@material-ui/core";
 import "../Css/Content.css"
-import {Button, FormControl, TextField} from "@mui/material";
+import {Button, FormControl, FormHelperText, TextField} from "@mui/material";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import DatePicker from "@mui/lab/DatePicker";
+
 
 const TrainingAdd = ({close, getAll, modes, levels, types}) => {
 
@@ -21,6 +22,26 @@ const TrainingAdd = ({close, getAll, modes, levels, types}) => {
     const [trainer, setTrainer] = useState("");
     const [trainingCost, setTrainingCost] = useState("");
     const [sponsoredBy, setSponsoredBy] = useState("");
+
+
+    const [dateError, setDateError] = useState("");
+
+    const setendDate = (date) => {
+
+        const start = moment(startdate).format("DD-MM-YYYY")
+        const end = moment(date).format("DD-MM-YYYY")
+
+        InsuranceApi.trainingDateValidation(start.toString(), end.toString()).then((res) => {
+            if(res.data !== null){
+                setDateError(res.data)
+            }
+            setEndDate(date)
+        }).catch(err => console.log(err))
+
+
+
+
+    }
 
     const formSubmit = () => {
 
@@ -150,7 +171,7 @@ const TrainingAdd = ({close, getAll, modes, levels, types}) => {
                                         fullWidth
                                         value={startdate}
                                         onChange={(date) => setStartDate(date)}
-                                        renderInput={(params) => <TextField {...params} />}
+                                        renderInput={(params) => <TextField {...params} required />}
                                     />
                                 </LocalizationProvider>
                             </FormControl>
@@ -169,11 +190,13 @@ const TrainingAdd = ({close, getAll, modes, levels, types}) => {
                                         placeholder="Training End Date"
                                         fullWidth
                                         value={enddate}
-                                        onChange={(date) => setEndDate(date)}
-                                        renderInput={(params) => <TextField {...params} />}
+                                        onChange={(date) => setendDate(date)}
+                                        renderInput={(params) => <TextField {...params} required />}
                                     />
                                 </LocalizationProvider>
+                                <FormHelperText> {dateError === null ? null : dateError} </FormHelperText>
                             </FormControl>
+
                         </Grid>
 
                         <Grid item xs={8} md={6} lg={4}>
