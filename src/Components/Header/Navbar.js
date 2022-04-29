@@ -51,6 +51,7 @@ const Navbar = () => {
                                 <NavDropdown.Item href="/office">Office Details </NavDropdown.Item>
                                 <NavDropdown.Item href="/agenttree">Tree Structure </NavDropdown.Item>
                                 <NavDropdown.Item href="/training">Training Details </NavDropdown.Item>
+                                <NavDropdown.Item href="/trainees">Agent Trainee Details </NavDropdown.Item>
                             </NavDropdown>
 
                             : null

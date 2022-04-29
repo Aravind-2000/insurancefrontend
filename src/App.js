@@ -20,6 +20,7 @@ import AgentLoginDetails from "./Components/LoginAndSignup/AgentLoginDetails";
 import Signup from "./Components/LoginAndSignup/Signup";
 import MainTree from "./Components/AgentTree/MainTree";
 import TrainingDetails from "./Components/Training/TrainingDetails";
+import TraineeAgentDetails from "./Components/TraineeAgent/TraineeAgentDetails";
 
 const App = () => {
   return (
@@ -46,6 +47,7 @@ const App = () => {
                   <Route exact path={"/office"} element={<OfficeStructure/>} />
                   <Route exact path={"/company"} element={<Company/>} />
                   <Route exact path={"/training"} element={<TrainingDetails/>} />
+                  <Route exact path={"/trainees"} element={<TraineeAgentDetails/>} />
               </Routes>
           </div>
       </div>
