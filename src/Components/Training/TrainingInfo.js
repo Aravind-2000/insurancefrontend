@@ -10,8 +10,8 @@ const TrainingInfo = ({data}) => {
             <h6> Training Type : {data.trainingType.toUpperCase()} </h6>
             <h6> Training Mode : {data.trainingMode.toUpperCase()} </h6>
             <h6> Training Level : {data.trainingLevel.toUpperCase()} </h6>
-            <h6> Training Start Date : {moment(data.startDate).format("DD-MM-YYYY")} </h6>
-            <h6> Training End Date : {moment(data.endDate).format("DD-MM-YYYY")} </h6>
+            <h6> Training Start Date : {moment(data.startDate).format("DD-MMM-YYYY")} </h6>
+            <h6> Training End Date : {moment(data.endDate).format("DD-MMM-YYYY")} </h6>
             <h6> Training Timing : {data.trainingTime.toUpperCase()} </h6>
             <h6> Training Trainer : {data.trainer.toUpperCase()} </h6>
             <h6> Training Cost in Rupees : {data.trainingCost} </h6>

@@ -19,7 +19,7 @@ const TrainingAdd = ({close, getAll, modes, levels, types}) => {
     const [enddate, setEndDate] = useState("");
     const [trainingTime, setTrainingTime] = useState("");
     const [trainer, setTrainer] = useState("");
-    const [trainingCost, setTrainingCost] = useState(0);
+    const [trainingCost, setTrainingCost] = useState("");
     const [sponsoredBy, setSponsoredBy] = useState("");
 
     const formSubmit = () => {
@@ -210,7 +210,7 @@ const TrainingAdd = ({close, getAll, modes, levels, types}) => {
                                 className="formtext"
                                 margin="dense"
                                 variant="outlined"
-                                placeholder="Enter Cost of Training "
+                                placeholder="₹ "
                                 value={trainingCost}
                                 label="Training Cost"
                                 onChange={(e) => setTrainingCost(e.target.value)}
