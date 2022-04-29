@@ -116,7 +116,7 @@ const TraineeAgentDetails = () => {
     const deactivateTraining = (id) => {
         if( window.confirm("Do you want to delete this trainee ? ")){
             InsuranceApi.deactivateTrainee(id).then((res) => {
-                getAllTrainings()
+                getAllTrainees()
             }).catch(err => console.log(err))
         }
     }
