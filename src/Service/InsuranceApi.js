@@ -273,6 +273,50 @@ class InsuranceApi{
         })
     }
 
+    getAllAgentTrainees(){
+        const userid = sessionStorage.getItem("userid")
+        return axios.get(`http://localhost:8090/traineeagent/getall/${userid}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    getTrainee(id){
+        const userid = sessionStorage.getItem("userid")
+        return axios.get(`http://localhost:8090/traineeagent/${id}/${userid}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    addTrainee(details){
+        const userid = sessionStorage.getItem("userid")
+        return axios.post(`http://localhost:8090/traineeagent/add/${userid}`, details, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    updateTrainee(id, details){
+        const userid = sessionStorage.getItem("userid")
+        return axios.patch(`http://localhost:8090/traineeagent/${id}/${userid}`, details, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    deactivateTrainee(id){
+        const userid = sessionStorage.getItem("userid")
+        return axios.patch(`http://localhost:8090/traineeagent/softdelete/${id}/${userid}`, {}, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
 
 }
 
