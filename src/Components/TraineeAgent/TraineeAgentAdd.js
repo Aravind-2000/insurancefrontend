@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Box, Button, FormControl, Grid, TextareaAutosize, TextField} from "@mui/material";
+import {Box, Button, FormControl, Grid,  TextField} from "@mui/material";
 import {Checkbox, MenuItem} from "@material-ui/core";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
@@ -233,16 +233,21 @@ const TraineeAgentAdd = ({close, getAll, agents, trainings, status}) => {
                                 }
                             </TextField>
                         </Grid>
-                            <TextareaAutosize
+                        <Grid item xs={8} md={6} lg={4}>
+                            <TextField
                                 fullWidth
                                 className="formtext"
                                 margin="dense"
                                 variant="outlined"
-                                placeholder="Enter Comments "
+                                placeholder="Enter your Comments... "
+                                style={{width:"max-content"}}
+                                multiline
+                                rows={5}
                                 value={comments}
                                 label=" Comments "
                                 onChange={(e) => setComments(e.target.value)}
                             />
+                        </Grid>
                     </Grid>
                 </Box>
                 <div style={{display: "flex", margin:20}}>
