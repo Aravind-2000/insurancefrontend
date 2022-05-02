@@ -184,11 +184,11 @@ const AgentLoginDetails = () => {
                             <Paper elevation={5} style={paperStyle1}>
                                 <div style={{color: "black"}}>
 
-                                    <h6> Training ID : {data.trainingId} </h6>
-                                    <h6> Training Topic : {data?.training?.trainingTopic} </h6>
-                                    <h6> Training Mode : {data?.training?.trainingMode} </h6>
-                                    <h6> Training Type : {data?.training?.trainingType} </h6>
-                                    <h6> Training time : {data?.training?.trainingTime} </h6>
+                                    <p> <h6> Training ID : {data.trainingId} </h6> </p>
+                                    <p> <h6> Training Topic : {data?.training?.trainingTopic} </h6> </p>
+                                    <p> <h6> Training Mode : {data?.training?.trainingMode} </h6> </p>
+                                    <p> <h6> Training Type : {data?.training?.trainingType} </h6> </p>
+                                    <p>  <h6> Training time : {data?.training?.trainingTime} </h6> </p>
 
 
                                     <h4> General Details </h4>
