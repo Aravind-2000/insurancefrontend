@@ -326,6 +326,17 @@ class InsuranceApi{
         })
     }
 
+
+   getMyTrainings(agentId){
+         const userid = sessionStorage.getItem("userid")
+       return axios.get(`http://localhost:8090/traineeagent/myTrainings/${agentId}/${userid}`, {
+           headers: {
+               Authorization: `Bearer ${sessionStorage.getItem("token")}`
+           }
+       })
+   }
+
+
 }
 
 export default new InsuranceApi();
