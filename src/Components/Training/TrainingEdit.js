@@ -7,7 +7,7 @@ import DatePicker from "@mui/lab/DatePicker";
 import moment from "moment";
 import InsuranceApi from "../../Service/InsuranceApi";
 
-const TrainingEdit = ({close, getAll, modes, levels, record, setRecord, types}) => {
+const TrainingEdit = ({close, getAll, modes, levels, record, setRecord, types, agents}) => {
 
 
 
@@ -207,19 +207,47 @@ const TrainingEdit = ({close, getAll, modes, levels, record, setRecord, types}) 
                             />
                         </Grid>
 
-                        <Grid item xs={8} md={6} lg={4}>
-                            <TextField
-                                fullWidth
-                                className="formtext"
-                                margin="dense"
-                                variant="outlined"
-                                placeholder="Enter Trainer "
-                                value={record?.trainer}
-                                name="trainer"
-                                label="Trainer"
-                                onChange={(e) => editChange(e)}
-                            />
-                        </Grid>
+                        {
+                            record.trainingType === "EXTERNAL" ?
+
+                                <Grid item xs={8} md={6} lg={4}>
+                                    <TextField
+                                        fullWidth
+                                        className="formtext"
+                                        margin="dense"
+                                        variant="outlined"
+                                        placeholder="Enter Trainer "
+                                        value={record?.trainer}
+                                        name="trainer"
+                                        label="Trainer"
+                                        onChange={(e) => editChange(e)}
+                                    />
+                                </Grid>
+
+                                :
+
+                                <Grid item xs={8} md={6} lg={4}>
+                                    <TextField
+                                        select
+                                        fullWidth
+                                        className="formtext"
+                                        margin="dense"
+                                        variant="outlined"
+                                        placeholder="Enter Trainer "
+                                        value={record?.trainer}
+                                        name="trainer"
+                                        label="Trainer"
+                                        onChange={(e) => editChange(e)}
+                                        required
+                                    >
+                                        {
+                                            agents.map((val) => (
+                                                <MenuItem value={val.client?.givenName}> {val.client?.givenName} </MenuItem>
+                                            ))
+                                        }
+                                    </TextField>
+                                </Grid>
+                        }
 
 
                         <Grid item xs={8} md={6} lg={4}>

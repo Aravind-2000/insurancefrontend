@@ -9,7 +9,7 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import DatePicker from "@mui/lab/DatePicker";
 
 
-const TrainingAdd = ({close, getAll, modes, levels, types}) => {
+const TrainingAdd = ({close, getAll, modes, levels, types, agents}) => {
 
     const [trainingTopic, setTrainingTopic] = useState("");
     const [trainingDesc, setTrainingDesc] = useState("");
@@ -32,10 +32,12 @@ const TrainingAdd = ({close, getAll, modes, levels, types}) => {
         const end = moment(date).format("DD-MM-YYYY")
 
         InsuranceApi.trainingDateValidation(start.toString(), end.toString()).then((res) => {
+
             if(res.data !== null){
                 setDateError(res.data)
             }
             setEndDate(date)
+
         }).catch(err => console.log(err))
 
 
@@ -194,7 +196,7 @@ const TrainingAdd = ({close, getAll, modes, levels, types}) => {
                                         renderInput={(params) => <TextField {...params} required />}
                                     />
                                 </LocalizationProvider>
-                                <FormHelperText> {dateError === null ? null : dateError} </FormHelperText>
+                                <FormHelperText error> {dateError === null ? null : dateError} </FormHelperText>
                             </FormControl>
 
                         </Grid>
@@ -212,18 +214,46 @@ const TrainingAdd = ({close, getAll, modes, levels, types}) => {
                             />
                         </Grid>
 
-                        <Grid item xs={8} md={6} lg={4}>
-                            <TextField
-                                fullWidth
-                                className="formtext"
-                                margin="dense"
-                                variant="outlined"
-                                placeholder="Enter Trainer "
-                                value={trainer}
-                                label="Trainer"
-                                onChange={(e) => setTrainer(e.target.value)}
-                            />
-                        </Grid>
+                        {
+                            trainingType === "EXTERNAL" ?
+
+                                <Grid item xs={8} md={6} lg={4}>
+                                    <TextField
+                                        fullWidth
+                                        className="formtext"
+                                        margin="dense"
+                                        variant="outlined"
+                                        placeholder="Enter Trainer "
+                                        value={trainer}
+                                        label="Trainer"
+                                        onChange={(e) => setTrainer(e.target.value)}
+                                        required
+                                    />
+                                </Grid>
+
+                                :
+
+                                <Grid item xs={8} md={6} lg={4}>
+                                    <TextField
+                                        select
+                                        fullWidth
+                                        className="formtext"
+                                        margin="dense"
+                                        variant="outlined"
+                                        placeholder="Enter Trainer "
+                                        value={trainer}
+                                        label="Trainer"
+                                        onChange={(e) => setTrainer(e.target.value)}
+                                        required
+                                    >
+                                        {
+                                            agents.map((val) => (
+                                                <MenuItem value={val.client?.givenName}> {val.client?.givenName} </MenuItem>
+                                            ))
+                                        }
+                                    </TextField>
+                                </Grid>
+                        }
 
 
                         <Grid item xs={8} md={6} lg={4}>

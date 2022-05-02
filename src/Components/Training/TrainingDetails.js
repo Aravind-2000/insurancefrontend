@@ -53,17 +53,25 @@ const TrainingDetails = () => {
     const [type, setType] = useState([]);
     const [level, setLevel] = useState([]);
     const [trainee, setTrainee] = useState([]);
+    const [agents, setAgents] = useState([]);
 
     useEffect(() => {
         getAllTrainings()
         getModes()
         getTypes()
         getLevels()
+        getAgents()
     }, []);
 
     const getAllTrainings = () => {
         InsuranceApi.getAllTrainings().then((res) => {
             setTrainingDetails(res.data)
+        }).catch(err => console.log(err))
+    }
+
+    const getAgents = () => {
+        InsuranceApi.getAgents(sessionStorage.getItem("userid")).then((res) => {
+            setAgents(res.data)
         }).catch(err => console.log(err))
     }
 
@@ -114,7 +122,6 @@ const TrainingDetails = () => {
     const [traineeInfo, setTraineeInfo] = useState(false);
     const traineeInfoOpen = (value) => {
         setTrainee(value);
-        console.log(value)
         setTraineeInfo(true)
     }
     const traineeInfoClose = () => {
@@ -274,7 +281,7 @@ const TrainingDetails = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="container">
-                        <TrainingAdd close={closeAdd} getAll={getAllTrainings} modes={mode} types={type} levels={level} />
+                        <TrainingAdd close={closeAdd} getAll={getAllTrainings} modes={mode} types={type} levels={level} agents={agents} />
                     </div>
                 </Modal.Body>
             </Modal>
@@ -307,7 +314,7 @@ const TrainingDetails = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="container">
-                        <TrainingEdit close={editClose} getAll={getAllTrainings} record={updateDetails} setRecord={setUpdateDetails} modes={mode} types={type} levels={level} />
+                        <TrainingEdit close={editClose} agents={agents} getAll={getAllTrainings} record={updateDetails} setRecord={setUpdateDetails} modes={mode} types={type} levels={level} />
                     </div>
                 </Modal.Body>
             </Modal>
