@@ -1,18 +1,8 @@
-import React, {useState,useEffect} from 'react';
-import InsuranceApi from "../../Service/InsuranceApi";
+import React from 'react';
 import moment from "moment";
 
 const TraineeAgentInfo = ({data}) => {
 
-
-    useEffect(() => {
-        InsuranceApi.getTraining(data.trainingId).then((res) => {
-            setTraining(res.data)
-        }).catch(err => console.log(err))
-    }, [data.trainingId]);
-
-
-    const [training, setTraining] = useState("");
 
 
     return (
@@ -20,11 +10,11 @@ const TraineeAgentInfo = ({data}) => {
 
             <h4> Training Details </h4>
 
-            <h6> Training ID : {training.id} </h6>
-            <h6> Training Topic : {training.trainingTopic} </h6>
-            <h6> Training Mode : {training.trainingMode} </h6>
-            <h6> Training Type : {training.trainingType} </h6>
-            <h6> Training time : {training.trainingTime} </h6>
+            <h6> Training ID : {data?.training.id} </h6>
+            <h6> Training Topic : {data?.training.trainingTopic} </h6>
+            <h6> Training Mode : {data?.training.trainingMode} </h6>
+            <h6> Training Type : {data?.training.trainingType} </h6>
+            <h6> Training time : {data?.training.trainingTime} </h6>
 
             <h4> Agent Details </h4>
             <h6> Agent : {data.agent?.id} - {data.agent?.client?.givenName} {data.agent?.client?.surName} </h6>

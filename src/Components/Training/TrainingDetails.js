@@ -343,7 +343,6 @@ const TrainingDetails = () => {
                                             <TableCell> {val.agent?.id} </TableCell>
                                             <TableCell> {val.agent?.client?.givenName}{val?.client?.surName} </TableCell>
                                         </TableRow>
-
                                     ))
                                 }
                             </TableBody>
