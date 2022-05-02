@@ -9,6 +9,8 @@ import SwitchAccessShortcutAddIcon from '@mui/icons-material/SwitchAccessShortcu
 import ImportExportIcon from '@mui/icons-material/ImportExport';
 import PermissionsUI from "./PermissionsUI";
 import PromoteDemote from "./PromotionDemotion";
+import InsuranceApi from "../../Service/InsuranceApi";
+import moment from "moment";
 
 const AgentLoginDetails = () => {
     let navigate = useNavigate();
@@ -21,12 +23,20 @@ const AgentLoginDetails = () => {
         margin: "10px 400px auto",
     };
 
+    const paperStyle1 = {
+        padding: 20,
+        height: "50vh",
+        width: 1000,
+        margin: "20px 0px 20px 400px"
+    }
+
     const agentid = sessionStorage.getItem("agent");
     const userid = sessionStorage.getItem("userid");
     const [agent, setAgent] = useState("");
 
     useEffect(() => {
         getAgent()
+        getMyTrainings()
     }, []);
 
 
@@ -77,6 +87,15 @@ const AgentLoginDetails = () => {
         setPromoteDemote(true)
     }
 
+    const [myTrainings, setMyTrainings] = useState([]);
+
+    const getMyTrainings = () => {
+        const agentId = sessionStorage.getItem("agent")
+        InsuranceApi.getMyTrainings(agentId).then((res) => {
+            setMyTrainings(res.data)
+        }).catch(err => console.log(err))
+    }
+
     return (
         <div>
                 {
@@ -95,7 +114,7 @@ const AgentLoginDetails = () => {
                         </Button> : null
                 }
 
-            <Paper elevation={10} style={paperStyle}>
+            <Paper elevation={5} style={paperStyle}>
                 <div style={{display:"flex",color: "white", marginLeft:850}}>
                     <Button
                         color="error"
@@ -155,6 +174,38 @@ const AgentLoginDetails = () => {
                     </Col>
                 </Row>
             </Paper>
+
+            <br/>
+            <div>
+                <h3 style={{marginLeft:350}}> My Trainings </h3>
+                {
+                    myTrainings.map((data) => (
+                        <>
+                            <Paper elevation={5} style={paperStyle1}>
+                                <div style={{color: "black"}}>
+
+                                    <h6> Training ID : {data.trainingId} </h6>
+                                    <h6> Training Topic : {data?.training?.trainingTopic} </h6>
+                                    <h6> Training Mode : {data?.training?.trainingMode} </h6>
+                                    <h6> Training Type : {data?.training?.trainingType} </h6>
+                                    <h6> Training time : {data?.training?.trainingTime} </h6>
+
+
+                                    <h4> General Details </h4>
+                                    <h6> Is Approved : {data.isApproved} </h6>
+                                    <h6> Approved By : {data.approvedByAgent?.client?.givenName} {data.approvedByAgent?.client?.surName} </h6>
+                                    <h6> Approved Date : {moment(data.approvedDate).format("DD-MMM-YYYY")} </h6>
+                                    <h6> Total Days : {data.totalDays} </h6>
+                                    <h6> Total Days Attended : {data.daysAttended} </h6>
+                                    <h6> Training Score : {data.trainingScore} </h6>
+                                    <h6> Training Status : {data.trainingStatus} </h6>
+                                    <h6> Comments : {data.comments} </h6>
+                                </div>
+                            </Paper>
+                        </>
+                    ))
+                }
+            </div>
 
             <Modal
                 show={modal}
