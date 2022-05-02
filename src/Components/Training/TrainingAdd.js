@@ -3,7 +3,16 @@ import moment from "moment";
 import InsuranceApi from "../../Service/InsuranceApi";
 import {Box, Grid, MenuItem} from "@material-ui/core";
 import "../Css/Content.css"
-import {Button, FormControl, FormHelperText, TextField} from "@mui/material";
+import {
+    Button,
+    FormControl,
+    FormControlLabel,
+    FormHelperText,
+    FormLabel,
+    Radio,
+    RadioGroup,
+    TextField
+} from "@mui/material";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import DatePicker from "@mui/lab/DatePicker";
@@ -97,24 +106,20 @@ const TrainingAdd = ({close, getAll, modes, levels, types, agents}) => {
                         </Grid>
 
                         <Grid item xs={8} md={6} lg={4}>
-                            <TextField
-                                select
-                                fullWidth
-                                className="formtext"
-                                margin="dense"
-                                variant="outlined"
-                                placeholder="Enter Training Description "
-                                value={trainingType}
-                                label="Type"
-                                onChange={(e) => setTrainingType(e.target.value)}
-                                required
-                            >
-                                {
-                                    types.map((val) => (
-                                        <MenuItem value={val}> {val} </MenuItem>
-                                    ))
-                                }
-                            </TextField>
+                            <FormControl>
+                                <FormLabel className="formtext"> <b>  Training Type </b></FormLabel>
+                                <RadioGroup
+                                    className="formtext"
+                                    value={trainingType}
+                                    onChange={(e) => setTrainingType(e.target.value)}
+                                >
+                                    {
+                                        types.map((val) => (
+                                            <FormControlLabel value={val} control={<Radio />} label={val.toUpperCase()} />
+                                        ))
+                                    }
+                                </RadioGroup>
+                            </FormControl>
                         </Grid>
 
                         <Grid item xs={8} md={6} lg={4}>

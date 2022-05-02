@@ -1,6 +1,6 @@
 import React from 'react';
 import {Box, Grid, MenuItem} from "@material-ui/core";
-import {Button, FormControl, TextField} from "@mui/material";
+import {Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField} from "@mui/material";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import DatePicker from "@mui/lab/DatePicker";
@@ -86,25 +86,20 @@ const TrainingEdit = ({close, getAll, modes, levels, record, setRecord, types, a
                         </Grid>
 
                         <Grid item xs={8} md={6} lg={4}>
-                            <TextField
-                                select
-                                fullWidth
-                                className="formtext"
-                                margin="dense"
-                                variant="outlined"
-                                placeholder="Enter Training Description "
-                                value={record?.trainingType}
-                                name="trainingType"
-                                label="Type"
-                                onChange={(e) => editChange(e)}
-                                required
-                            >
-                                {
-                                    types.map((val) => (
-                                        <MenuItem value={val}> {val} </MenuItem>
-                                    ))
-                                }
-                            </TextField>
+                            <FormControl>
+                                <FormLabel className="formtext"> <b>  Training Type </b></FormLabel>
+                                <RadioGroup
+                                    className="formtext"
+                                    value={record?.trainingType}
+                                    onChange={(e) => editChange(e)}
+                                >
+                                    {
+                                        types.map((val) => (
+                                            <FormControlLabel value={val} control={<Radio />} label={val.toUpperCase()} />
+                                        ))
+                                    }
+                                </RadioGroup>
+                            </FormControl>
                         </Grid>
 
                         <Grid item xs={8} md={6} lg={4}>
