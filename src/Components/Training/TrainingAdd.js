@@ -123,24 +123,20 @@ const TrainingAdd = ({close, getAll, modes, levels, types, agents}) => {
                         </Grid>
 
                         <Grid item xs={8} md={6} lg={4}>
-                            <TextField
-                                select
-                                fullWidth
-                                className="formtext"
-                                margin="dense"
-                                variant="outlined"
-                                placeholder="Enter Training Mode "
-                                value={trainingMode}
-                                label="Mode"
-                                onChange={(e) => setTrainingMode(e.target.value)}
-                                required
-                            >
-                                {
-                                    modes.map((val) => (
-                                        <MenuItem value={val}> {val} </MenuItem>
-                                    ))
-                                }
-                            </TextField>
+                            <FormControl>
+                                <FormLabel className="formtext"> <b>  Training Mode </b></FormLabel>
+                                <RadioGroup
+                                    className="formtext"
+                                    value={trainingMode}
+                                    onChange={(e) => setTrainingMode(e.target.value)}
+                                >
+                                    {
+                                        modes.map((val) => (
+                                            <FormControlLabel value={val} control={<Radio />} label={val.toUpperCase()} />
+                                        ))
+                                    }
+                                </RadioGroup>
+                            </FormControl>
                         </Grid>
 
                         <Grid item xs={8} md={6} lg={4}>

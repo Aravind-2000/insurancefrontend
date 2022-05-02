@@ -91,6 +91,7 @@ const TrainingEdit = ({close, getAll, modes, levels, record, setRecord, types, a
                                 <RadioGroup
                                     className="formtext"
                                     value={record?.trainingType}
+                                    name="trainingType"
                                     onChange={(e) => editChange(e)}
                                 >
                                     {
@@ -103,25 +104,21 @@ const TrainingEdit = ({close, getAll, modes, levels, record, setRecord, types, a
                         </Grid>
 
                         <Grid item xs={8} md={6} lg={4}>
-                            <TextField
-                                select
-                                fullWidth
-                                className="formtext"
-                                margin="dense"
-                                variant="outlined"
-                                placeholder="Enter Training Mode "
-                                value={record?.trainingMode}
-                                name="trainingMode"
-                                label="Mode"
-                                onChange={(e) => editChange(e)}
-                                required
-                            >
-                                {
-                                    modes.map((val) => (
-                                        <MenuItem value={val}> {val} </MenuItem>
-                                    ))
-                                }
-                            </TextField>
+                            <FormControl>
+                                <FormLabel className="formtext"> <b>  Training Mode </b></FormLabel>
+                                <RadioGroup
+                                    className="formtext"
+                                    value={record?.trainingMode}
+                                    name="trainingMode"
+                                    onChange={(e) => editChange(e)}
+                                >
+                                    {
+                                        modes.map((val) => (
+                                            <FormControlLabel value={val} control={<Radio />} label={val.toUpperCase()} />
+                                        ))
+                                    }
+                                </RadioGroup>
+                            </FormControl>
                         </Grid>
 
                         <Grid item xs={8} md={6} lg={4}>
