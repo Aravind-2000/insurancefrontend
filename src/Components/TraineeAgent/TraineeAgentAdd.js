@@ -28,15 +28,23 @@ const TraineeAgentAdd = ({close, getAll, agents, trainings, status}) => {
     }
 
 
-    const formSubmit = () => {
+    const formSubmit = (e) => {
 
-        const approvedDate = moment(approveddate).format("MM-DD-YYYY")
-
-        const body = {trainingId, agentId, isApproved, approvedBy, approvedDate, totalDays, daysAttended, trainingScore, trainingStatus, comments}
-        InsuranceApi.addTrainee(body).then((res) => {
-            close()
-            getAll()
-        }).catch(err => console.log(err))
+       if(isApproved === true){
+           const approvedDate = moment(approveddate).format("MM-DD-YYYY")
+           const body = {trainingId, agentId, isApproved, approvedBy, approvedDate, totalDays, daysAttended, trainingScore, trainingStatus, comments}
+           InsuranceApi.addTrainee(body).then((res) => {
+               close()
+               getAll()
+           }).catch(err => console.log(err))
+       }
+       else{
+           const body = {trainingId, agentId, isApproved, approvedBy, totalDays, daysAttended, trainingScore, trainingStatus, comments}
+           InsuranceApi.addTrainee(body).then((res) => {
+               close()
+               getAll()
+           }).catch(err => console.log(err))
+       }
 
     }
 
