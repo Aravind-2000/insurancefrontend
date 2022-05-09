@@ -177,7 +177,7 @@ const AgentLoginDetails = () => {
 
             <br/>
             <div>
-                <h3 style={{marginLeft:350}}> My Trainings </h3>
+                <h3 style={{marginLeft:375}}> My Trainings :- </h3>
                 {
                     myTrainings.map((data) => (
                         <>
