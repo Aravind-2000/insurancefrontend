@@ -36,10 +36,8 @@ const TrainingAdd = ({close, getAll, modes, levels, types, agents}) => {
     const [dateError, setDateError] = useState("");
 
     const setendDate = (date) => {
-
         const start = moment(startdate).format("DD-MM-YYYY")
         const end = moment(date).format("DD-MM-YYYY")
-
         InsuranceApi.trainingDateValidation(start.toString(), end.toString()).then((res) => {
 
             if(res.data !== null){
@@ -48,10 +46,6 @@ const TrainingAdd = ({close, getAll, modes, levels, types, agents}) => {
             setEndDate(date)
 
         }).catch(err => console.log(err))
-
-
-
-
     }
 
     const formSubmit = () => {

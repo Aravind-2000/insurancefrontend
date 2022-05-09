@@ -1,6 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Box, Grid, MenuItem} from "@material-ui/core";
-import {Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField} from "@mui/material";
+import {
+    Button,
+    FormControl,
+    FormControlLabel,
+    FormHelperText,
+    FormLabel,
+    Radio,
+    RadioGroup,
+    TextField
+} from "@mui/material";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import DatePicker from "@mui/lab/DatePicker";
@@ -45,9 +54,22 @@ const TrainingEdit = ({close, getAll, modes, levels, record, setRecord, types, a
         setRecord({...record, startDate: date});
     }
 
-    const endDateChange = (date) =>{
-        setRecord({...record, endDate: date});
+    const [dateError, setDateError] = useState("");
+    const setendDate = (date) => {
+        const start = moment(record?.startDate).format("DD-MM-YYYY")
+        const end = moment(date).format("DD-MM-YYYY")
+        InsuranceApi.trainingDateValidation(start.toString(), end.toString()).then((res) => {
+
+            if(res.data !== null){
+                setDateError(res.data)
+            }
+            setRecord({...record, endDate: date});
+        }).catch(err => console.log(err))
     }
+
+    // const endDateChange = (date) =>{
+    //     setRecord({...record, endDate: date});
+    // }
 
     return (
         <div>
@@ -178,10 +200,11 @@ const TrainingEdit = ({close, getAll, modes, levels, record, setRecord, types, a
                                         fullWidth
                                         value={record?.endDate}
                                         name="endDate"
-                                        onChange={(date) => endDateChange(date)}
+                                        onChange={(date) => setendDate(date)}
                                         renderInput={(params) => <TextField {...params} />}
                                     />
                                 </LocalizationProvider>
+                                <FormHelperText error> {dateError === null ? null : dateError} </FormHelperText>
                             </FormControl>
                         </Grid>
 
