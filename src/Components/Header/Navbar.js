@@ -25,7 +25,7 @@ const Navbar = () => {
     return (
         <div>
             <Nav>
-                <NavLink to='/'>
+                <NavLink to='mainpage'>
                     <img  src={require("../Logo/futuralogo.png")}   alt="logo"/>
                 </NavLink>
                 <Bars />
