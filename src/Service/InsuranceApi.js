@@ -167,6 +167,14 @@ class InsuranceApi{
          })
     }
 
+    getAgentsByOffice(id){
+         return axios.get(`http://localhost:8090/agent/office/${id}`, {
+             headers: {
+                 Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+             }
+         })
+    }
+
     deleteAgent(id, userid){
          return axios.patch( `http://localhost:8090/agent/delete/${id}/${userid}` , {}, {
              headers: {
@@ -335,6 +343,96 @@ class InsuranceApi{
            }
        })
    }
+
+   getAllTrainingCost(){
+       const userid = sessionStorage.getItem("userid")
+       return axios.get(`http://localhost:8090/trainingcost/getall/${userid}`, {
+           headers: {
+               Authorization: `Bearer ${sessionStorage.getItem("token")}`
+           }
+       })
+   }
+
+   addTrainingCost(cost){
+       const userid = sessionStorage.getItem("userid")
+       return axios.post(`http://localhost:8090/trainingcost/add/${userid}`, cost,{
+           headers: {
+               Authorization: `Bearer ${sessionStorage.getItem("token")}`
+           }
+       })
+   }
+
+    updateTrainingCost(id, cost){
+        const userid = sessionStorage.getItem("userid")
+        return axios.patch(`http://localhost:8090/trainingcost/${id}/${userid}`, cost,{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    deactivateTrainingCost(id){
+        const userid = sessionStorage.getItem("userid")
+        return axios.patch(`http://localhost:8090/trainingcost/softdelete/${id}/${userid}`, {},{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    getAllTrainingModule(){
+        const userid = sessionStorage.getItem("userid")
+        return axios.get(`http://localhost:8090/trainingmodule/getall/${userid}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    addTrainingModule(cost){
+        const userid = sessionStorage.getItem("userid")
+        return axios.post(`http://localhost:8090/trainingmodule/add/${userid}`, cost,{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    updateTrainingModule(id, cost){
+        const userid = sessionStorage.getItem("userid")
+        return axios.patch(`http://localhost:8090/trainingmodule/${id}/${userid}`, cost,{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    deactivateTrainingModule(id){
+        const userid = sessionStorage.getItem("userid")
+        return axios.patch(`http://localhost:8090/trainingmodule/softdelete/${id}/${userid}`, {},{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    getUser(id){
+         return axios.get(`http://localhost:8090/api/auth/user/${id}`)
+    }
+
+    updateUser(id, details){
+         return axios.patch(`http://localhost:8090/api/auth/user/${id}`, details)
+    }
+
+    getOffice(id){
+         const userid = sessionStorage.getItem("userid")
+        return axios.get(`http://localhost:8090/officestructure/getuplevel/${id}/${userid}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
 
 
 }
