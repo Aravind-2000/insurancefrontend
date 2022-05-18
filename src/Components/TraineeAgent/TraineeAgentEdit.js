@@ -8,7 +8,7 @@ import DatePicker from "@mui/lab/DatePicker";
 import moment from "moment";
 import InsuranceApi from "../../Service/InsuranceApi";
 
-const TraineeAgentEdit = ({agents,close,getAll,record,setRecord,status,trainings}) => {
+const TraineeAgentEdit = ({agents,close,getAll,record,setRecord,status,trainings,pay}) => {
 
 
     const editChange = (e) => {
@@ -36,6 +36,11 @@ const TraineeAgentEdit = ({agents,close,getAll,record,setRecord,status,trainings
             approvedDate: moment(record.approvedDate).format("MM-DD-YYYY"),
             totalDays: record.totalDays,
             daysAttended: record.daysAttended,
+            sponsoredBy: record.sponsoredBy,
+            sponsoredPer: record.sponsoredPer,
+            sponsoredAmount: record.sponsoredAmount,
+            agentContribution: record.agentContribution,
+            paymentStatus: record.paymentStatus,
             trainingScore: record.trainingScore,
             trainingStatus: record.trainingStatus,
             comments: record.comments
@@ -72,7 +77,7 @@ const TraineeAgentEdit = ({agents,close,getAll,record,setRecord,status,trainings
                             >
                                 {
                                     trainings.map((val) => (
-                                        <MenuItem value={val.id}> {val.trainingTopic} </MenuItem>
+                                        <MenuItem value={val.id}> {val.trainingModule?.trainingTopic} - {val.trainingModule?.trainingLevel} </MenuItem>
                                     ))
                                 }
                             </TextField>
@@ -218,6 +223,83 @@ const TraineeAgentEdit = ({agents,close,getAll,record,setRecord,status,trainings
                                 label="Attended Days"
                                 onChange={(e) => editChange(e)}
                             />
+                        </Grid>
+
+                        <Grid item xs={8} md={6} lg={4}>
+                            <TextField
+                                fullWidth
+                                className="formtext"
+                                margin="dense"
+                                variant="outlined"
+                                placeholder="Enter the sponsor name "
+                                value={record?.sponsoredBy}
+                                name="sponsoredBy"
+                                label="Sponsored By"
+                                onChange={(e) => editChange(e)}
+                            />
+                        </Grid>
+
+                        <Grid item xs={8} md={6} lg={4}>
+                            <TextField
+                                fullWidth
+                                className="formtext"
+                                margin="dense"
+                                variant="outlined"
+                                placeholder="Enter the percent of sponsorship "
+                                value={record?.sponsoredPer}
+                                name="sponsoredPer"
+                                label="Sponsored Percentage"
+                                onChange={(e) => editChange(e)}
+                            />
+                        </Grid>
+
+                        <Grid item xs={8} md={6} lg={4}>
+                            <TextField
+                                fullWidth
+                                className="formtext"
+                                margin="dense"
+                                variant="outlined"
+                                placeholder="Enter the sponsored amount "
+                                value={record?.sponsoredAmount}
+                                name="sponsoredAmount"
+                                label="Sponsored Amount"
+                                onChange={(e) => editChange(e)}
+                            />
+                        </Grid>
+
+                        <Grid item xs={8} md={6} lg={4}>
+                            <TextField
+                                fullWidth
+                                className="formtext"
+                                margin="dense"
+                                variant="outlined"
+                                placeholder="Enter agent contribution "
+                                value={record?.agentContribution}
+                                name="agentContribution"
+                                label="Agent Contribution"
+                                onChange={(e) => editChange(e)}
+                            />
+                        </Grid>
+
+                        <Grid item xs={8} md={6} lg={4}>
+                            <TextField
+                                select
+                                fullWidth
+                                className="formtext"
+                                margin="dense"
+                                variant="outlined"
+                                placeholder="Enter the payment status "
+                                value={record?.paymentStatus}
+                                name="paymentStatus"
+                                label="Payment Status"
+                                onChange={(e) => editChange(e)}
+                            >
+                                {
+                                    pay.map((val) => (
+                                        <MenuItem value={val}> {val} </MenuItem>
+                                    ))
+                                }
+                            </TextField>
                         </Grid>
 
                         <Grid item xs={8} md={6} lg={4}>

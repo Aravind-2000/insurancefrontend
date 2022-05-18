@@ -51,6 +51,7 @@ const TraineeAgentDetails = () => {
         getAllTrainings()
         getAgents()
         getStatus()
+        getPayStatus()
     }, []);
 
 
@@ -58,6 +59,7 @@ const TraineeAgentDetails = () => {
     const [trainings, setTrainings] = useState([]);
     const [agents, setAgents] = useState([]);
     const [status, setStatus] = useState([]);
+    const [payStatus, setPayStatus] = useState([]);
     const [updateDetails, setUpdateDetails] = useState("");
     const [infoRecord, setInfoRecord] = useState("");
 
@@ -84,6 +86,13 @@ const TraineeAgentDetails = () => {
             setStatus(res.data)
         }).catch(err => console.log(err))
     }
+
+    const getPayStatus = () => {
+        InsuranceApi.getParameterRule("PY001").then((res) => {
+            setPayStatus(res.data)
+        }).catch(err => console.log(err))
+    }
+
 
 
     const [add, setAdd] = useState(false);
@@ -148,7 +157,7 @@ const TraineeAgentDetails = () => {
                                     Trainee ID
                                 </TableCell>
                                 <TableCell className="tblhd" align="left">
-                                    Training ID
+                                    Training
                                 </TableCell>
                                 <TableCell className="tblhd" align="left">
                                     Agent ID
@@ -174,7 +183,7 @@ const TraineeAgentDetails = () => {
                                                     {value.id}
                                                 </TableCell>
                                                 <TableCell  align="left">
-                                                    {value.trainingId}
+                                                    {value.training?.trainingModule?.trainingTopic} - {value.training?.trainingModule?.trainingLevel}
                                                 </TableCell>
                                                 <TableCell  align="left">
                                                     {value.agent?.id}
@@ -254,7 +263,7 @@ const TraineeAgentDetails = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="container">
-                        <TraineeAgentAdd close={closeAdd} getAll={getAllTrainees} trainings={trainings} status={status} agents={agents} />
+                        <TraineeAgentAdd close={closeAdd} getAll={getAllTrainees} trainings={trainings}  pay={payStatus} status={status} agents={agents} />
                     </div>
                 </Modal.Body>
             </Modal>
@@ -287,7 +296,7 @@ const TraineeAgentDetails = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="container">
-                        <TraineeAgentEdit close={editClose} getAll={getAllTrainees} record={updateDetails} setRecord={setUpdateDetails} trainings={trainings} status={status} agents={agents} />
+                        <TraineeAgentEdit close={editClose} getAll={getAllTrainees} record={updateDetails} pay={payStatus} setRecord={setUpdateDetails} trainings={trainings} status={status} agents={agents} />
                     </div>
                 </Modal.Body>
             </Modal>

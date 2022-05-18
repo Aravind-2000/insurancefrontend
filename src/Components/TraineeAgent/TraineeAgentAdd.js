@@ -8,7 +8,7 @@ import DatePicker from "@mui/lab/DatePicker";
 import moment from "moment";
 import InsuranceApi from "../../Service/InsuranceApi";
 
-const TraineeAgentAdd = ({close, getAll, agents, trainings, status}) => {
+const TraineeAgentAdd = ({close, getAll, agents, pay, trainings, status}) => {
 
 
     const [trainingId, setTrainingId] = useState("");
@@ -18,6 +18,9 @@ const TraineeAgentAdd = ({close, getAll, agents, trainings, status}) => {
     const [approveddate, setApprovedDate] = useState("");
     const [totalDays, setTotalDays] = useState("");
     const [daysAttended, setDaysAttended] = useState("");
+    const [sponsoredBy, setSponsoredBy] = useState("");
+    const [sponsoredPer, setSponsoredPer] = useState("");
+    const [paymentStatus, setPaymentStatus] = useState("");
     const [trainingScore, setTrainingScore] = useState("");
     const [trainingStatus, setTrainingStatus] = useState("");
     const [comments, setComments] = useState("");
@@ -32,14 +35,14 @@ const TraineeAgentAdd = ({close, getAll, agents, trainings, status}) => {
 
        if(isApproved === true){
            const approvedDate = moment(approveddate).format("MM-DD-YYYY")
-           const body = {trainingId, agentId, isApproved, approvedBy, approvedDate, totalDays, daysAttended, trainingScore, trainingStatus, comments}
+           const body = {trainingId, agentId, isApproved, approvedBy, approvedDate, totalDays, daysAttended, sponsoredBy,  sponsoredPer, paymentStatus, trainingScore, trainingStatus, comments}
            InsuranceApi.addTrainee(body).then((res) => {
                close()
                getAll()
            }).catch(err => console.log(err))
        }
        else{
-           const body = {trainingId, agentId, isApproved, approvedBy, totalDays, daysAttended, trainingScore, trainingStatus, comments}
+           const body = {trainingId, agentId, isApproved, approvedBy, totalDays, daysAttended,sponsoredBy,  sponsoredPer, paymentStatus, trainingScore, trainingStatus, comments}
            InsuranceApi.addTrainee(body).then((res) => {
                close()
                getAll()
@@ -70,7 +73,7 @@ const TraineeAgentAdd = ({close, getAll, agents, trainings, status}) => {
                             >
                                 {
                                     trainings.map((val) => (
-                                        <MenuItem value={val.id}> {val.trainingTopic} </MenuItem>
+                                        <MenuItem value={val.id}> {val.trainingModule?.trainingTopic} - {val.trainingModule?.trainingLevel} </MenuItem>
                                     ))
                                 }
                             </TextField>
@@ -179,8 +182,6 @@ const TraineeAgentAdd = ({close, getAll, agents, trainings, status}) => {
                                 </Grid></>
                         }
 
-
-
                         <Grid item xs={8} md={6} lg={4}>
                             <TextField
                                 fullWidth
@@ -214,6 +215,52 @@ const TraineeAgentAdd = ({close, getAll, agents, trainings, status}) => {
                                 className="formtext"
                                 margin="dense"
                                 variant="outlined"
+                                placeholder="Enter the sponsor name "
+                                value={sponsoredBy}
+                                label="Sponsored By"
+                                onChange={(e) => setSponsoredBy(e.target.value)}
+                            />
+                        </Grid>
+
+                        <Grid item xs={8} md={6} lg={4}>
+                            <TextField
+                                fullWidth
+                                className="formtext"
+                                margin="dense"
+                                variant="outlined"
+                                placeholder="Enter the percent of sponsorship "
+                                value={sponsoredPer}
+                                label="Sponsored Percentage"
+                                onChange={(e) => setSponsoredPer(e.target.value)}
+                            />
+                        </Grid>
+
+                        <Grid item xs={8} md={6} lg={4}>
+                            <TextField
+                                select
+                                fullWidth
+                                className="formtext"
+                                margin="dense"
+                                variant="outlined"
+                                placeholder="Enter the payment status "
+                                value={paymentStatus}
+                                label="Payment Status"
+                                onChange={(e) => setPaymentStatus(e.target.value)}
+                            >
+                                {
+                                    pay.map((val) => (
+                                        <MenuItem value={val}> {val} </MenuItem>
+                                    ))
+                                }
+                            </TextField>
+                        </Grid>
+
+                        <Grid item xs={8} md={6} lg={4}>
+                            <TextField
+                                fullWidth
+                                className="formtext"
+                                margin="dense"
+                                variant="outlined"
                                 placeholder="Enter Training Score "
                                 value={trainingScore}
                                 label=" Training Score "
@@ -230,7 +277,7 @@ const TraineeAgentAdd = ({close, getAll, agents, trainings, status}) => {
                                 variant="outlined"
                                 placeholder="Enter Training Status "
                                 value={trainingStatus}
-                                label="Status"
+                                label="Training Status"
                                 onChange={(e) => setTrainingStatus(e.target.value)}
                                 required
                             >
