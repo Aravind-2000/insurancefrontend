@@ -4,7 +4,7 @@ import {Box, Grid, MenuItem, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
 
 const OfficeStructureEdit = ({
-    record, setRecord, close, getAll, company, OfficeLevels
+    record, setRecord, close, getAll, company, OfficeLevels,data, status
                              }) => {
 
     // Write your edit change method here
@@ -63,7 +63,7 @@ const OfficeStructureEdit = ({
 
                         <Grid item xs={8} md={6} lg={4}>
                     <TextField
-                        value={record?.officeLevelParam?.id}
+                        value={record?.officeLevelId}
                         select
                         margin="dense"
                         name="officeLevelId"
@@ -86,6 +86,7 @@ const OfficeStructureEdit = ({
 
                         <Grid item xs={8} md={6} lg={4}>
                     <TextField
+                        select
                         value={record?.officeStatus}
                         margin="dense"
                         name="officeStatus"
@@ -95,7 +96,15 @@ const OfficeStructureEdit = ({
                         label="Office Status"
                         placeholder="Office Status"
                         onChange={(e) => editChange(e)}
-                    /></Grid>
+                    >
+                        {
+                            status.map((val) => (
+                                <MenuItem value={val}> {val.toUpperCase()} </MenuItem>
+                            ))
+                        }
+                    </TextField>
+
+                        </Grid>
 
                         <Grid item xs={8} md={6} lg={4}>
                     <TextField
@@ -121,7 +130,17 @@ const OfficeStructureEdit = ({
                         label="Up Level Office Id"
                         placeholder="Up Level Office Id"
                         onChange={(e) => editChange(e)}
-                    /></Grid>
+                    >
+                        {
+                            data.map((val) => (
+                                <MenuItem value={val.officeId}> {val.officeName.toUpperCase()}  </MenuItem>
+                            ))
+                        }
+
+
+                    </TextField>
+
+                        </Grid>
                     </Grid>
                 </Box>
             </form>

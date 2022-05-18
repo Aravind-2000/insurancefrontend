@@ -7,7 +7,7 @@ import {Modal} from "react-bootstrap";
 import CompanyAdd from "../Company/CompanyAdd";
 
 const OfficeStructureAdd = ({
-    getAll, close, company,setCompany, OfficeLevels
+    getAll, close, company,setCompany, OfficeLevels, data, status
 }) => {
 
 
@@ -124,6 +124,7 @@ const OfficeStructureAdd = ({
 
                         <Grid item xs={8} md={6} lg={4}>
                     <TextField
+                        select
                         value={officeStatus}
                         margin="dense"
                         variant="outlined"
@@ -132,7 +133,16 @@ const OfficeStructureAdd = ({
                         placeholder="Office Status"
                         className="formtext"
                         onChange={(e) => setOfficeStatus(e.target.value)}
-                    /> </Grid>
+                    >
+                        {
+                            status.map((val) => (
+                                <MenuItem value={val}> {val.toUpperCase()} </MenuItem>
+                            ))
+                        }
+
+                    </TextField>
+
+                        </Grid>
 
                         <Grid item xs={8} md={6} lg={4}>
                     <TextField
@@ -148,6 +158,7 @@ const OfficeStructureAdd = ({
 
                         <Grid item xs={8} md={6} lg={4}>
                     <TextField
+                        select
                         value={upLevelOfficeId}
                         margin="dense"
                         variant="outlined"
@@ -156,7 +167,14 @@ const OfficeStructureAdd = ({
                         placeholder="Up Level Office Id"
                         className="formtext"
                         onChange={(e) => setUpLevelOfficeId(e.target.value)}
-                    /> </Grid>
+                    >
+                        {
+                            data.map((val) => (
+                                <MenuItem value={val.officeId}> {val.officeName.toUpperCase()}  </MenuItem>
+                            ))
+                        }
+                    </TextField>
+                    </Grid>
 
                     </Grid>
                 </Box>

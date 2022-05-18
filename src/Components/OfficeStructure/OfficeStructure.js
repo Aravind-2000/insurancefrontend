@@ -16,6 +16,11 @@ import OfficeStructureAdd from  "./OfficeStructureAdd";
 import {makeStyles, TablePagination} from "@material-ui/core";
 import {Modal} from "react-bootstrap";
 import moment from "moment";
+import PeopleIcon from "@mui/icons-material/People";
+import InfoIcon from "@mui/icons-material/Info";
+import LocalConvenienceStoreIcon from '@mui/icons-material/LocalConvenienceStore';
+import OfficeStructureInfo from "./OfficeStructureInfo";
+import InsuranceApi from "../../Service/InsuranceApi";
 
 
 
@@ -30,7 +35,6 @@ const OfficeStructure = () => {
 
     const access = JSON.parse(sessionStorage.getItem("specialaccess"))
     const classes = useStyles();
-    //UseEffect for Get all API , and  Get office param level
     const [data, setData] = useState([]);
     const [record, setRecord] = useState("");
     const getData = () => {
@@ -64,6 +68,14 @@ const OfficeStructure = () => {
     }
 
 
+    const [status, setStatus] = useState([]);
+    const getStatus  = () => {
+        InsuranceApi.getParameterRule("ST001").then((res) => {
+            setStatus(res.data)
+        }).catch(err => console.log(err))
+    }
+
+
     const [officeLevels, setOfficeLevels] = useState([]);
     const [companys, setCompanys] = useState([]);
 
@@ -71,6 +83,7 @@ const OfficeStructure = () => {
         getData();
         getCompanys();
         getOfficeLevels();
+        getStatus()
     }, []);
 
 
@@ -152,6 +165,27 @@ const OfficeStructure = () => {
         setInfoOpen(false);
     };
 
+    const [agents, setAgents] = useState([]);
+    const [downLevelAgents, setDownLevelAgents] = useState(false);
+    const showDownLevel = (val) => {
+        setAgents(val)
+        setDownLevelAgents(true)
+    }
+    const hideDownLevel = () => {
+        setDownLevelAgents(false)
+    }
+
+    const [offices, setOffices] = useState([]);
+    const [downLevelOffices, setDownLevelOffices] = useState(false);
+    const showDownLevelOffice = (val) => {
+        setOffices(val)
+        setDownLevelOffices(true)
+    }
+    const hideDownLevelOffice = () => {
+        setDownLevelOffices(false)
+    }
+
+
     return (
         <div>
         <div className="container">
@@ -175,8 +209,8 @@ const OfficeStructure = () => {
                                 <TableCell className="tblhd" align="left">Office Id</TableCell>
                                 <TableCell className="tblhd" align="left">Office Name</TableCell>
                                 <TableCell className="tblhd" align="left">Company Name</TableCell>
-                                <TableCell className="tblhd" align="left">Office Status</TableCell>
-                                <TableCell className="tblhd" align="left">Action</TableCell>
+                                <TableCell className="tblhd" align="left">Up Level Office ID </TableCell>
+                                <TableCell className="tblhd" align="center">Action</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -187,22 +221,33 @@ const OfficeStructure = () => {
                                     <TableCell align="left">{value.officeId}</TableCell>
                                     <TableCell align="left">{value.officeName}</TableCell>
                                     <TableCell align="left"> {value?.company?.companyId} - {value?.company?.companyName}</TableCell>
-                                    <TableCell align="left">{value.officeStatus}</TableCell>
+                                    <TableCell align="left">{ value.upLevelOfficeId !== null ? value.upLevelOfficeId  : "NULL"}</TableCell>
                                     <TableCell align="left">
                                         <div style={{ display: "flex" }}>
-                                            {/*<VisibilityIcon*/}
-                                            {/*    color="success"*/}
-                                            {/*    onClick={() => infoClickOpen(value)}*/}
-                                            {/*/>*/}
-                                            <EditIcon
+                                            <InfoIcon
                                                 color="primary"
                                                 style={{cursor:"pointer"}}
+                                                onClick={() => infoClickOpen(value)}
+                                            />
+                                            <EditIcon
+                                                color="primary"
+                                                style={{cursor:"pointer",  marginLeft: 10}}
                                                 onClick={() => editClickOpen(value)}
                                             />
                                             <DeleteIcon
                                                 color="error"
-                                                style={{cursor:"pointer"}}
+                                                style={{cursor:"pointer",  marginLeft: 10}}
                                                 onClick={() => handleDeactivate(value.officeId)}
+                                            />
+                                            <PeopleIcon
+                                                color="primary"
+                                                style={{cursor: "pointer", marginLeft: 10}}
+                                                onClick={() => showDownLevel(value.agents)}
+                                            />
+                                            <LocalConvenienceStoreIcon
+                                                color="primary"
+                                                style={{cursor: "pointer", marginLeft: 10}}
+                                                onClick={() => showDownLevelOffice(value.downLevelOffice)}
                                             />
                                         </div>
                                     </TableCell>
@@ -242,11 +287,26 @@ const OfficeStructure = () => {
                         <OfficeStructureAdd
                             close={handleClickClose}
                             getAll={getData}
+                            data={data}
+                            status={status}
                             OfficeLevels={officeLevels}
                             company={companys}
                             setCompany={setCompanys}
                         />
+                    </div>
+                </Modal.Body>
+            </Modal>
 
+
+            <Modal show={infoOpen} onHide={infoClickClose} centered size="lg">
+
+                <Modal.Header closeButton>
+                    <Modal.Title>  Office Information </Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body>
+                    <div className="container">
+                        <OfficeStructureInfo data={info}/>
                     </div>
                 </Modal.Body>
             </Modal>
@@ -260,6 +320,8 @@ const OfficeStructure = () => {
                         <OfficeStructureEdit
                             record={record}
                             setRecord={setRecord}
+                            data={data}
+                            status={status}
                             close={editClickClose}
                             getAll={getData}
                             OfficeLevels={officeLevels}
@@ -269,8 +331,60 @@ const OfficeStructure = () => {
                 </Modal.Body>
             </Modal>
 
+            <Modal show={downLevelAgents} onHide={hideDownLevel} centered size="lg">
+                <Modal.Header closeButton> <Modal.Title>  Agents in this Office </Modal.Title></Modal.Header>
+                <Modal.Body>
+                    <div className="container">
+                        <Table>
+                            <TableHead>
+                                <TableCell> Agent ID </TableCell>
+                                <TableCell> Agent Name </TableCell>
+                            </TableHead>
+                            <TableBody>
+                                {
+                                    agents.map((val, index) => (
+                                        <TableRow key={index}>
+                                            <TableCell> {val.id} </TableCell>
+                                            <TableCell> {val.client?.givenName} {val.client?.surName} </TableCell>
+                                        </TableRow>
+                                    ))
+                                }
+                            </TableBody>
+                        </Table>
+                    </div>
+                </Modal.Body>
+            </Modal>
+
+
+            <Modal show={downLevelOffices} onHide={hideDownLevelOffice} centered size="lg">
+                <Modal.Header closeButton> <Modal.Title>  Down Level Offices </Modal.Title></Modal.Header>
+                <Modal.Body>
+                    <div className="container">
+                        <Table>
+                            <TableHead>
+                                <TableCell> Office ID </TableCell>
+                                <TableCell> Office Name </TableCell>
+                            </TableHead>
+                            <TableBody>
+                                {
+                                    offices.map((val, index) => (
+                                        <TableRow key={index}>
+                                            <TableCell> {val.officeId} </TableCell>
+                                            <TableCell> {val.officeName}  </TableCell>
+                                        </TableRow>
+                                    ))
+                                }
+                            </TableBody>
+                        </Table>
+                    </div>
+                </Modal.Body>
+            </Modal>
+
+
+
         </div>
     );
+
 };
 
 export default OfficeStructure;
