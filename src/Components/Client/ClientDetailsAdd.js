@@ -106,8 +106,6 @@ function ClientDetailsAdd({ clientclose, modal,  handleClose, open , getall }) {
 
 
 
-  const [applicationId, setApplicationId] = useState("");
-  const [application, setApplication] = useState(" ");
 
     const [surName, setSurName] = useState("");
     const [givenName, setGivenName] = useState(" ");
@@ -126,16 +124,6 @@ function ClientDetailsAdd({ clientclose, modal,  handleClose, open , getall }) {
     const [occupation, setOccupation] = useState("");
     const [addressid, setAddressid] = useState(0);
     const [bankId, setBankId] = useState(0);
-
-
-  const getapplication = (id) => {
-    axios.get(`http://localhost:8090/candidates/application/${id}`).then((res) => {
-      setApplication(res.data);
-    })
-        .catch((err) => {
-          console.log(err);
-        })
-  }
 
 
 
@@ -225,9 +213,6 @@ function ClientDetailsAdd({ clientclose, modal,  handleClose, open , getall }) {
               {/*    </Button>*/}
               {/*  </div>*/}
               {/*</div>*/}
-
-              <hr/>
-
               <form autoComplete="off">
                 <Box sx={{ flexGrow: 1 }}>
                   <Grid container spacing={2}>
