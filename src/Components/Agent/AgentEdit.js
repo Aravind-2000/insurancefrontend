@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import InsuranceApi from "../../Service/InsuranceApi";
 import { Box, FormControl, Grid, MenuItem, TextField } from "@mui/material";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
@@ -9,10 +9,10 @@ import { Checkbox } from "@material-ui/core";
 import Button from "@mui/material/Button";
 import moment from "moment";
 
-const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employees, paymethod, Agents, Offices }) => {
+const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employees, paymethod, Offices }) => {
     let {
         id,
-        client,
+        clientId,
         upLevelAgentId,
         dateAppointed,
         exclusive,
@@ -21,7 +21,7 @@ const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employe
         distributionChannel,
         officeId,
         areaCode,
-        agentTypeLevel,
+        agentType,
         payMethod,
         payFrequency,
         currencyType,
@@ -52,6 +52,22 @@ const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employe
     const editPrevDateDetermination = (date) => {
         setRecord({ ...record, prevDateOfTermination: date });
     };
+
+
+    const [Agents, setAgents] = useState([]);
+    useEffect(() => {
+       InsuranceApi.getAgents(sessionStorage.getItem("userid")).then((res) => {
+           setAgents(res.data)
+       }).catch(err => console.log(err))
+    }, []);
+
+
+
+    const officeChange = (val) => {
+        InsuranceApi.getAgentsByOffice(val).then((res) => {
+            setAgents(res.data)
+        }).catch(err => console.log(err))
+    }
 
     const updateAgent = (id) => {
 
@@ -109,7 +125,6 @@ const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employe
             }).catch((err) => {console.log(err)})
 
         }
-
     }
 
     return (
@@ -122,7 +137,7 @@ const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employe
                             <TextField
                                 select
                                 name="clientId"
-                                value={client?.id}
+                                value={clientId}
                                 label="Client"
                                 className="formtext"
                                 placeholder="Client ID"
@@ -136,28 +151,6 @@ const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employe
                                         {client.givenName} {client.surName} - {client.id}
                                     </MenuItem>
                                 ))}
-                            </TextField>
-                        </Grid>
-
-                        <Grid item xs={8} md={6} lg={4}>
-                            <TextField
-                                select
-                                label="Reporting To"
-                                name="upLevelAgentId"
-                                className="formtext"
-                                placeholder="Up Level Agent ID"
-                                fullWidth
-                                value={upLevelAgentId}
-                                variant="outlined"
-                                onChange={(e) => editChange(e) }
-                                margin="dense"
-                            >
-                                <MenuItem value={0}> --NULL-- </MenuItem>
-                                {
-                                    Agents.map((value) => (
-                                        <MenuItem value={value.id}> {value.client?.givenName} {value.client?.surName} </MenuItem>
-                                    ))
-                                }
                             </TextField>
                         </Grid>
 
@@ -278,12 +271,12 @@ const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employe
                                 name="officeId"
                                 select
                                 value={officeId}
-                                label="Branch"
+                                label="Office"
                                 className="formtext"
-                                placeholder="Branch"
+                                placeholder="Enter agent's office"
                                 fullWidth
                                 variant="outlined"
-                                onChange={(e) => editChange(e)}
+                                onChange={(e) => {officeChange(e.target.value); editChange(e)}}
                                 margin="dense"
                             >
                                 {
@@ -293,6 +286,29 @@ const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employe
                                 }
                             </TextField>
                         </Grid>
+
+                        <Grid item xs={8} md={6} lg={4}>
+                            <TextField
+                                select
+                                label="Reporting To"
+                                name="upLevelAgentId"
+                                className="formtext"
+                                placeholder="Up Level Agent ID"
+                                fullWidth
+                                value={upLevelAgentId}
+                                variant="outlined"
+                                onChange={(e) => editChange(e) }
+                                margin="dense"
+                            >
+                                <MenuItem value={0}> --NULL-- </MenuItem>
+                                {
+                                    Agents.map((value) => (
+                                        <MenuItem value={value.id}> {value.client?.givenName} {value.client?.surName} </MenuItem>
+                                    ))
+                                }
+                            </TextField>
+                        </Grid>
+
                         <Grid item xs={8} md={6} lg={4}>
                             <TextField
                                 name="areaCode"
@@ -310,7 +326,7 @@ const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employe
                             <TextField
                                 select
                                 name="agentType"
-                                value={agentTypeLevel?.id}
+                                value={agentType}
                                 label="Agent Type"
                                 className="formtext"
                                 placeholder="Agent Type"

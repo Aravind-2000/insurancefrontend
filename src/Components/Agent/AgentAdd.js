@@ -16,7 +16,7 @@ import Draggable from "react-draggable";
 import DraggableComponent from "../../Service/DraggableComponent";
 
 const AgentAdd = ({
-    close, getall, clients, setClients, agenttype, employees, paymethod,Agents, Offices, Currency, Paying, Invalid, Exclusives
+    close, getall, clients, setClients, agenttype, employees, paymethod, Offices, Currency, Paying, Invalid, Exclusives
                   }) => {
 
 
@@ -161,6 +161,16 @@ const AgentAdd = ({
             setClientCount(clientCount + 1)
         }
     }
+
+    const [Agents, setAgents] = useState([]);
+    const officeChange = (val) => {
+        InsuranceApi.getAgentsByOffice(val).then((res) => {
+            setAgents(res.data)
+        }).catch(err => console.log(err))
+        setOfficeId(val);
+    }
+
+
 
     return (
         <div>
@@ -422,7 +432,7 @@ const AgentAdd = ({
                                                 fullWidth
                                                 value={officeId}
                                                 variant="outlined"
-                                                onChange={(e) => setOfficeId(e.target.value) }
+                                                onChange={(e) => officeChange(e.target.value) }
                                                 margin="dense"
                                             >
                                                 {
@@ -475,7 +485,7 @@ const AgentAdd = ({
                                                 onChange={(e) => setUpLevelAgentId(e.target.value) }
                                                 margin="dense"
                                             >
-                                                <MenuItem value={0}> --NULL-- </MenuItem>
+                                                <MenuItem value={null}> --NULL-- </MenuItem>
                                                 {
                                                     Agents.map((value) => (
                                                         <MenuItem value={value.id}> {value.client?.givenName} {value.client?.surName} </MenuItem>

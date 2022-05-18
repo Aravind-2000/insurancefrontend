@@ -16,6 +16,9 @@ import moment from "moment";
 import {InputAdornment, OutlinedInput} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import DraggableComponent from "../../Service/DraggableComponent";
+import AgentInfo from "./AgentInfo";
+import InfoIcon from "@mui/icons-material/Info";
+import PeopleIcon from "@mui/icons-material/People";
 
 
 
@@ -161,6 +164,28 @@ const AgentDetails = () => {
         setEdit(false);
     }
 
+    //Info
+    const [infoRecord, setInfoRecord] = useState("");
+    const [info, setInfo] = useState(false);
+    const infoShow = (val) => {
+        setInfoRecord(val)
+        setInfo(true)
+    }
+    const infoHide = () => {
+        setInfo(false)
+    }
+
+    //Down Level Agents
+    const [downLevelAgents, setDownLevelAgents] = useState([]);
+    const [downLevelModal, setDownLevelModal] = useState(false);
+    const downLevelOpen = (arr) => {
+        setDownLevelAgents(arr)
+        setDownLevelModal(true)
+    }
+    const downLevelClose = () => {
+        setDownLevelModal(false)
+    }
+
 
     //Delete
     const deleteAgent = (id) => {
@@ -231,15 +256,6 @@ const AgentDetails = () => {
                                     <TableCell className="tblhd" align="left">
                                         Name
                                     </TableCell>
-                                    {/*<TableCell className="tblhd" align="left">*/}
-                                    {/*    Date Appointed*/}
-                                    {/*</TableCell>*/}
-                                    {/*<TableCell className="tblhd" align="left">*/}
-                                    {/*    Distribution Channel*/}
-                                    {/*</TableCell>*/}
-                                    {/*<TableCell className="tblhd" align="left">*/}
-                                    {/*    Area Code*/}
-                                    {/*</TableCell>*/}
                                     <TableCell className="tblhd" align="left">
                                        Actions
                                     </TableCell>
@@ -254,9 +270,6 @@ const AgentDetails = () => {
                                             <TableRow key={index} className={index % 2 ? "classEven" : "classOdd"}>
                                                 <TableCell align="left">{value.id}</TableCell>
                                                 <TableCell align="left">{value.client?.givenName} {value.client?.surName} </TableCell>
-                                                {/*<TableCell align="left">{moment(value.dateAppointed).format("DD-MM-YYYY")}</TableCell>*/}
-                                                {/*<TableCell align="left">{value.distributionChannel}</TableCell>*/}
-                                                {/*<TableCell align="left">{value.areaCode}</TableCell>*/}
                                                 <TableCell align="left">
                                                     <div className="TableClass">
 
@@ -272,6 +285,21 @@ const AgentDetails = () => {
                                                             color="error"
                                                             onClick={() => deleteAgent(value.id)}
                                                         />
+
+                                                        <InfoIcon
+                                                            color="primary"
+                                                            style={{cursor: "pointer", marginLeft: 10}}
+                                                            onClick={() => infoShow(value)}
+                                                        />
+
+                                                        <PeopleIcon
+                                                            color="primary"
+                                                            style={{cursor: "pointer", marginLeft: 10}}
+                                                            onClick={() => downLevelOpen(value.downLevelAgents)}
+                                                        />
+
+
+
                                                     </div>
                                                 </TableCell>
                                             </TableRow>
@@ -309,7 +337,7 @@ const AgentDetails = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="container">
-                        <AgentAdd close={addClose} Exclusives={ex} Invalid={invalids} Paying={payFrequency} Currency = {currencyType} Offices={offices} Agents={agents} getall={getallAgents} clients={clients} setClients={setClients} employees={employees} paymethod={paymethod} agenttype={agenttype}/>
+                        <AgentAdd close={addClose} Exclusives={ex} Invalid={invalids} Paying={payFrequency} Currency = {currencyType} Offices={offices}  getall={getallAgents} clients={clients} setClients={setClients} employees={employees} paymethod={paymethod} agenttype={agenttype}/>
                     </div>
                 </Modal.Body>
             </Modal>
@@ -326,7 +354,64 @@ const AgentDetails = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="container">
-                    <AgentEdit close={editClose} Exclusives={ex} Paying={payFrequency} Currency = {currencyType} Offices = {offices} Agents={agents} getAll={getallAgents} record={record} setRecord={setRecord} clients={clients}  employees={employees} paymethod={paymethod} agenttype={agenttype} />
+                    <AgentEdit close={editClose} Exclusives={ex} Paying={payFrequency} Currency = {currencyType} Offices = {offices}  getAll={getallAgents} record={record} setRecord={setRecord} clients={clients}  employees={employees} paymethod={paymethod} agenttype={agenttype} />
+                    </div>
+                </Modal.Body>
+            </Modal>
+
+            <Modal
+                show={info}
+                onHide={infoHide}
+                centered
+                size="xl"
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>  Agent Information </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="container">
+                        <AgentInfo data={infoRecord}/>
+                    </div>
+                </Modal.Body>
+            </Modal>
+
+            <Modal
+                show={downLevelModal}
+                onHide={downLevelClose}
+                centered
+                size="lg"
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title> Down Level Agents </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="container">
+
+                        <Table>
+                            <TableHead>
+                                <TableCell> Agent ID </TableCell>
+                                <TableCell> Agent Name </TableCell>
+                                <TableCell> Info  </TableCell>
+                            </TableHead>
+                            <TableBody>
+                                {
+                                    downLevelAgents.map((val, index) => (
+                                        <TableRow key={index}>
+                                            <TableCell> {val.id} </TableCell>
+                                            <TableCell> {val.client?.givenName} {val.client?.surName} </TableCell>
+                                            <TableCell>
+                                                <InfoIcon
+                                                    color="primary"
+                                                    style={{cursor: "pointer", marginLeft: 10}}
+                                                    onClick={() => infoShow(val)}
+                                                />
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                }
+                            </TableBody>
+                        </Table>
+
                     </div>
                 </Modal.Body>
             </Modal>
