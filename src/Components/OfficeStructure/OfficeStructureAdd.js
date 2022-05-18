@@ -168,6 +168,7 @@ const OfficeStructureAdd = ({
                         className="formtext"
                         onChange={(e) => setUpLevelOfficeId(e.target.value)}
                     >
+                        <MenuItem value={0}> --NULL-- </MenuItem>
                         {
                             data.map((val) => (
                                 <MenuItem value={val.officeId}> {val.officeName.toUpperCase()}  </MenuItem>

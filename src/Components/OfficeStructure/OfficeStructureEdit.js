@@ -121,6 +121,7 @@ const OfficeStructureEdit = ({
 
                         <Grid item xs={8} md={6} lg={4}>
                     <TextField
+                        select
                         value={record?.upLevelOfficeId}
                         margin="dense"
                         name="upLevelOfficeId"
@@ -131,6 +132,7 @@ const OfficeStructureEdit = ({
                         placeholder="Up Level Office Id"
                         onChange={(e) => editChange(e)}
                     >
+                        <MenuItem value={0}> --NULL-- </MenuItem>
                         {
                             data.map((val) => (
                                 <MenuItem value={val.officeId}> {val.officeName.toUpperCase()}  </MenuItem>
