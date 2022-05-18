@@ -38,6 +38,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+
+  "homepage": "/ui",
+
   "eslintConfig": {
     "extends": [
       "react-app",
