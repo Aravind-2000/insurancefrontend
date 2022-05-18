@@ -21,6 +21,7 @@ import {Modal} from "react-bootstrap";
 import TrainingAdd from "./TrainingAdd";
 import TrainingEdit from "./TrainingEdit";
 import TrainingInfo from "./TrainingInfo";
+import axios from "axios";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -47,19 +48,19 @@ const TrainingDetails = () => {
 
     const access = JSON.parse(sessionStorage.getItem("specialaccess"))
     const [trainingDetails, setTrainingDetails] = useState([]);
+    const [moduleDetails, setModuleDetails] = useState([]);
     const [updateDetails, setUpdateDetails] = useState("");
     const [infoRecord, setInfoRecord] = useState("");
     const [mode, setMode] = useState([]);
     const [type, setType] = useState([]);
-    const [level, setLevel] = useState([]);
     const [trainee, setTrainee] = useState([]);
     const [agents, setAgents] = useState([]);
 
     useEffect(() => {
         getAllTrainings()
+        getAllModules()
         getModes()
         getTypes()
-        getLevels()
         getAgents()
     }, []);
 
@@ -67,6 +68,12 @@ const TrainingDetails = () => {
         InsuranceApi.getAllTrainings().then((res) => {
             setTrainingDetails(res.data)
         }).catch(err => console.log(err))
+    }
+
+    const getAllModules = () => {
+        InsuranceApi.getAllTrainingModule().then((res) => (
+            setModuleDetails(res.data)
+        )).catch(err => console.log(err))
     }
 
     const getAgents = () => {
@@ -84,12 +91,6 @@ const TrainingDetails = () => {
     const getTypes = () => {
         InsuranceApi.getParameterRule("TT001").then((res) => {
             setType(res.data)
-        }).catch(err => console.log(err))
-    }
-
-    const getLevels = () => {
-        InsuranceApi.getParameterRule("TL001").then((res) => {
-            setLevel(res.data)
         }).catch(err => console.log(err))
     }
 
@@ -135,8 +136,22 @@ const TrainingDetails = () => {
                 getAllTrainings()
             }).catch(err => console.log(err))
         }
-
     }
+
+    const [search, setSearch] = useState("");
+    const globalsearch = (val) =>{
+        val === "" ? getAllTrainings() : axios.get(`http://localhost:8090/training/search/${val}`,{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            }
+        }).then((res) => {
+            setTrainingDetails(res.data);
+        })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
     return (
         <div>
             <div className="container">
@@ -156,6 +171,8 @@ const TrainingDetails = () => {
                         </Button> : null
                 }
 
+                <input type="search" placeholder="search" value={search} onChange={(e) => {setSearch(e.target.value); globalsearch(e.target.value)}} />
+
                 <Paper className="paperStyle">
                     <TableContainer sx={{ maxHeight: 440, maxWidth: 1200, marginLeft:5 }}>
                         <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -164,16 +181,13 @@ const TrainingDetails = () => {
                                     Training ID
                                 </TableCell>
                                 <TableCell className="tblhd" align="left">
-                                    Training Topic
+                                    Training Module
                                 </TableCell>
                                 <TableCell className="tblhd" align="left">
                                     Training Type
                                 </TableCell>
                                 <TableCell className="tblhd" align="left">
                                     Training Mode
-                                </TableCell>
-                                <TableCell className="tblhd" align="left">
-                                    Training Level
                                 </TableCell>
                                 <TableCell className="tblhd" align="left">
                                     Actions
@@ -190,16 +204,13 @@ const TrainingDetails = () => {
                                                 {value.id}
                                             </TableCell>
                                             <TableCell  align="left">
-                                                {value.trainingTopic}
+                                                {value.trainingModule?.id} - {value.trainingModule?.trainingTopic} -    {value.trainingModule?.trainingLevel}
                                             </TableCell>
                                             <TableCell  align="left">
                                                 {value.trainingType}
                                             </TableCell>
                                             <TableCell  align="left">
                                                 {value.trainingMode}
-                                            </TableCell>
-                                            <TableCell  align="left">
-                                                {value.trainingLevel}
                                             </TableCell>
                                             <TableCell align="left">
                                                 <div className="tableClass">
@@ -281,7 +292,7 @@ const TrainingDetails = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="container">
-                        <TrainingAdd close={closeAdd} getAll={getAllTrainings} modes={mode} types={type} levels={level} agents={agents} />
+                        <TrainingAdd close={closeAdd} modules={moduleDetails} getAll={getAllTrainings} modes={mode} types={type} agents={agents} />
                     </div>
                 </Modal.Body>
             </Modal>
@@ -314,7 +325,7 @@ const TrainingDetails = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="container">
-                        <TrainingEdit close={editClose} agents={agents} getAll={getAllTrainings} record={updateDetails} setRecord={setUpdateDetails} modes={mode} types={type} levels={level} />
+                        <TrainingEdit close={editClose}  modules={moduleDetails} agents={agents} getAll={getAllTrainings} record={updateDetails} setRecord={setUpdateDetails} modes={mode} types={type}  />
                     </div>
                 </Modal.Body>
             </Modal>

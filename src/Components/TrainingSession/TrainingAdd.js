@@ -18,19 +18,17 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import DatePicker from "@mui/lab/DatePicker";
 
 
-const TrainingAdd = ({close, getAll, modes, levels, types, agents}) => {
+const TrainingAdd = ({close, getAll, modules, modes, levels, types, agents}) => {
 
-    const [trainingTopic, setTrainingTopic] = useState("");
-    const [trainingDesc, setTrainingDesc] = useState("");
+
+    const [trainingModuleId, setTrainingModuleId] = useState("");
     const [trainingType, setTrainingType] = useState("");
     const [trainingMode, setTrainingMode] = useState("");
-    const [trainingLevel, setTrainingLevel] = useState("");
     const [startdate, setStartDate] = useState("");
     const [enddate, setEndDate] = useState("");
     const [trainingTime, setTrainingTime] = useState("");
     const [trainer, setTrainer] = useState("");
-    const [trainingCost, setTrainingCost] = useState("");
-    const [sponsoredBy, setSponsoredBy] = useState("");
+    const [continuanceId, setContinuanceId] = useState("");
 
 
     const [dateError, setDateError] = useState("");
@@ -53,9 +51,9 @@ const TrainingAdd = ({close, getAll, modes, levels, types, agents}) => {
         const startDate = moment(startdate).format("MM-DD-YYYY")
         const endDate = moment(enddate).format("MM-DD-YYYY")
 
-        const body = {
-            trainingTopic, trainingDesc, trainingType, trainingMode, trainingLevel,
-            startDate, endDate, trainingTime, trainer, trainingCost, sponsoredBy
+        const body = { trainingModuleId, continuanceId,
+            trainingType, trainingMode,
+            startDate, endDate, trainingTime, trainer
         }
 
         InsuranceApi.addTraining(body).then((res) => {
@@ -71,32 +69,27 @@ const TrainingAdd = ({close, getAll, modes, levels, types, agents}) => {
             <form autoComplete="off" onSubmit={formSubmit}>
                 <Box sx={{flexGrow: 1}}>
                     <Grid container spacing={2}>
-                        <Grid item xs={8} md={6} lg={4}>
-                            <TextField
-                                fullWidth
-                                className="formtext"
-                                margin="dense"
-                                variant="outlined"
-                                placeholder="Enter Training Topic "
-                                value={trainingTopic}
-                                label="Topic"
-                                onChange={(e) => setTrainingTopic(e.target.value)}
-                                required
-                            />
-                        </Grid>
 
                         <Grid item xs={8} md={6} lg={4}>
                             <TextField
+                                select
                                 fullWidth
                                 className="formtext"
                                 margin="dense"
                                 variant="outlined"
-                                placeholder="Enter Training Description "
-                                value={trainingDesc}
-                                label="Description"
-                                onChange={(e) => setTrainingDesc(e.target.value)}
+                                placeholder="Enter Training Module ID "
+                                value={trainingModuleId}
+                                label="Module ID"
+                                onChange={(e) => setTrainingModuleId(e.target.value)}
                                 required
-                            />
+                            >
+                                {
+                                    modules.map((val) => (
+                                        <MenuItem value={val.id}> {val.trainingTopic} -{val.trainingLevel} </MenuItem>
+                                    ))
+                                }
+                            </TextField>
+
                         </Grid>
 
                         <Grid item xs={8} md={6} lg={4}>
@@ -131,27 +124,6 @@ const TrainingAdd = ({close, getAll, modes, levels, types, agents}) => {
                                     }
                                 </RadioGroup>
                             </FormControl>
-                        </Grid>
-
-                        <Grid item xs={8} md={6} lg={4}>
-                            <TextField
-                                select
-                                fullWidth
-                                className="formtext"
-                                margin="dense"
-                                variant="outlined"
-                                placeholder="Enter Training Level "
-                                value={trainingLevel}
-                                label="Level"
-                                onChange={(e) => setTrainingLevel(e.target.value)}
-                                required
-                            >
-                                {
-                                    levels.map((val) => (
-                                        <MenuItem value={val}> {val} </MenuItem>
-                                    ))
-                                }
-                            </TextField>
                         </Grid>
 
                         <Grid item xs={8} md={6} lg={4}>
@@ -250,33 +222,19 @@ const TrainingAdd = ({close, getAll, modes, levels, types, agents}) => {
                                 </Grid>
                         }
 
-
-                        <Grid item xs={8} md={6} lg={4}>
-                            <TextField
-                                type="number"
-                                fullWidth
-                                className="formtext"
-                                margin="dense"
-                                variant="outlined"
-                                placeholder="₹ "
-                                value={trainingCost}
-                                label="Training Cost"
-                                onChange={(e) => setTrainingCost(e.target.value)}
-                            />
-                        </Grid>
-
                         <Grid item xs={8} md={6} lg={4}>
                             <TextField
                                 fullWidth
                                 className="formtext"
                                 margin="dense"
                                 variant="outlined"
-                                placeholder="Sponsorship "
-                                value={sponsoredBy}
-                                label="Sponsered By"
-                                onChange={(e) => setSponsoredBy(e.target.value)}
+                                placeholder="Enter the ID training for which this needs to be suggested"
+                                value={continuanceId}
+                                label="Continuance ID"
+                                onChange={(e) => setContinuanceId(e.target.value)}
                             />
                         </Grid>
+
                     </Grid>
                 </Box>
 

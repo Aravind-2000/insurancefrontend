@@ -16,24 +16,21 @@ import DatePicker from "@mui/lab/DatePicker";
 import moment from "moment";
 import InsuranceApi from "../../Service/InsuranceApi";
 
-const TrainingEdit = ({close, getAll, modes, levels, record, setRecord, types, agents}) => {
+const TrainingEdit = ({close, getAll, modes, modules, record, setRecord, types, agents}) => {
 
 
 
     const updateSubmit = (id) => {
 
         const body = {
-            trainingTopic: record.trainingTopic,
-            trainingDesc: record.trainingDesc,
+            trainingModuleId: record.trainingModuleId,
             trainingType: record.trainingType,
             trainingMode: record.trainingMode,
-            trainingLevel: record.trainingLevel,
             startDate: moment(record.startDate).format("MM-DD-YYYY"),
             endDate: moment(record.endDate).format("MM-DD-YYYY"),
             trainingTime: record.trainingTime,
             trainer: record.trainer,
             trainingCost: record.trainingCost,
-            sponsoredBy: record.sponsoredBy,
             continuanceId: record.continuanceId
         }
 
@@ -77,35 +74,29 @@ const TrainingEdit = ({close, getAll, modes, levels, record, setRecord, types, a
             <form autoComplete="off">
                 <Box sx={{flexGrow: 1}}>
                     <Grid container spacing={2}>
-                        <Grid item xs={8} md={6} lg={4}>
-                            <TextField
-                                fullWidth
-                                className="formtext"
-                                margin="dense"
-                                variant="outlined"
-                                placeholder="Enter Training Topic "
-                                value={record?.trainingTopic}
-                                name="trainingTopic"
-                                label="Topic"
-                                onChange={(e) => editChange(e)}
-                                required
-                            />
-                        </Grid>
 
                         <Grid item xs={8} md={6} lg={4}>
                             <TextField
+                                select
                                 fullWidth
                                 className="formtext"
                                 margin="dense"
                                 variant="outlined"
-                                placeholder="Enter Training Description "
-                                value={record?.trainingDesc}
-                                name="trainingDesc"
-                                label="Description"
+                                placeholder="Enter Training Module ID "
+                                value={record?.trainingModuleId}
+                                name="trainingModuleId"
+                                label="Module ID"
                                 onChange={(e) => editChange(e)}
                                 required
-                            />
+                            >
+                                {
+                                    modules.map((val) => (
+                                        <MenuItem value={val.id}> {val.trainingTopic} -{val.trainingLevel} </MenuItem>
+                                    ))
+                                }
+                            </TextField>
                         </Grid>
+
 
                         <Grid item xs={8} md={6} lg={4}>
                             <FormControl>
@@ -143,27 +134,6 @@ const TrainingEdit = ({close, getAll, modes, levels, record, setRecord, types, a
                             </FormControl>
                         </Grid>
 
-                        <Grid item xs={8} md={6} lg={4}>
-                            <TextField
-                                select
-                                fullWidth
-                                className="formtext"
-                                margin="dense"
-                                variant="outlined"
-                                placeholder="Enter Training Level "
-                                value={record?.trainingLevel}
-                                name="trainingLevel"
-                                label="Level"
-                                onChange={(e) => editChange(e)}
-                                required
-                            >
-                                {
-                                    levels.map((val) => (
-                                        <MenuItem value={val}> {val} </MenuItem>
-                                    ))
-                                }
-                            </TextField>
-                        </Grid>
 
                         <Grid item xs={8} md={6} lg={4}>
                             <FormControl
@@ -280,19 +250,6 @@ const TrainingEdit = ({close, getAll, modes, levels, record, setRecord, types, a
                             />
                         </Grid>
 
-                        <Grid item xs={8} md={6} lg={4}>
-                            <TextField
-                                fullWidth
-                                className="formtext"
-                                margin="dense"
-                                variant="outlined"
-                                placeholder="Sponsorship "
-                                value={record?.sponsoredBy}
-                                name="sponsoredBy"
-                                label="Sponsered By"
-                                onChange={(e) => editChange(e)}
-                            />
-                        </Grid>
 
                         <Grid item xs={8} md={6} lg={4}>
                             <TextField
