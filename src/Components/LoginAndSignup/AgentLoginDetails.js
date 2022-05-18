@@ -104,7 +104,9 @@ const AgentLoginDetails = () => {
     const getMyTrainings = () => {
         const agentId = sessionStorage.getItem("agent")
         InsuranceApi.getMyTrainings(agentId).then((res) => {
-            setMyTrainings(res.data)
+            if(res.data !== "UNAUTHORIZED"){
+                setMyTrainings(res.data)
+            }
         }).catch(err => console.log(err))
     }
 
@@ -159,10 +161,8 @@ const AgentLoginDetails = () => {
                 <br/>
                 <h4> Agent Details </h4>
                 {
-                    sessionStorage.getItem("agent") === null ?
-
+                    sessionStorage.getItem("agent") === null || agent === "UNAUTHORIZED" ? <h4> You are Unauthorized </h4> : null ?
                         <h4> You are not a agent yet. </h4> :
-
                         <>
                         <h6> Agent ID  : {agent.id} </h6>
                         <h6> Agent Name: {agent.client?.givenName} {agent.client?.surName} </h6>
@@ -209,13 +209,13 @@ const AgentLoginDetails = () => {
 
             <br/>
             <div>
-                <h3 style={{marginLeft:375}}> My Trainings :- </h3>
+                <h3 style={{marginLeft:400}}> My Trainings :- </h3>
                 {
-                    sessionStorage.getItem("agent" ) === null ?
-                        <p> You are not a agent yet... </p>
+                    sessionStorage.getItem("agent" ) === null || agent === "UNAUTHORIZED" ? <h4 style={{marginLeft:425}}> You are Unauthorized </h4> : null ?
+                        <h6 style={{marginLeft:425}}> You are not a agent yet... </h6>
                         :
-                            myTrainings === null ?
-                            <h4> Currently you don't have any trainings </h4> :
+                            myTrainings.length === 0 ?
+                            <h5 style={{marginLeft:425}}> Currently you don't have any trainings. </h5> :
                             myTrainings?.map((data) => (
                                 <>
                                     <Paper elevation={5} style={paperStyle1}>
