@@ -37,7 +37,6 @@ const Login = () => {
     ))
   }
 
-  const [userDetails, setUserDetails] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -48,10 +47,9 @@ const Login = () => {
         password,
       })
       .then((response) => {
-        setUserDetails(response.data)
         sessionStorage.setItem("token", response.data.accessToken);
         sessionStorage.setItem("userid", response.data.id);
-        response.data.agent?.id !== null ? sessionStorage.setItem("agent", response.data.agent?.id) : sessionStorage.setItem("agent", null)
+        response.data.agent !== null ? sessionStorage.setItem("agent", response.data.agent?.id) : sessionStorage.setItem("agent", null)
         sessionStorage.setItem("username", response.data.username)
         localStorage.setItem("username", response.data.username)
         sessionStorage.setItem("email", response.data.email)
