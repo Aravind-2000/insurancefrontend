@@ -61,7 +61,7 @@ const EditCandidate = (
             InsuranceApi.updatecandidate(id, body).then((respo) => {
                 close()
                 getall()
-                window.location.href = "/candidates"
+                window.location = "candidates"
             }).catch((error) => console.log(error))
         }
         else{
