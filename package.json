@@ -39,7 +39,7 @@
     "eject": "react-scripts eject"
   },
 
-  "homepage": "/ui",
+  "homepage": "/ui/mainpage",
 
   "eslintConfig": {
     "extends": [
