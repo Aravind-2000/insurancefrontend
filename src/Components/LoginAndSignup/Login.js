@@ -6,15 +6,15 @@ import {
   TextField,
   Button,
   Typography,
-  Link, Box,
+  Link, Box, IconButton,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import ContextProvide from "../ContextAPI/ContextProvider";
+import {InputAdornment, OutlinedInput} from "@material-ui/core";
+import {Visibility, VisibilityOff} from "@mui/icons-material";
 
 const Login = () => {
-  let navigate = useNavigate();
   const paperStyle = {
     padding: 20,
     height: "70vh",
@@ -23,6 +23,7 @@ const Login = () => {
   };
   const avatarStyle = { backgroundColor: "#1bbd7e" };
   const btnstyle = { margin: "8px 0" , marginLeft: "12.5rem"};
+
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -50,20 +51,32 @@ const Login = () => {
         setUserDetails(response.data)
         sessionStorage.setItem("token", response.data.accessToken);
         sessionStorage.setItem("userid", response.data.id);
-        sessionStorage.setItem("agent", response.data.agent.id)
+        response.data.agent?.id !== null ? sessionStorage.setItem("agent", response.data.agent?.id) : sessionStorage.setItem("agent", null)
         sessionStorage.setItem("username", response.data.username)
+        localStorage.setItem("username", response.data.username)
         sessionStorage.setItem("email", response.data.email)
         sessionStorage.setItem("refreshtoken", response.data.refreshToken)
         accessMethod(response.data.specialAccess)
         sessionStorage.setItem("specialaccess", JSON.stringify(access))
         sessionStorage.setItem("condition", "true")
-        navigate('/logindetails')
+        window.location = "logindetails"
       })
       .catch((err) => {
         console.log(err.message);
         setError(true);
       });
   };
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword)
+  }
+
 
   return (
     <div>
@@ -87,19 +100,33 @@ const Login = () => {
                 fullWidth
                 required
             />
-            <br />
+
+            <br/>
             <TextField
+                type={showPassword ? 'text' : 'password'}
                 className="formtext"
                 label="Password"
                 value={password}
-                placeholder="Enter password"
-                type="password"
+                placeholder="Enter Password"
                 onChange={(e) => setPassword(e.target.value)}
                 fullWidth
+                variant="outlined"
                 required
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment
+                        position="end"
+                    >
+                        <IconButton
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        >
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                    </InputAdornment>
+                  )
+                }}
             />
-
-
 
 
             <Button
@@ -117,12 +144,11 @@ const Login = () => {
             <br/>
             <Grid container spacing={2}>
 
-              <Link href="/signup">
-                <Button style={{color:"white", backgroundColor:"green", marginLeft:160}}> Create An Account </Button>
-              </Link>
+              <Button  style={{color:"white", backgroundColor:"green", marginLeft:160}}> <Link href="signup" style={{color:"white", textDecoration:"none"}}>  Create An Account  </Link></Button>
+
 
             {error ? (
-                <Typography style={{ color: "red" }}>
+                <Typography style={{ color: "red" , margin:50 }}>
                   Bad Credentials , Username or Password is wrong
                 </Typography>
             ) : null}

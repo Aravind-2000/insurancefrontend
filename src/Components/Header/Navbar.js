@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     Nav,
     NavLink,
@@ -7,16 +7,20 @@ import {
 } from './NavbarElements';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { NavDropdown} from "react-bootstrap";
+import InsuranceApi from "../../Service/InsuranceApi";
 
 const Navbar = () => {
 
-    const item = sessionStorage.getItem("condition")
 
-    const [navigation, setNavigation] = useState("");
 
-    const putNavigation = (val) => {
-        setNavigation(val)
-    }
+    // const [username, setUsername] = useState(null);
+    //
+    // useEffect(() => {
+    //     InsuranceApi.getUser(sessionStorage.getItem("userid")).then((res) => {
+    //         setUsername(res.data.username)
+    //     }).catch(err=>console.log(err))
+    // }, [sessionStorage.getItem("userid")]);
+
 
     return (
         <div>
@@ -27,77 +31,42 @@ const Navbar = () => {
                 <Bars />
 
                 <NavMenu>
+                   <NavLink to="logindetails">
+                       <p style={{color:"white", marginTop:15}}> {sessionStorage.getItem("username")}  </p>
+                   </NavLink>
                     {
-                        item === "true" ?
-                            <NavLink to="/logindetails" activeStyle>
-                                <p style={{color:"white", marginTop:15}}>  {sessionStorage.getItem("username")} </p>
-                            </NavLink>
-                            :
+                        sessionStorage.getItem("condition") === null ?
+                            <>
                             <NavLink to="login" activeStyle>
                                 <AccountCircleIcon/>
-                            </NavLink>}
+                            </NavLink>
+                            </>
+                            : null
+                    }
 
                     {
-                        item === "true" ?
-                            <NavDropdown  title={navigation}>
-                                <NavDropdown.Item href="/emp-dashboard" >My Dashboard</NavDropdown.Item>
-                                <NavDropdown.Item href="/agent"  onClick={() => putNavigation("Agent Details")}>Agent Details</NavDropdown.Item>
-                                <NavDropdown.Item href="/client" onClick={() => putNavigation("Client Details")}>Client Details</NavDropdown.Item>
-                                <NavDropdown.Item href="/bank" >Bank Account Details </NavDropdown.Item>
+                        sessionStorage.getItem("condition") !== null ?
+                            <NavDropdown  title="Navigation">
+                                <NavDropdown.Item href="logindetails" >My Dashboard</NavDropdown.Item>
+                                <NavDropdown.Item href="emp-dashboard" >Employee Dashboard</NavDropdown.Item>
+                                <NavDropdown.Item href="agent" >Agent Details</NavDropdown.Item>
+                                <NavDropdown.Item href="client" >Client Details</NavDropdown.Item>
+                                <NavDropdown.Item href="bank" >Bank Account Details </NavDropdown.Item>
                                 <NavDropdown.Item href="address">Client Address Details </NavDropdown.Item>
-                                <NavDropdown.Item href="/candidates">Enrolled Candidates Details </NavDropdown.Item>
-                                <NavDropdown.Item href="/employee">Employee Details </NavDropdown.Item>
-                                <NavDropdown.Item href="/company">Company Details </NavDropdown.Item>
-                                <NavDropdown.Item href="/office">Office Details </NavDropdown.Item>
-                                <NavDropdown.Item href="/agenttree">Tree Structure </NavDropdown.Item>
-                                <NavDropdown.Item href="/training">Training Details </NavDropdown.Item>
-                                <NavDropdown.Item href="/trainees">Agent Trainee Details </NavDropdown.Item>
+                                <NavDropdown.Item href="candidates">Enrolled Candidates Details </NavDropdown.Item>
+                                <NavDropdown.Item href="employee">Employee Details </NavDropdown.Item>
+                                <NavDropdown.Item href="company">Company Details </NavDropdown.Item>
+                                <NavDropdown.Item href="office">Office Details </NavDropdown.Item>
+                                <NavDropdown.Item href="agenttree">Tree Structure </NavDropdown.Item>
+                                <NavDropdown.Item href="training">Training Session Details </NavDropdown.Item>
+                                <NavDropdown.Item href="trainees">Agent Trainee Details </NavDropdown.Item>
+                                <NavDropdown.Item href="trainingcost"> Training Cost Details </NavDropdown.Item>
+                                <NavDropdown.Item href="trainingmodule"> Training Module Details </NavDropdown.Item>
                             </NavDropdown>
 
                             : null
                     }
-
-
-                    {/*<NavLink to='/add' activeStyle>*/}
-                    {/*    Enroll Now*/}
-                    {/*</NavLink>*/}
-                    {/*<NavLink to='/candidates' activeStyle>*/}
-                    {/*    Candidates*/}
-                    {/*</NavLink>*/}
-                    {/*<NavLink to='/employee' activeStyle>*/}
-                    {/*    Employees*/}
-                    {/*</NavLink>*/}
-                    {/*<NavLink to='/emp-dashboard' activeStyle>*/}
-                    {/*    Dashboard*/}
-                    {/*</NavLink>*/}
-                    {/*<NavLink to="/bank" activeStyle>*/}
-                    {/*    Bank Accounts*/}
-                    {/*</NavLink>*/}
-                    {/*<NavLink to="/address" activeStyle>*/}
-                    {/*    Address*/}
-                    {/*</NavLink>*/}
-                    {/*<NavLink to="/client" activeStyle>*/}
-                    {/*    Clients*/}
-                    {/*</NavLink>*/}
-                    {/*<NavLink to="/agent" activeStyle>*/}
-                    {/*    Agent*/}
-                    {/*</NavLink>*/}
-                    {/*<NavLink to="/office" activeStyle>*/}
-                    {/*    Offices*/}
-                    {/*</NavLink>*/}
-                    {/*<NavLink to="/company" activeStyle>*/}
-                    {/*    Company*/}
-                    {/*</NavLink>*/}
-                    {/*{*/}
-                    {/*    item === "true" ?*/}
-                    {/*        <NavLink to="/logout" activeStyle>*/}
-                    {/*            <p style={{color:"white", marginTop:15, marginLeft:50}}> LogOut </p>*/}
-                    {/*        </NavLink> : null*/}
-                    {/*}*/}
                 </NavMenu>
-                {/*<NavBtn>*/}
-                {/*    <NavLink>Sign In</NavLink>*/}
-                {/*</NavBtn>*/}
             </Nav>
 
         </div>

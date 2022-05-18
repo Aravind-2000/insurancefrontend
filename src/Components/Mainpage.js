@@ -13,7 +13,7 @@ const Mainpage = (props) => {
 
     const gotoadd = (e) => {
         e.preventDefault();
-        window.location = "/add";
+        window.location = "/ui/add";
     }
 
 

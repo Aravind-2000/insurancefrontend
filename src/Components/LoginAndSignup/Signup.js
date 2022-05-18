@@ -6,11 +6,14 @@ import {
     TextField,
     Button,
     Typography,
-    Link, Box, MenuItem,
+    Link, Box, MenuItem, IconButton,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import {InputAdornment} from "@material-ui/core";
+import {Visibility, VisibilityOff} from "@mui/icons-material";
+import Notifications from "../Dialogs/Notifications";
 
 const Signup = () => {
 
@@ -39,6 +42,12 @@ const Signup = () => {
     }, []);
 
 
+    const [notify, setNotify] = useState({
+        isOpen: false,
+        message: "",
+        type: "",
+    });
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -46,18 +55,50 @@ const Signup = () => {
             axios.post(`http://localhost:8090/api/auth/signup`, {
                 username, password, agentId, roleId, email
             }).then((res) => {
-                console.log(res.data)
-                navigate("/login");
-            }).catch((err) => console.log(err))
+                setNotify({
+                    isOpen: true,
+                    message: res.data?.message,
+                    type: "success",
+                });
+               setTimeout(() => {
+                   navigate("/login");
+               }, 2000)
+            }).catch((res) =>
+                setNotify({
+                    isOpen: true,
+                    message: res.data?.message,
+                    type: "error",
+                })
+            )
         }
         else{
             axios.post(`http://localhost:8090/api/auth/signup`, {
                 username, password, roleId, email
             }).then((res) => {
-                console.log(res.data)
-                navigate("/login");
-            }).catch((err) => console.log(err))
+                setNotify({
+                    isOpen: true,
+                    message: res.data?.message,
+                    type: "success",
+                });
+                setTimeout(() => {
+                    navigate("/login");
+                }, 2000)
+            }).catch((res) => setNotify({
+                isOpen: true,
+                message: res.data?.message ,
+                type: "error",
+            }))
         }
+    }
+
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
+
+    const handleClickShowPassword = () => {
+        setShowPassword(!showPassword)
     }
 
     return (
@@ -95,14 +136,29 @@ const Signup = () => {
                             />
                             <br/>
                             <TextField
+                                type={showPassword ? 'text' : 'password'}
                                 className="formtext"
                                 label="Password"
                                 value={password}
-                                placeholder="Enter password"
-                                type="password"
+                                placeholder="Enter Password"
                                 onChange={(e) => setPassword(e.target.value)}
                                 fullWidth
+                                variant="outlined"
                                 required
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment
+                                            position="end"
+                                        >
+                                            <IconButton
+                                                onClick={handleClickShowPassword}
+                                                onMouseDown={handleMouseDownPassword}
+                                            >
+                                                {showPassword ? <Visibility /> : <VisibilityOff />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    )
+                                }}
                             />
                             <br/>
                             <TextField
@@ -154,12 +210,13 @@ const Signup = () => {
                         <br/>
                         <Grid container spacing={2}>
                             <Typography style={{marginLeft:100}} >
-                                Already have an Account ? <Link href="/login">Login</Link>
+                                Already have an Account ? <Link href="login">Login</Link>
                             </Typography>
                         </Grid>
                     </Box>
                 </form>
             </Paper>
+            <Notifications notify={notify} setNotify={setNotify} />
         </div>
     );
 };
