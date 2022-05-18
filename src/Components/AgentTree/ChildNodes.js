@@ -69,34 +69,39 @@ function ChildNodes({ data, agentData, parentNode }) {
         })}
         {agentData?.map((agents) => (
             <>
-              <TreeNode
-                  lineWidth={"2px"}
-                  lineColor={"green"}
-                  lineBorderRadius={"10px"}
-                  label={
-                    <StyledNode onClick={() => agentDisplay(agents.id)}>
-                      {
-                        <>
-                          <b>Name: </b> {agents?.client?.givenName}
-                          <br />
-                          <span>
+              {
+                agents.upLevelAgentId === 0  ?
+                    (
+                        <TreeNode
+                            lineWidth={"2px"}
+                            lineColor={"green"}
+                            lineBorderRadius={"10px"}
+                            label={
+                              <StyledNode onClick={() => agentDisplay(agents.id)}>
+                                {
+                                  <>
+                                    <b>Name: </b> {agents?.client?.givenName}
+                                    <br />
+                                    <span>
                       {" "}
-                            <b>Agent Type: </b>
-                            {agents?.agentTypeLevel?.agentLevelDesc}
+                                      <b>Agent Type: </b>
+                                      {agents?.agentTypeLevel?.agentLevelDesc}
                     </span>
-                        </>
-                      }
-                    </StyledNode>
-                  }
-              >
-                {agent === agents.id && agentshow ? (
-                    <>
-                      {agents.downLevelAgents != 0 ? (
-                          <AgentChild data={agents.downLevelAgents} />
-                      ) : null}
-                    </>
-                ) : null}
-              </TreeNode>
+                                  </>
+                                }
+                              </StyledNode>
+                            }
+                        >
+                          {agent === agents.id && agentshow ? (
+                              <>
+                                {agents.downLevelAgents != 0 ? (
+                                    <AgentChild data={agents.downLevelAgents} />
+                                ) : null}
+                              </>
+                          ) : null}
+                        </TreeNode>
+                    ) : null
+              }
             </>
         ))}
       </>

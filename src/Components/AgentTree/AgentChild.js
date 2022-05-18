@@ -21,6 +21,7 @@ function AgentChild({ data }) {
         {data?.map((agents, index) => {
           return (
               <>
+
                 <TreeNode
                     key={index}
                     label={
@@ -37,7 +38,7 @@ function AgentChild({ data }) {
                       </StyledNode>
                     }
                 >
-                  {agent === agents.id && agentshow ? (
+                  {agent === agents.id && agentshow  ? (
                       <>
                         {agents.downLevelAgents != 0 ? (
                             <AgentChild
