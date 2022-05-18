@@ -6,14 +6,14 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import moment from "moment";
 import axios from "axios";
-import {Box, FormControl, Grid} from "@mui/material";
+import {Box, FormControl, Grid, MenuItem} from "@mui/material";
 
 
 
 function CompanyAdd({
     open,
     handleClickClose, close,
-    getdata,
+    getdata,status
   }
   
   )
@@ -110,6 +110,7 @@ function CompanyAdd({
 
                       <Grid item xs={8} md={6} lg={4}>
                   <TextField
+                      select
                     style={{marginRight:"2rem"}}
                   placeholder="Status"
                     name="companyStatus"
@@ -119,7 +120,15 @@ function CompanyAdd({
                     fullWidth
                     variant="outlined"
                     onChange={(e) => setCompanyStatus((e.target.value))}
-                  /> </Grid>
+                  >
+                      {
+                          status.map((val) => (
+                              <MenuItem value={val}> {val.toUpperCase()} </MenuItem>
+                          ))
+                      }
+                  </TextField>
+
+                      </Grid>
 
 
                       <Grid item xs={8} md={6} lg={4}>

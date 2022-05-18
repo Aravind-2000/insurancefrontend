@@ -5,14 +5,14 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import axios from "axios";
-import {Box, FormControl, Grid} from "@mui/material";
+import {Box, FormControl, Grid, MenuItem} from "@mui/material";
 import moment from "moment";
 
 function CompanyEdit({
   data,
     setData,
     getData,
-  handleClickClose,
+  handleClickClose,status
 }) {
   
   let {  companyName,companyCountry, companyLicenseNumber, companyLicenseIssueDate, companyStatus, companyCurrency} = data;
@@ -142,6 +142,7 @@ function CompanyEdit({
 
             <Grid item xs={8} md={6} lg={4}>
               <TextField
+                  select
                 placeholder="Status"
                 label="Status"
                   name="companyStatus"
@@ -151,7 +152,15 @@ function CompanyEdit({
                 className="formtext"
                 fullWidth
                   onChange={(e) => editChange(e)}
-              /></Grid>
+              >
+                  {
+                      status.map((val) => (
+                          <MenuItem value={val}> {val.toUpperCase()} </MenuItem>
+                      ))
+                  }
+              </TextField>
+
+            </Grid>
           </Grid>
         </Box>
           </form>

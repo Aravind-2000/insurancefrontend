@@ -14,8 +14,11 @@ import CompanyAdd from "./CompanyAdd";
 import CompanyEdit from "./CompanyEdit";
 import {makeStyles, TablePagination} from "@material-ui/core";
 import {Modal} from "react-bootstrap";
+import InfoIcon from "@mui/icons-material/Info";
 import Paper from "@mui/material/Paper";
 import moment from "moment";
+import CompanyInfo from "./CompanyInfo";
+import InsuranceApi from "../../Service/InsuranceApi";
 
 
 
@@ -40,6 +43,12 @@ function Company() {
   const [editOpen, setEditOpen] = useState(false);
   const[infoOpen, setInfoOpen] = useState(false);
 
+  const [status, setStatus] = useState([]);
+  const getStatus  = () => {
+    InsuranceApi.getParameterRule("ST001").then((res) => {
+      setStatus(res.data)
+    }).catch(err => console.log(err))
+  }
 
 
 
@@ -133,6 +142,7 @@ function Company() {
   
   useEffect(() => {
     getData();
+    getStatus()
   }, []);
   
   return (
@@ -171,20 +181,21 @@ function Company() {
                   <TableCell align="left">{value.companyStatus}</TableCell>
                   <TableCell align="left">
                     <div style={{ display: "flex" }}>
+                      <InfoIcon
+                          color="primary"
+                          style={{cursor:"pointer", marginLeft:10}}
+                          onClick={() => infoClickOpen(value)}
+                      />
                       <EditIcon
                         color="primary"
-                        style={{cursor:"pointer"}}
+                        style={{cursor:"pointer", marginLeft:10}}
                         onClick={() => editClickOpen(value)}
                       />
                       <DeleteIcon
                         color="error"
-                        style={{cursor:"pointer"}}
+                        style={{cursor:"pointer", marginLeft:10}}
                         onClick={() => handleDelete(value.companyId)}
                       />
-                      {/*<InfoIcon*/}
-                      {/*  */}
-                      {/*  onClick={() => infoClickOpen(value)}*/}
-                      {/*/>*/}
                     </div>
                   </TableCell>
                 </TableRow>
@@ -225,6 +236,7 @@ function Company() {
         <Modal.Body>
           <div className="container">
             <CompanyAdd
+                status={status}
                 open={open}
                 handleClickClose={handleClickClose}
                 getdata={getData}
@@ -248,6 +260,7 @@ function Company() {
           <div className="container">
             <CompanyEdit
                 open={editOpen}
+                status={status}
                 handleClickClose={editClickClose}
                 data={editCompany}
                 getData = {getData}
@@ -256,6 +269,27 @@ function Company() {
           </div>
         </Modal.Body>
       </Modal>
+
+
+        <Modal
+            show={infoOpen}
+            onHide={infoClickClose}
+            centered
+            size="lg"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>  Company Information </Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <div className="container">
+              <CompanyInfo
+                 data={info}
+              />
+            </div>
+          </Modal.Body>
+        </Modal>
+
     </div>
   );
 }
