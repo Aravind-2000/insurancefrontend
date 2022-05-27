@@ -56,11 +56,20 @@ const PermissionsUI = ({close}) => {
     const [roleId, setRoleId] = useState("");
     const [method, setMethod] = useState("");
 
+    const [access, setAccess] = useState([]);
+    const accessMethod = (arr) => {
+        arr.map((val) => (
+            access.push(val.method)
+        ))
+    }
+
 
     const SubmitPermission = () => {
         const body = {userId, serviceId, roleId, method}
-
         InsuranceApi.addPermission(body).then((res) => {
+            console.log(res.data)
+            accessMethod(res.data)
+            sessionStorage.setItem("specialaccess", JSON.stringify(access))
         }).catch((err) => console.log(err))
     }
 
