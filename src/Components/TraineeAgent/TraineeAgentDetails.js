@@ -7,11 +7,11 @@ import {
     makeStyles, Paper,
     Table,
     TableBody,
-    TableContainer,
     TableHead,
-    TablePagination,
-    TableRow
+    TablePagination
 } from "@material-ui/core";
+import TableContainer from "@mui/material/TableContainer";
+import TableRow from "@mui/material/TableRow";
 import InfoIcon from "@mui/icons-material/Info";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -20,6 +20,9 @@ import {Modal} from "react-bootstrap";
 import TraineeAgentAdd from "./TraineeAgentAdd";
 import TraineeAgentInfo from "./TraineeAgentInfo";
 import TraineeAgentEdit from "./TraineeAgentEdit";
+import axios from "axios";
+import {InputAdornment, TextField} from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -130,6 +133,19 @@ const TraineeAgentDetails = () => {
         }
     }
 
+    const [search, setSearch] = useState("");
+    const globalsearch = (val) =>{
+        val === "" ? getAllTrainees() : axios.get(`http://localhost:8090/traineeagent/search/${val}`,{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            }
+        }).then((res) => {
+            setTraineeAgents(res.data);
+        })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
 
     return (
         <div>
@@ -148,6 +164,22 @@ const TraineeAgentDetails = () => {
                             />
                         </Button> : null
                 }
+
+                <TextField
+                    type="text"
+                    label="Search"
+                    value={search}
+                    onChange={(e) => {setSearch(e.target.value); globalsearch(e.target.value)}}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <SearchIcon/>
+                            </InputAdornment>
+                        )
+                    }
+                    }
+                    fullwidth
+                />
 
                 <Paper className="paperStyle">
                     <TableContainer sx={{ maxHeight: 440, maxWidth: 1200, marginLeft:5 }}>
@@ -243,6 +275,7 @@ const TraineeAgentDetails = () => {
                             onChangeRowsPerPage={handleChangeRowsPerPage}
                         />
                     </TableContainer>
+                    <br/>
                 </Paper>
             </div>
             <div className="footerdescription">

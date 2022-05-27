@@ -24,7 +24,7 @@ import {
 } from "@material-ui/core";
 import InsuranceApi from "../../Service/InsuranceApi";
 import ClientAddressEdit from "./ClientAddressEdit";
-import {Dialog, DialogContent, InputAdornment, OutlinedInput} from "@mui/material";
+import {Dialog, DialogContent, InputAdornment, TextField} from "@mui/material";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -167,19 +167,21 @@ function ClientAddress() {
           />
         </Button>
         {/*<input type="search" placeholder="search" value={search} onChange={(e) => {setSearch(e.target.value); globalsearch(e.target.value)}} />*/}
-         <OutlinedInput
-            className="outlinedInput"
+        <TextField
             type="text"
             label="Search"
             value={search}
             onChange={(e) => {setSearch(e.target.value); globalsearch(e.target.value)}}
-            endAdornment={
-              <InputAdornment position="end">
-                <SearchIcon/>
-              </InputAdornment>
+            InputProps={{
+              endAdornment: (
+                  <InputAdornment position="end">
+                    <SearchIcon/>
+                  </InputAdornment>
+              )
+            }
             }
             fullwidth
-          />
+        />
         <div className="mainClass">
           {/* <OutlinedInput
             className="outlinedInput"

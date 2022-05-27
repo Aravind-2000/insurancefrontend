@@ -5,11 +5,11 @@ import {
     makeStyles, Paper,
     Table,
     TableBody,
-    TableContainer,
     TableHead,
-    TablePagination,
-    TableRow
+    TablePagination
 } from "@material-ui/core";
+import TableContainer from "@mui/material/TableContainer";
+import TableRow from "@mui/material/TableRow";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import TableCell from "@mui/material/TableCell";
 import moment from "moment";
@@ -22,6 +22,8 @@ import TrainingAdd from "./TrainingAdd";
 import TrainingEdit from "./TrainingEdit";
 import TrainingInfo from "./TrainingInfo";
 import axios from "axios";
+import {InputAdornment, TextField} from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -171,7 +173,23 @@ const TrainingDetails = () => {
                         </Button> : null
                 }
 
-                <input type="search" placeholder="search" value={search} onChange={(e) => {setSearch(e.target.value); globalsearch(e.target.value)}} />
+                {/*<input type="search" placeholder="search" value={search} onChange={(e) => {setSearch(e.target.value); globalsearch(e.target.value)}} />*/}
+
+                <TextField
+                    type="text"
+                    label="Search"
+                    value={search}
+                    onChange={(e) => {setSearch(e.target.value); globalsearch(e.target.value)}}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <SearchIcon/>
+                            </InputAdornment>
+                        )
+                    }
+                    }
+                    fullwidth
+                />
 
                 <Paper className="paperStyle">
                     <TableContainer sx={{ maxHeight: 440, maxWidth: 1200, marginLeft:5 }}>
@@ -270,6 +288,7 @@ const TrainingDetails = () => {
                             onChangeRowsPerPage={handleChangeRowsPerPage}
                         />
                     </TableContainer>
+                    <br/>
                 </Paper>
             </div>
             <div className="footerdescription">

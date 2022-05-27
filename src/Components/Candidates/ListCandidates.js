@@ -6,7 +6,7 @@ import {AiFillEdit} from "react-icons/ai";
 import EditCandidate from "./EditCandidate";
 import {TablePagination} from "@material-ui/core";
 import "../Css/Content.css";
-import {InputAdornment, OutlinedInput} from "@mui/material";
+import {InputAdornment, TextField} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import moment from "moment";
 
@@ -119,16 +119,20 @@ const ListCandidates = () => {
                     <div className="classTitle">
                         <h2> <b> Enrolled Candidates </b>  </h2> </div> <br/>
                     {/*<input type="search" placeholder="search" value={search} onChange={(e) => {setSearch(e.target.value); getByNameLike(e.target.value)}} />*/}
-                    <OutlinedInput
+                    <TextField
                         className="outlinedInput"
+                        style={{paddingTop:"15px"}}
                         type="text"
                         label="Search"
                         value={search}
                         onChange={(e) => {setSearch(e.target.value); getByNameLike(e.target.value)}}
-                        endAdornment={
-                            <InputAdornment position="end">
-                                <SearchIcon/>
-                            </InputAdornment>
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <SearchIcon/>
+                                </InputAdornment>
+                            )
+                        }
                         }
                         fullwidth
                     />

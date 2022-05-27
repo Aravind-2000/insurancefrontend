@@ -26,6 +26,8 @@ import InsuranceApi from "../../Service/InsuranceApi";
 import ClientDetailsEdit from "./ClientDetailsEdit";
 import ProofsAdd from "../Proofs/ProofsAdd";
 import {Modal} from "react-bootstrap";
+import {InputAdornment, TextField} from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 
 // const initialPValue = {
 //   id: "",
@@ -192,32 +194,34 @@ const access = JSON.parse(sessionStorage.getItem("specialaccess"))
               onClick={handleClickOpen}
           />
         </Button>
-        <input type="search" placeholder="search" value={search} onChange={(e) => {setSearch(e.target.value); globalsearch(e.target.value)}} />
-        <div className="mainClass">
-          {/* <OutlinedInput
-            className="outlinedInput"
+        {/*<input type="search" placeholder="search" value={search} onChange={(e) => {setSearch(e.target.value); globalsearch(e.target.value)}} />*/}
+        <TextField
             type="text"
             label="Search"
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            endAdornment={
-              <InputAdornment position="end">
-                <SearchIcon />
-              </InputAdornment>
+            value={search}
+            onChange={(e) => {setSearch(e.target.value); globalsearch(e.target.value)}}
+            InputProps={{
+              endAdornment: (
+                  <InputAdornment position="end">
+                    <SearchIcon/>
+                  </InputAdornment>
+              )
+            }
             }
             fullwidth
-          /> */}
-          <div className="innerClass">
-            {/*<Button*/}
-            {/*  className={classes.BackGround}*/}
-            {/*  color="primary"*/}
-            {/*  variant="contained"*/}
-            {/*  onClick={clickHandler}*/}
-            {/*>*/}
-            {/*  <InsertDriveFileIcon />*/}
-            {/*</Button>*/}
-          </div>
-        </div>
+        />
+        {/*<div className="mainClass">*/}
+        {/*  <div className="innerClass">*/}
+        {/*    /!*<Button*!/*/}
+        {/*    /!*  className={classes.BackGround}*!/*/}
+        {/*    /!*  color="primary"*!/*/}
+        {/*    /!*  variant="contained"*!/*/}
+        {/*    /!*  onClick={clickHandler}*!/*/}
+        {/*    /!*>*!/*/}
+        {/*    /!*  <InsertDriveFileIcon />*!/*/}
+        {/*    /!*</Button>*!/*/}
+        {/*  </div>*/}
+        {/*</div>*/}
 
         <Paper className="paperStyle">
           <TableContainer sx={{ maxHeight: 440, maxWidth: 1200, marginLeft:5 }}>

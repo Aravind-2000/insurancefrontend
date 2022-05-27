@@ -10,7 +10,7 @@ import Paper from "@mui/material/Paper";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import {Button, Dialog, DialogContent} from "@mui/material";
+import {Button, Dialog, DialogContent, InputAdornment, TextField} from "@mui/material";
 import BankAccountAdd from "./BankAccountAdd";
 import BankAccountEdit from "./BankAccountEdit";
 import BankAccountInfo from "./BankAccountInfo";
@@ -18,6 +18,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import "../Css/Content.css"
 import {makeStyles, TablePagination} from "@material-ui/core";
 import moment from "moment";
+import SearchIcon from "@mui/icons-material/Search";
 
 
 
@@ -150,7 +151,12 @@ function BankAccount() {
   const [search, setSearch] = useState("");
 
   const globalsearch = (val) => {
-    val === "" ? getdata() : axios.get(`http://localhost:8090/bank/search/${val}`).then((res) => {
+    val === "" ? getdata() : axios.get(`http://localhost:8090/bank/search/${val}`, {
+        headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        }
+        }
+    ).then((res) => {
       setData(res.data)
     })
         .catch((err) => {
@@ -185,8 +191,23 @@ function BankAccount() {
                 onClick={handleClickOpen}
             />
         </Button>
-        <input type="search" placeholder="search" style={{marginLeft:10}} value={search} onChange={(e) => {setSearch(e.target.value); globalsearch(e.target.value)}} />
-      <br/>
+        {/*<input type="search" placeholder="search" style={{marginLeft:10}} value={search} onChange={(e) => {setSearch(e.target.value); globalsearch(e.target.value)}} />*/}
+            <TextField
+                type="text"
+                label="Search"
+                value={search}
+                onChange={(e) => {setSearch(e.target.value); globalsearch(e.target.value)}}
+                InputProps={{
+                    endAdornment: (
+                        <InputAdornment position="end">
+                            <SearchIcon/>
+                        </InputAdornment>
+                    )
+                }
+                }
+                fullwidth
+            />
+            <br/>
 
       <Paper className="paperStyle" >
         <TableContainer sx={{ maxHeight: 440, maxWidth: 1200, marginLeft:5 }}>

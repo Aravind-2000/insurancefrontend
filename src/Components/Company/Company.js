@@ -9,7 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Button } from "@mui/material";
+import {Button, InputAdornment, TextField} from "@mui/material";
 import CompanyAdd from "./CompanyAdd";
 import CompanyEdit from "./CompanyEdit";
 import {makeStyles, TablePagination} from "@material-ui/core";
@@ -19,6 +19,7 @@ import Paper from "@mui/material/Paper";
 import moment from "moment";
 import CompanyInfo from "./CompanyInfo";
 import InsuranceApi from "../../Service/InsuranceApi";
+import SearchIcon from "@mui/icons-material/Search";
 
 
 
@@ -144,6 +145,21 @@ function Company() {
     getData();
     getStatus()
   }, []);
+
+
+  const [search, setSearch] = useState("");
+  const globalsearch = (val) =>{
+    val === "" ? getData() : axios.get(`http://localhost:8090/company/search/${val}`, {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      }
+    }).then((res) => {
+      setData(res.data);
+    })
+        .catch((err) => {
+          console.log(err)
+        })
+  }
   
   return (
       <div>
@@ -159,6 +175,23 @@ function Company() {
             onClick={handleClickOpen}
         />
       </Button>
+
+      <TextField
+          className="outlinedInput"
+          type="text"
+          label="Search"
+          value={search}
+          onChange={(e) => {setSearch(e.target.value); globalsearch(e.target.value)}}
+          InputProps={{
+            endAdornment: (
+                <InputAdornment position="end">
+                  <SearchIcon/>
+                </InputAdornment>
+            )
+          }
+          }
+          fullwidth
+      />
 
       <Paper className="paperStyle">
         <TableContainer sx={{ maxHeight: 440, maxWidth: 1200, marginLeft:5 }}>

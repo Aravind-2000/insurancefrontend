@@ -6,7 +6,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { Paper } from "@mui/material";
+import {InputAdornment, Paper, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -21,6 +21,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import LocalConvenienceStoreIcon from '@mui/icons-material/LocalConvenienceStore';
 import OfficeStructureInfo from "./OfficeStructureInfo";
 import InsuranceApi from "../../Service/InsuranceApi";
+import SearchIcon from "@mui/icons-material/Search";
 
 
 
@@ -185,6 +186,20 @@ const OfficeStructure = () => {
         setDownLevelOffices(false)
     }
 
+    const [search, setSearch] = useState("");
+    const globalsearch = (val) =>{
+        val === "" ? getData() : axios.get(`http://localhost:8090/officestructure/search/${val}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            }
+        }).then((res) => {
+            setData(res.data);
+        })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
 
     return (
         <div>
@@ -200,6 +215,21 @@ const OfficeStructure = () => {
                     onClick={handleClickOpen}
                 />
             </Button>
+            <TextField
+                type="text"
+                label="Search"
+                value={search}
+                onChange={(e) => {setSearch(e.target.value); globalsearch(e.target.value)}}
+                InputProps={{
+                    endAdornment: (
+                        <InputAdornment position="end">
+                            <SearchIcon/>
+                        </InputAdornment>
+                    )
+                }
+                }
+                fullwidth
+            />
 
             <Paper className="paperStyle" >
                 <TableContainer sx={{ maxHeight: 440, maxWidth: 1200, marginLeft:5 }}>
