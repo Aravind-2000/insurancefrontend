@@ -4,11 +4,11 @@ import {
     makeStyles,
     Table,
     TableBody,
-    TableContainer,
     TableHead,
-    TablePagination,
-    TableRow
+    TablePagination
 } from "@material-ui/core";
+import TableContainer from "@mui/material/TableContainer";
+import TableRow from "@mui/material/TableRow";
 import InsuranceApi from "../../Service/InsuranceApi";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import TableCell from "@mui/material/TableCell";
@@ -192,7 +192,6 @@ const TrainingCostDetails = () => {
                                             </TableRow>
                                         ))}
                             </TableBody>
-
                         </Table>
                         <br/>
                         <TablePagination
@@ -206,6 +205,7 @@ const TrainingCostDetails = () => {
                             onChangeRowsPerPage={handleChangeRowsPerPage}
                         />
                     </TableContainer>
+                    <br/>
                 </Paper>
             </div>
 
