@@ -6,12 +6,10 @@ import {
     NavMenu,
 } from './NavbarElements';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { NavDropdown} from "react-bootstrap";
+import {Navbar, NavDropdown} from "react-bootstrap";
 import InsuranceApi from "../../Service/InsuranceApi";
 
-const Navbar = () => {
-
-
+const NavBar = () => {
 
     // const [username, setUsername] = useState(null);
     //
@@ -25,9 +23,12 @@ const Navbar = () => {
     return (
         <div>
             <Nav>
-                <NavLink to='mainpage'>
-                    <img  src={require("../Logo/futuralogo.png")}   alt="logo"/>
-                </NavLink>
+                <Navbar.Brand>
+                    <NavLink to='mainpage'>
+                        <img  src={require("../Logo/futuralogo.png")}   alt="logo"/>
+                    </NavLink>
+                </Navbar.Brand>
+
                 <Bars />
 
                 <NavMenu>
@@ -73,4 +74,4 @@ const Navbar = () => {
     );
 };
 
-export default Navbar;
+export default NavBar;

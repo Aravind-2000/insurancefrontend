@@ -6,7 +6,7 @@ import ListCandidates from "./Components/Candidates/ListCandidates";
 import Mainpage from "./Components/Mainpage";
 import ListEmployee from "./Components/Employee/ListEmployee";
 import EmployeeDashboard from "./Components/Employee/EmployeeDashboard";
-import Navbar from "./Components/Header/Navbar";
+import NavBar from "./Components/Header/Navbar";
 import NotificationTable from "./Components/Notification/NotificationTable";
 import BankAccount from "./Components/BankAccount/BankAccount";
 import ClientAddress from "./Components/Address/ClientAddress";
@@ -27,7 +27,7 @@ import TrainingModuleDetails from "./Components/TrainingModule/TrainingModuleDet
 const App = () => {
   return (
       <div>
-          <Navbar/>
+          <NavBar/>
           <div>
               <br/> <br/>
               <Routes>
