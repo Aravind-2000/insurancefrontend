@@ -23,6 +23,7 @@
     "react-dom": "^17.0.2",
     "react-draggable": "^4.4.4",
     "react-icons": "^4.3.1",
+    "react-multi-carousel": "^2.8.0",
     "react-organizational-chart": "^2.1.1",
     "react-pro-sidebar": "^0.7.1",
     "react-rating-stars-component": "^2.2.0",
@@ -38,9 +39,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-
   "homepage": "/ui/mainpage",
-
   "eslintConfig": {
     "extends": [
       "react-app",
