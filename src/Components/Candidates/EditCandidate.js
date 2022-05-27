@@ -3,7 +3,7 @@ import insuranceApi from "../../Service/InsuranceApi";
 import {FloatingLabel, Form, Modal} from "react-bootstrap";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import {DatePicker, DateTimePicker, LocalizationProvider} from "@mui/lab";
-import {TextField} from "@mui/material";
+import {Button, TextField} from "@mui/material";
 import InsuranceApi from "../../Service/InsuranceApi";
 import moment from "moment";
 
@@ -271,13 +271,8 @@ const EditCandidate = (
                                 </Form.Select>
                             </FloatingLabel>
                         </Form.Group>
-                        <button
-                            className="btn"
-                            style={{color:"whitesmoke", backgroundColor:"red"}}
-                            onClick={() => updateCandidate(record.id)}
-                        >
-                            Submit
-                        </button>
+                        <Button
+                            color="primary" variant="contained" onClick={() => updateCandidate(record?.id)}> Submit </Button>
                     </Form>
                 </Modal.Body>
             </Modal>
