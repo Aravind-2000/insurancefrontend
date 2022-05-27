@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import InsuranceApi from "../../Service/InsuranceApi";
-import {Button, makeStyles, Paper, TableContainer, TablePagination, TableRow} from "@material-ui/core";
+import {Button, makeStyles, Paper, TablePagination} from "@material-ui/core";
+import TableContainer from "@mui/material/TableContainer";
+import TableRow from "@mui/material/TableRow";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import Table from "@mui/material/Table";
 import TableCell from "@mui/material/TableCell";
@@ -13,12 +15,13 @@ import {Modal} from "react-bootstrap";
 import AgentAdd from "./AgentAdd";
 import AgentEdit from "./AgentEdit";
 import moment from "moment";
-import {InputAdornment, OutlinedInput} from "@mui/material";
+import {InputAdornment, TextField} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import DraggableComponent from "../../Service/DraggableComponent";
 import AgentInfo from "./AgentInfo";
 import InfoIcon from "@mui/icons-material/Info";
 import PeopleIcon from "@mui/icons-material/People";
+import "../Css/Content.css";
+import "../Css/ContentAdd.css";
 
 
 
@@ -211,7 +214,6 @@ const AgentDetails = () => {
             .catch((err) => {
                 console.log(err)
             })
-
     }
 
     const access = JSON.parse(sessionStorage.getItem("specialaccess"))
@@ -232,16 +234,18 @@ const AgentDetails = () => {
                     />
                 </Button>
                 {/*<input type="search" placeholder="search" value={search} onChange={(e) => {setSearch(e.target.value); globalsearch(e.target.value)}} />*/}
-                <OutlinedInput
-                    className="outlinedInput"
+                <TextField
                     type="text"
                     label="Search"
                     value={search}
                     onChange={(e) => {setSearch(e.target.value); globalsearch(e.target.value)}}
-                    endAdornment={
+                    InputProps={{
+                        endAdornment: (
                         <InputAdornment position="end">
-                            <SearchIcon/>
+                        <SearchIcon/>
                         </InputAdornment>
+                        )
+                    }
                     }
                     fullwidth
                 />
@@ -318,6 +322,9 @@ const AgentDetails = () => {
                             onChangeRowsPerPage={handleChangeRowsPerPage}
                         />
                     </TableContainer>
+
+                    <br/>
+
                 </Paper>
             </div>
             <div className="footerdescription">
