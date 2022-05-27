@@ -4,7 +4,12 @@ import {Modal, Table} from "react-bootstrap";
 import {MdOutlineViewInAr} from "react-icons/md";
 import {makeStyles, TablePagination} from "@material-ui/core";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import {Button} from "@mui/material";
+import {Button, InputAdornment, TextField} from "@mui/material";
+import axios from "axios";
+import SearchIcon from "@mui/icons-material/Search";
+import AddEmployee from "./AddEmployee";
+import EditEmployee from "./EditEmployee";
+import EditIcon from "@mui/icons-material/Edit";
 
 
 
@@ -68,6 +73,38 @@ const ListEmployee = () => {
             })
     }
 
+    const [search, setSearch] = useState("");
+    const globalsearch = (val) =>{
+        val === "" ? getAllEmployee() : axios.get(`http://localhost:8090/employee/search/${val}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            }
+        }).then((res) => {
+            setEmployees(res.data);
+        })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
+    const [addModal, setAddModal] = useState(false);
+    const showAddModal = () => {
+        setAddModal(true)
+    }
+    const hideAddModal = () => {
+        setAddModal(false)
+    }
+
+    const [editRecord, setEditRecord] = useState("");
+    const [editModal, setEditModal] = useState(false);
+    const showEditModal = (value) => {
+        setEditRecord(value)
+        setEditModal(true)
+    }
+    const hideEditModal = () => {
+        setEditModal(false)
+    }
+
 
     return (
         <div>
@@ -76,12 +113,34 @@ const ListEmployee = () => {
                     <h2> <b> Employee Details </b> </h2>
                 </div>
                 <br/>
-                <Button>
-                    <AddBoxIcon
-                        fontSize="large"
-                        className={classes.BackGround}
-                    />
-                </Button>
+
+                {
+                    access?.find(element => element === "add-employee") ?
+                        <Button>
+                            <AddBoxIcon
+                                fontSize="large"
+                                className={classes.BackGround}
+                                onClick={() => showAddModal()}
+                            />
+                        </Button> : null
+                }
+
+                <TextField
+                    type="text"
+                    label="Search"
+                    value={search}
+                    onChange={(e) => {setSearch(e.target.value); globalsearch(e.target.value)}}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <SearchIcon/>
+                            </InputAdornment>
+                        )
+                    }
+                    }
+                    fullwidth
+                />
+
                 <br /> <br />
                 <div className="card card-lg p-3 mb-5 bg-body rounded">
                     <div className="card-body">
@@ -91,6 +150,7 @@ const ListEmployee = () => {
                                 <td className="tblhd" align="left"> Employee Name </td>
                                 <td className="tblhd" align="left"> Employee ID </td>
                                 <td className="tblhd" align="left"> Assigned Candidates </td>
+                                <td className="tblhd" align="left"> Actions </td>
                             </tr>
                             </thead>
 
@@ -107,6 +167,12 @@ const ListEmployee = () => {
                                                 onClick={() => showempmodal(value.id)}
                                                 style={{cursor:"pointer"}}
                                             />
+                                        </td>
+                                        <td>
+                                            {
+                                                access?.find(element => element === "update-employee") ?
+                                                    <EditIcon onClick={() => showEditModal(value)} style={{cursor:"pointer"}}/> : null
+                                            }
                                         </td>
                                     </tr>
                                 ))
@@ -131,8 +197,7 @@ const ListEmployee = () => {
                 show={empmodal}
                 onHide={hideempmodal}
                 centered
-                size="lg"
-                aria-labelledby="contained-modal-title-vcenter"
+                size="xl"
             >
                 <Modal.Header closeButton>
                     <Modal.Title > Employee Details</Modal.Title>
@@ -151,7 +216,6 @@ const ListEmployee = () => {
                             <td> Name </td>
                             <td> Mobile Number </td>
                             <td> E-Mail </td>
-                            <td> Highest Qualification </td>
                             <td> Communication Mode </td>
                             <td> Current Status of Candidate </td>
                         </tr>
@@ -163,7 +227,6 @@ const ListEmployee = () => {
                                     <td> {value.name}</td>
                                     <td> {value.mobileNumber} </td>
                                     <td> {value.email} </td>
-                                    <td> {value.highestQualification} </td>
                                     <td> {value.communication} </td>
                                     <td> {value.currentStatus} </td>
                                 </tr>
@@ -171,11 +234,45 @@ const ListEmployee = () => {
                         }
                         </tbody>
                     </Table>
-
-
                 </Modal.Body>
-
             </Modal>
+
+
+            <Modal
+                show={addModal}
+                onHide={hideAddModal}
+                centered
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title > Add Employee </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="container">
+                        <AddEmployee close={hideAddModal} getAll={getAllEmployee}/>
+                    </div>
+                </Modal.Body>
+            </Modal>
+
+
+            <Modal
+                show={editModal}
+                onHide={hideEditModal}
+                centered
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title > Edit Employee </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="container">
+                        <EditEmployee close={hideEditModal} getAll={getAllEmployee} record={editRecord} setRecord={setEditRecord}/>
+                    </div>
+                </Modal.Body>
+            </Modal>
+
 
         </div>
     );

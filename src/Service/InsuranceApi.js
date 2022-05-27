@@ -55,6 +55,27 @@ class InsuranceApi{
              }
          });
     }
+
+    addEmployee(body){
+         const userid = sessionStorage.getItem("userid")
+        return axios.post(`http://localhost:8090/employee/add/${userid}` , body, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            }
+        });
+    }
+
+    updateEmployee(id, body){
+        const userid = sessionStorage.getItem("userid")
+        return axios.patch(`http://localhost:8090/employee/${id}/${userid}` , body, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            }
+        });
+    }
+
+
+
     getEmployeeById(id){
          return axios.get(getempbyid + id + "/" + sessionStorage.getItem("userid"), {
              headers: {
