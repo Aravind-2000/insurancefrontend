@@ -35,6 +35,14 @@ const AgentLoginDetails = () => {
         marginLeft: 175
     }
 
+    const paperStyle2 = {
+        padding: 20,
+        height: "63vh",
+        width:600,
+        marginTop:20,
+        marginLeft: 175
+    }
+
 
     const agentid = sessionStorage.getItem("agent");
     const userid = sessionStorage.getItem("userid");
@@ -52,6 +60,7 @@ const AgentLoginDetails = () => {
         InsuranceApi.getUser(userid).then((res) => {
             setUserDetails(res.data)
         }).catch(err => console.log(err))
+        getMyTransactions()
     }, []);
 
 
@@ -64,27 +73,6 @@ const AgentLoginDetails = () => {
             setAgent(res.data)
         }).catch((err) => console.log(err))
     }
-
-    const userId = sessionStorage.getItem("userid");
-    const refreshToken  = sessionStorage.getItem("refreshtoken");
-
-    const formSubmit = () => {
-        axios.post(`http://localhost:8090/api/auth/logout`, {
-            userId, refreshToken
-        }).then((res) => {
-            sessionStorage.clear()
-            localStorage.clear()
-            closeModal()
-            navigate('/login')
-            window.location.reload();
-        }).catch((err) => console.log(err))
-    }
-
-    const [modal, setModal] = useState(false);
-    const closeModal = () => {
-        setModal(false)
-    }
-
     const access = JSON.parse(sessionStorage.getItem("specialaccess"))
 
     const [permission, setPermission] = useState(false);
@@ -114,8 +102,18 @@ const AgentLoginDetails = () => {
         }).catch(err => console.log(err))
     }
 
+    const [myTransaction, setMyTransaction] = useState([]);
+
+    const getMyTransactions = () => {
+        InsuranceApi.myTransactions(agentid).then((res) => {
+            setMyTransaction(res.data)
+        }).catch(err => console.log(err))
+    }
+
     const [userEdit, setUserEdit] = useState(false);
-    const userEditOpen = () => {
+    const [userEditValue, setUserEditValue] = useState("");
+    const userEditOpen = (value) => {
+        setUserEditValue(value)
         setUserEdit(true)
     }
     const userEditClose = () => {
@@ -150,20 +148,14 @@ const AgentLoginDetails = () => {
 
                 <div className="row">
                     <div className="col">
+                        <br/>
+                        <br/>
                         <Paper elevation={5} style={paperStyle}>
                             <div style={{display:"flex",color: "white", marginLeft:700}}>
-                                <Button
-                                    color="error"
-                                    variant="contained"
-                                    onClick={() => setModal(true)}>
-                                    <h6> LOGOUT </h6>
-                                    <LogoutIcon
-                                        style={{  marginLeft:10, cursor:"pointer"}}
-                                    /></Button>
                             </div>
                             <h3> Personal Details  </h3>
                             <br/>
-                            <h4> User Details  <EditIcon style={{marginLeft:"10px", marginBottom:"2px",cursor:"pointer"}} onClick={() => userEditOpen()} />  </h4>
+                            <h4> User Details  <EditIcon style={{marginLeft:"10px", marginBottom:"2px",cursor:"pointer"}} onClick={() => userEditOpen(userDetails)} />  </h4>
                             <h6> User ID :  {sessionStorage.getItem("userid")} </h6>
                             <h6> User Name :  {userDetails.username} </h6>
                             <h6> User E-Mail : {userDetails.email}  </h6>
@@ -209,6 +201,7 @@ const AgentLoginDetails = () => {
                         </Paper>
                     </div>
                     <div className="col">
+                        <br/>
                         <div>
                             <h3> My Trainings :- </h3>
                             {
@@ -221,7 +214,7 @@ const AgentLoginDetails = () => {
                                         <Carousel variant="dark" style={{height:600}}>
                                                 {
                                                 myTrainings?.map((data) => (
-                                                    <Carousel.Item >
+                                                    <Carousel.Item  style={{height:700}}>
                                                     <Paper elevation={5} style={paperStyle1}>
                                                         <div style={{color: "black"}}>
 
@@ -249,37 +242,54 @@ const AgentLoginDetails = () => {
                                         </Carousel>
                             }
                         </div>
+
+                        <div>
+                            <h3> My Transactions :-  </h3>
+                            {
+                                sessionStorage.getItem("agent" ) === "null"  ?
+                                    <h4> You are not a agent yet. </h4>
+                                    :
+                                    myTransaction.length === 0 ?
+                                        <h5> You didn't have any transactions yet. </h5> :
+
+                                        <Carousel variant="dark" style={{height:650}}>
+
+                                            {
+                                                myTransaction.map((data) => (
+                                                    <Carousel.Item style={{height:700}} >
+
+                                                        <Paper elevation={5}  style={paperStyle2} >
+                                                            <div style={{color: "black"}}>
+                                                                <h6> ID : {data.id} </h6>
+                                                                <h6> Receipt ID  : {data.receiptId} </h6>
+                                                                <h6> Agent ID  : {data.agentId} </h6>
+                                                                <h5> Accounting Rule </h5>
+                                                                <h6> ID : {data.receiptReason?.id} </h6>
+                                                                <h6> Account Code Details  : {data.receiptReason?.accountCodeTable?.accountCode} - {data.receiptReason?.accountCodeTable?.accountLongDescription} </h6>
+                                                                <h6> Sub Account Code Details  : {data.receiptReason?.subAccountTable?.subAccountCode} - {data.receiptReason?.subAccountTable?.subAccountLongDesc} </h6>
+                                                                <h5> Transaction Details </h5>
+                                                                <h6> Transaction Code : {data.transactionCode?.transactionCode} </h6>
+                                                                <h6> Transaction Description  : {data?.transactionCode?.transactionDesc} </h6>
+                                                                <h6> Original Currency : {data.originalCurrencyCode?.currencyCode} </h6>
+                                                                <h6> Original Amount : {data.originalAmount} </h6>
+                                                                <h6> Account Currency  : {data.accountCurrencyCode?.currencyCode} </h6>
+                                                                <h6> Account Amount :  {data.accountAmount} </h6>
+                                                                <h6> Account Sign : {data.accountSign} </h6>
+                                                                <h5> Transaction Description Details</h5>
+                                                                <h6> ID : {data.transactionCode?.id} </h6>
+                                                                <h6> Transaction Code : {data.transactionCode?.transactionCode} </h6>
+                                                                <h6> Transaction Description : {data.transactionCode?.transactionDesc} </h6>
+                                                                <h6> Transaction Date and Time : {moment(data.transactionCode?.transactionDate).format("DD-MM-YYYY HH:mm")} </h6>
+                                                            </div>
+                                                        </Paper>
+                                                    </Carousel.Item>
+                                                ))}
+                                        </Carousel>
+                            }
+                        </div>
                     </div>
                 </div>
             <br/>
-
-
-
-            <Modal
-                show={modal}
-                onHide={closeModal}
-                centered
-                size="sm">
-
-                <Modal.Header closeButton> </Modal.Header>
-
-                <Modal.Body>
-                    Do you want to log out ?
-                    <br/>
-                    <br/>
-                    <Button
-                        color="primary"
-                        variant="contained"
-                        style={{marginRight:10}}
-                        onClick={() => formSubmit()}> Yes </Button>
-                    <Button
-                        color="error"
-                        variant="contained"
-                        style={{marginRight:10}}
-                        onClick={() => closeModal()}> No </Button>
-                </Modal.Body>
-            </Modal>
-
 
             <Modal
                 show={permission}
@@ -316,7 +326,7 @@ const AgentLoginDetails = () => {
 
                 <Modal.Header closeButton> <Modal.Title> <h5> Edit User Details </h5> </Modal.Title> </Modal.Header>
                 <Modal.Body>
-                    <UpdateUser userid={sessionStorage.getItem("userid")} roles={roles} close={userEditClose}/>
+                    <UpdateUser userid={sessionStorage.getItem("userid")} roles={roles} close={userEditClose} userdetails={userEditValue} setUserdetails={setUserEditValue} />
                 </Modal.Body>
             </Modal>
 
