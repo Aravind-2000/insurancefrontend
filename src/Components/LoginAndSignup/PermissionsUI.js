@@ -61,6 +61,7 @@ const PermissionsUI = ({close}) => {
         arr.map((val) => (
             access.push(val.method)
         ))
+        sessionStorage.setItem("specialaccess", JSON.stringify(access))
     }
 
 
@@ -69,7 +70,6 @@ const PermissionsUI = ({close}) => {
         InsuranceApi.addPermission(body).then((res) => {
             console.log(res.data)
             accessMethod(res.data)
-            sessionStorage.setItem("specialaccess", JSON.stringify(access))
         }).catch((err) => console.log(err))
     }
 
@@ -134,8 +134,8 @@ const PermissionsUI = ({close}) => {
 
                         <Autocomplete
                             id="combo-box-demo"
-                            fullWidth
                             freeSolo
+                            fullWidth
                             className="formtext"
                             options={methods}
                             renderInput={(params) =>
