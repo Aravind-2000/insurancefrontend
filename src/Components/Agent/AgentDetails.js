@@ -301,9 +301,6 @@ const AgentDetails = () => {
                                                             style={{cursor: "pointer", marginLeft: 10}}
                                                             onClick={() => downLevelOpen(value.downLevelAgents)}
                                                         />
-
-
-
                                                     </div>
                                                 </TableCell>
                                             </TableRow>
