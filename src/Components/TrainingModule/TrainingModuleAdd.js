@@ -6,6 +6,9 @@ import InsuranceApi from "../../Service/InsuranceApi";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {Modal} from "react-bootstrap";
 import TrainingCostAdd from "../TrainingCost/TrainingCostAdd";
+import Notifications from "../Dialogs/Notifications";
+
+
 
 const TrainingModuleAdd = ({costs, close, getAll, level, setCosts}) => {
 
@@ -17,14 +20,26 @@ const TrainingModuleAdd = ({costs, close, getAll, level, setCosts}) => {
     const [trainingLevel, setTrainingLevel] = useState("");
     const [currencies, setCurrencies] = useState([]);
 
+    const [notify, setNotify] = useState({
+        isOpen: false,
+        message: "",
+        type: "",
+    });
 
     const formSubmit = () => {
         const body = {
             trainingCostId, trainingTopic, trainingDesc, noOfDays, trainingLevel
         }
         InsuranceApi.addTrainingModule(body).then((res) => {
-            close()
-            getAll()
+            setNotify({
+                isOpen: true,
+                message: res.data,
+                type: "success"
+            })
+            setTimeout(() => {
+                close()
+                getAll()
+            }, 1000)
         }).catch(err => console.log(err))
     }
 
@@ -46,7 +61,7 @@ const TrainingModuleAdd = ({costs, close, getAll, level, setCosts}) => {
     return (
         <div>
             <br/>
-            <form autoComplete="off" onSubmit={formSubmit}>
+            <form autoComplete="off" >
                 <Box sx={{flexGrow: 1}}>
                     <Grid container spacing={2}>
 
@@ -149,7 +164,7 @@ const TrainingModuleAdd = ({costs, close, getAll, level, setCosts}) => {
 
                 <div style={{display: "flex", margin:20}}>
                     <Button
-                        type="submit"
+                        onClick={() => formSubmit()}
                         color="primary"
                         variant="contained"> Save </Button>
 
@@ -177,6 +192,7 @@ const TrainingModuleAdd = ({costs, close, getAll, level, setCosts}) => {
                         onClick={() => costClose()}> Cancel </Button>
                 </Modal.Body>
             </Modal>
+            <Notifications notify={notify} setNotify={setNotify} />
 
         </div>
     );
