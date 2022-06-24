@@ -1,36 +1,27 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import InsuranceApi from "../../Service/InsuranceApi";
 import {Box, Grid, MenuItem, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
 
-const UpdateUser = ({userid, roles, close}) => {
+const UpdateUser = ({userid, roles, close, userdetails, setUserdetails}) => {
 
-
-
-    const [userDetails, setUserDetails] = useState("");
 
     const editChange = (e) => {
         const { name, value } = e.target;
-        setUserDetails({ ...userDetails, [name]: value });
+        setUserdetails({ ...userdetails, [name]: value });
     };
-
-    useEffect(() => {
-        InsuranceApi.getUser(userid).then((res) => {
-            setUserDetails(res.data)
-        }).catch(err => console.log(err))
-    }, []);
 
 
     const formSubmit = () => {
 
         const body = {
-            username: userDetails.username,
-            email: userDetails.email,
-            agentId: userDetails.agentId,
-            roleId: userDetails.roleId
+            username: userdetails.username,
+            email: userdetails.email,
+            agentId: userdetails.agentId,
+            roleId: userdetails.roleId
         }
-        sessionStorage.setItem("username", userDetails.username)
-        sessionStorage.setItem("agent", userDetails.agentId)
+        sessionStorage.setItem("username", userdetails.username)
+        sessionStorage.setItem("agent", userdetails.agentId)
         InsuranceApi.updateUser(userid, body).then((res) => {
             close()
             window.location = "logindetails"
@@ -51,7 +42,7 @@ const UpdateUser = ({userid, roles, close}) => {
                         <TextField
                             className="formtext"
                             label="Username"
-                            value={userDetails?.username}
+                            value={userdetails?.username}
                             name="username"
                             placeholder="Enter username"
                             onChange={(e) => editChange(e)}
@@ -64,7 +55,7 @@ const UpdateUser = ({userid, roles, close}) => {
                         <TextField
                             className="formtext"
                             label="E-Mail"
-                            value={userDetails?.email}
+                            value={userdetails?.email}
                             name="email"
                             placeholder="Enter E-Mail"
                             onChange={(e) => editChange(e)}
@@ -77,7 +68,7 @@ const UpdateUser = ({userid, roles, close}) => {
                         <TextField
                             className="formtext"
                             label="Agent ID"
-                            value={userDetails?.agentId}
+                            value={userdetails?.agentId}
                             name="agentId"
                             placeholder="Enter your Agent ID"
                             onChange={(e) => editChange(e)}
@@ -91,7 +82,7 @@ const UpdateUser = ({userid, roles, close}) => {
                             select
                             className="formtext"
                             label="Role"
-                            value={userDetails.roleId}
+                            value={userdetails?.roleId}
                             name="roleId"
                             placeholder="Enter your role"
                             onChange={(e) => editChange(e)}
