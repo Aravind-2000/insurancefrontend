@@ -23,6 +23,14 @@ import TrainingDetails from "./Components/TrainingSession/TrainingDetails";
 import TraineeAgentDetails from "./Components/TraineeAgent/TraineeAgentDetails";
 import TrainingCostDetails from "./Components/TrainingCost/TrainingCostDetails";
 import TrainingModuleDetails from "./Components/TrainingModule/TrainingModuleDetails";
+import CurrencyCodeDetails from "./Components/CurrencyCode/CurrencyCodeDetails";
+import CurrencyConversionDetails from "./Components/CurrencyConversion/CurrencyConversionDetails";
+import TransactionCodeDetails from "./Components/TransactionCode/TransactionCodeDetails";
+import AccountCodeDetails from "./Components/AccountCode/AccountCodeDetails";
+import AccountingRuleDetails from "./Components/AccountingRule/AccountingRuleDetails";
+import ReceiptBookDetails from "./Components/ReceiptBook/ReceiptBookDetails";
+import TransactionJournalDetails from "./Components/TransactionJournal/TransactionJournalDetails";
+import SubAccountCodeDetails from "./Components/SubAccountCode/SubAccountCodeDetails";
 
 const App = () => {
   return (
@@ -52,6 +60,14 @@ const App = () => {
                   <Route exact path={"trainees"} element={<TraineeAgentDetails/>} />
                   <Route exact path={"trainingcost"} element={<TrainingCostDetails/>} />
                   <Route exact path={"trainingmodule"} element={<TrainingModuleDetails/>} />
+                  <Route exact path={"currencycode"} element={<CurrencyCodeDetails/>} />
+                  <Route exact path={"currencyconversion"} element={<CurrencyConversionDetails/>} />
+                  <Route exact path={"transactioncodes"} element={<TransactionCodeDetails/>} />
+                  <Route exact path={"accountmaster"} element={<AccountCodeDetails/>} />
+                  <Route exact path={"subaccount"} element={<SubAccountCodeDetails/>} />
+                  <Route exact path={"accountrule"} element={<AccountingRuleDetails/>} />
+                  <Route exact path={"receiptbook"} element={<ReceiptBookDetails/>} />
+                  <Route exact path={"transactionjournal"} element={<TransactionJournalDetails/>} />
               </Routes>
           </div>
       </div>

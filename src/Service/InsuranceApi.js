@@ -454,6 +454,364 @@ class InsuranceApi{
         })
     }
 
+    getAllCurrCodes(){
+        const userid = sessionStorage.getItem("userid")
+        return axios.get(`http://localhost:8090/currencycode/getall/${userid}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    getCurrCode(id){
+        const userid = sessionStorage.getItem("userid")
+        return axios.get(`http://localhost:8090/currencycode/${id}/${userid}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+
+    addCurrCode(code){
+        const userid = sessionStorage.getItem("userid")
+        return axios.post(`http://localhost:8090/currencycode/add/${userid}`, code,{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+
+    updateCurrCode(id, code){
+        const userid = sessionStorage.getItem("userid")
+        return axios.patch(`http://localhost:8090/currencycode/${id}/${userid}`, code,{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    softDeleteCurrCode(id){
+        const userid = sessionStorage.getItem("userid")
+        return axios.patch(`http://localhost:8090/currencycode/softdelete/${id}/${userid}`, {},{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    getAllCurrConv(){
+        const userid = sessionStorage.getItem("userid")
+        return axios.get(`http://localhost:8090/currencyconv/getall/${userid}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    getCurrConv(id){
+        const userid = sessionStorage.getItem("userid")
+        return axios.get(`http://localhost:8090/currencyconv/${id}/${userid}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    addCurrConv(conv){
+        const userid = sessionStorage.getItem("userid")
+        return axios.post(`http://localhost:8090/currencyconv/add/${userid}`, conv,{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+
+    updateCurrConv(id, conv){
+        const userid = sessionStorage.getItem("userid")
+        return axios.patch(`http://localhost:8090/currencyconv/${id}/${userid}`, conv,{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    softDeleteCurrConv(id){
+        const userid = sessionStorage.getItem("userid")
+        return axios.patch(`http://localhost:8090/currencyconv/softdelete/${id}/${userid}`, {},{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    getAllWithin(date, orgCode, accCode){
+         return axios.get(`http://localhost:8090/currencyconv/getallwithin/${date}/${orgCode}/${accCode}`, {
+             headers: {
+                 Authorization: `Bearer ${sessionStorage.getItem("token")}`
+             }
+         })
+    }
+
+    getAllTransCodes(){
+        const userid = sessionStorage.getItem("userid")
+        return axios.get(`http://localhost:8090/transactioncode/getall/${userid}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    getTransCode(id){
+        const userid = sessionStorage.getItem("userid")
+        return axios.get(`http://localhost:8090/transactioncode/${id}/${userid}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+
+    addTransCode(conv){
+        const userid = sessionStorage.getItem("userid")
+        return axios.post(`http://localhost:8090/transactioncode/add/${userid}`, conv,{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+
+    updateTransCode(id, conv){
+        const userid = sessionStorage.getItem("userid")
+        return axios.patch(`http://localhost:8090/transactioncode/${id}/${userid}`, conv,{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    softDeleteTransCode(id){
+        const userid = sessionStorage.getItem("userid")
+        return axios.patch(`http://localhost:8090/transactioncode/softdelete/${id}/${userid}`, {},{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+
+    getAllAccountMaster(){
+        const userid = sessionStorage.getItem("userid")
+        return axios.get(`http://localhost:8090/accountmaster/getall/${userid}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    getAccountMaster(id){
+        const userid = sessionStorage.getItem("userid")
+        return axios.get(`http://localhost:8090/accountmaster/${id}/${userid}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    addAccountMaster(conv){
+        const userid = sessionStorage.getItem("userid")
+        return axios.post(`http://localhost:8090/accountmaster/add/${userid}`, conv,{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+
+    updateAccountMaster(id, conv){
+        const userid = sessionStorage.getItem("userid")
+        return axios.patch(`http://localhost:8090/accountmaster/${id}/${userid}`, conv,{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    softDeleteAccountMaster(id){
+        const userid = sessionStorage.getItem("userid")
+        return axios.patch(`http://localhost:8090/accountmaster/softdelete/${id}/${userid}`, {},{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    getAllSubCodes(){
+         return axios.get(`http://localhost:8090/accountmaster/subcodes`, {
+             headers: {
+                 Authorization: `Bearer ${sessionStorage.getItem("token")}`
+             }
+         })
+    }
+
+    getAllAccountNames(){
+        return axios.get(`http://localhost:8090/accountmaster/accountnames`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    getAllAccountRule(){
+        const userid = sessionStorage.getItem("userid")
+        return axios.get(`http://localhost:8090/accountrule/getall/${userid}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    getAccountRule(id){
+        const userid = sessionStorage.getItem("userid")
+        return axios.get(`http://localhost:8090/accountrule/${id}/${userid}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    addAccountRule(conv){
+        const userid = sessionStorage.getItem("userid")
+        return axios.post(`http://localhost:8090/accountrule/add/${userid}`, conv,{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+
+    updateAccountRule(id, conv){
+        const userid = sessionStorage.getItem("userid")
+        return axios.patch(`http://localhost:8090/accountrule/${id}/${userid}`, conv,{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    softDeleteAccountRule(id){
+        const userid = sessionStorage.getItem("userid")
+        return axios.patch(`http://localhost:8090/accountrule/softdelete/${id}/${userid}`, {},{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+
+    getAllreceiptbook(){
+        const userid = sessionStorage.getItem("userid")
+        return axios.get(`http://localhost:8090/receiptbook/getall/${userid}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    getreceiptbook(id){
+        const userid = sessionStorage.getItem("userid")
+        return axios.get(`http://localhost:8090/receiptbook/${id}/${userid}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    addreceiptbook(conv){
+        const userid = sessionStorage.getItem("userid")
+        return axios.post(`http://localhost:8090/receiptbook/add/${userid}`, conv,{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+
+    updatereceiptbook(id, conv){
+        const userid = sessionStorage.getItem("userid")
+        return axios.patch(`http://localhost:8090/receiptbook/${id}/${userid}`, conv,{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    softreceiptbook(id){
+        const userid = sessionStorage.getItem("userid")
+        return axios.patch(`http://localhost:8090/receiptbook/softdelete/${id}/${userid}`, {},{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    getAlltransactionjournal(){
+        const userid = sessionStorage.getItem("userid")
+        return axios.get(`http://localhost:8090/transactionjournal/getall/${userid}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    gettransactionjournal(id){
+        const userid = sessionStorage.getItem("userid")
+        return axios.get(`http://localhost:8090/transactionjournal/${id}/${userid}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+
+    addtransactionjournal(conv){
+        const userid = sessionStorage.getItem("userid")
+        return axios.post(`http://localhost:8090/transactionjournal/add/${userid}`, conv,{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+
+    updatetransactionjournal(id, conv){
+        const userid = sessionStorage.getItem("userid")
+        return axios.patch(`http://localhost:8090/transactionjournal/${id}/${userid}`, conv,{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    softtransactionjournal(id){
+        const userid = sessionStorage.getItem("userid")
+        return axios.patch(`http://localhost:8090/transactionjournal/softdelete/${id}/${userid}`, {},{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    myTransactions(agentid){
+         return axios.get(`http://localhost:8090/transactionjournal/agent/${agentid}`, {
+             headers: {
+                 Authorization: `Bearer ${sessionStorage.getItem("token")}`
+             }
+         })
+    }
 
 
 }
