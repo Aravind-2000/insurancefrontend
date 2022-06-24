@@ -63,10 +63,10 @@ const Signup = () => {
                setTimeout(() => {
                    navigate("/login");
                }, 2000)
-            }).catch((res) =>
+            }).catch((err) =>
                 setNotify({
                     isOpen: true,
-                    message: res.data?.message,
+                    message: err.data?.message,
                     type: "error",
                 })
             )
@@ -83,9 +83,9 @@ const Signup = () => {
                 setTimeout(() => {
                     navigate("/login");
                 }, 2000)
-            }).catch((res) => setNotify({
+            }).catch((err) => setNotify({
                 isOpen: true,
-                message: res.data?.message ,
+                message: err.data?.message ,
                 type: "error",
             }))
         }
