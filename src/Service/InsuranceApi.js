@@ -948,6 +948,10 @@ class InsuranceApi{
         })
     }
 
+    getAllMethodsByServiceId(id){
+        return axios.get(`http://localhost:8090/methods/service/${id}`)
+    }
+
 }
 
 export default new InsuranceApi();
