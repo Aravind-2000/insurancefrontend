@@ -31,6 +31,8 @@ import AccountingRuleDetails from "./Components/AccountingRule/AccountingRuleDet
 import ReceiptBookDetails from "./Components/ReceiptBook/ReceiptBookDetails";
 import TransactionJournalDetails from "./Components/TransactionJournal/TransactionJournalDetails";
 import SubAccountCodeDetails from "./Components/SubAccountCode/SubAccountCodeDetails";
+import PolicyHeaderDetails from "./Components/PolicyHeader/PolicyHeaderDetails";
+import PolicyCoverDetails from "./Components/PolicyCover/PolicyCoverDetails";
 
 const App = () => {
   return (
@@ -68,6 +70,8 @@ const App = () => {
                   <Route exact path={"accountrule"} element={<AccountingRuleDetails/>} />
                   <Route exact path={"receiptbook"} element={<ReceiptBookDetails/>} />
                   <Route exact path={"transactionjournal"} element={<TransactionJournalDetails/>} />
+                  <Route exact path={"policyheader"} element={<PolicyHeaderDetails/>} />
+                  <Route exact path={"policycover"} element={<PolicyCoverDetails/>} />
               </Routes>
           </div>
       </div>

@@ -108,6 +108,10 @@ const NavBar = () => {
                                     <NavDropdown.Item href="currencyconversion"> Currency Conversion Details </NavDropdown.Item>
                                     <NavDropdown.Item href="currencycode"> Currency Code Details </NavDropdown.Item>
                                 </NavDropdown>
+                                <NavDropdown title="Policy Details" drop="end">
+                                    <NavDropdown.Item href="policyheader"> Policy Header Details </NavDropdown.Item>
+                                    <NavDropdown.Item href="policycover"> Policy Cover Details </NavDropdown.Item>
+                                </NavDropdown>
                                 <NavDropdown.Item onClick={() => setModal(true)}> Logout </NavDropdown.Item>
                             </NavDropdown>
                             : null
