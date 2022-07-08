@@ -341,7 +341,9 @@ const AgentDetails = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="container">
-                        <AgentAdd close={addClose} Exclusives={ex} Invalid={invalids} Paying={payFrequency} Currency = {currencyType} Offices={offices}  getall={getallAgents} clients={clients} setClients={setClients} employees={employees} paymethod={paymethod} agenttype={agenttype}/>
+                        <AgentAdd close={addClose} Exclusives={ex} Invalid={invalids}
+                                  Paying={payFrequency} Currency = {currencyType} Offices={offices}
+                                  getall={getallAgents} clients={clients} setClients={setClients} employees={employees} paymethod={paymethod} agenttype={agenttype}/>
                     </div>
                 </Modal.Body>
             </Modal>
@@ -358,7 +360,9 @@ const AgentDetails = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="container">
-                    <AgentEdit close={editClose} Exclusives={ex} Paying={payFrequency} Currency = {currencyType} Offices = {offices}  getAll={getallAgents} record={record} setRecord={setRecord} clients={clients}  employees={employees} paymethod={paymethod} agenttype={agenttype} />
+                    <AgentEdit close={editClose} Exclusives={ex} Paying={payFrequency}
+                               Currency = {currencyType} Offices = {offices}  getAll={getallAgents}
+                               record={record} setRecord={setRecord} clients={clients}  employees={employees} paymethod={paymethod} agenttype={agenttype} />
                     </div>
                 </Modal.Body>
             </Modal>

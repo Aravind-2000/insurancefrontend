@@ -9,7 +9,7 @@ import { Checkbox } from "@material-ui/core";
 import Button from "@mui/material/Button";
 import moment from "moment";
 
-const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employees, paymethod, Offices }) => {
+const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employees, paymethod, Offices, Currency, Paying, Exclusives }) => {
     let {
         id,
         clientId,
@@ -176,6 +176,7 @@ const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employe
                         </Grid>
                         <Grid item xs={8} md={6} lg={4}>
                             <TextField
+                                select
                                 name="exclusive"
                                 value={exclusive}
                                 label="Exclusive"
@@ -185,7 +186,13 @@ const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employe
                                 variant="outlined"
                                 onChange={(e) => editChange(e)}
                                 margin="dense"
-                            />
+                            >
+                                {
+                                    Exclusives.map((val) => (
+                                        <MenuItem value={val}> {val} </MenuItem>
+                                    ))
+                                }
+                            </TextField>
                         </Grid>
                         <Grid item xs={8} md={6} lg={4}>
                             <FormControlLabel
@@ -362,6 +369,7 @@ const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employe
                         </Grid>
                         <Grid item xs={8} md={6} lg={4}>
                             <TextField
+                                select
                                 name="payFrequency"
                                 value={payFrequency}
                                 label="Pay Frequency"
@@ -371,10 +379,16 @@ const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employe
                                 variant="outlined"
                                 onChange={(e) => editChange(e)}
                                 margin="dense"
-                            />
+                            >{
+                                Paying.map((val) => (
+                                    <MenuItem value={val}> {val} </MenuItem>
+                                ))
+                            }
+                            </TextField>
                         </Grid>
                         <Grid item xs={8} md={6} lg={4}>
                             <TextField
+                                select
                                 name="currencyType"
                                 value={currencyType}
                                 label="Currency Type"
@@ -384,7 +398,13 @@ const AgentEdit = ({ record, setRecord, getAll, close,clients, agenttype,employe
                                 variant="outlined"
                                 onChange={(e) => editChange(e)}
                                 margin="dense"
-                            />
+                            >
+                                {
+                                    Currency.map((val) => (
+                                        <MenuItem value={val}> {val} </MenuItem>
+                                    ))
+                                }
+                            </TextField>
                         </Grid>
                         <Grid item xs={8} md={6} lg={4}>
                             <TextField
