@@ -23,7 +23,6 @@ const PermissionsUI = ({close}) => {
 
     const btnstyle = { margin: "8px 0" , marginLeft: "1.5rem"};
     useEffect(() => {
-        getAllMethods()
         getAllServices()
         getAllRoles()
     }, []);
@@ -33,11 +32,11 @@ const PermissionsUI = ({close}) => {
     const [service, setService] = useState([]);
     const [roles, setRoles] = useState([]);
 
-    const getAllMethods = () => {
-        InsuranceApi.getAllPermissionMethods().then((res) => {
-            setMethods(res.data)
-        }).catch((err) => console.log(err))
-    }
+    // const getAllMethods = () => {
+    //     InsuranceApi.getAllPermissionMethods().then((res) => {
+    //         setMethods(res.data)
+    //     }).catch((err) => console.log(err))
+    // }
 
     const getAllServices = () => {
         InsuranceApi.getAllServices().then((res) => {
@@ -64,6 +63,12 @@ const PermissionsUI = ({close}) => {
         sessionStorage.setItem("specialaccess", JSON.stringify(access))
     }
 
+    const onChangeServiceId = (value) => {
+        setServiceId(value);
+        InsuranceApi.getAllMethodsByServiceId(value).then((res) => {
+            setMethods(res.data)
+        }).catch(err => console.log(err))
+    }
 
     const SubmitPermission = () => {
         const body = {userId, serviceId, roleId, method}
@@ -96,7 +101,7 @@ const PermissionsUI = ({close}) => {
                             label="Service"
                             value={serviceId}
                             placeholder="Enter Service "
-                            onChange={(e) => setServiceId(e.target.value)}
+                            onChange={(e) => onChangeServiceId(e.target.value)}
                             fullWidth
                             SelectProps={{
                                 MenuProps:MenuProps
