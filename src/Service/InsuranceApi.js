@@ -814,6 +814,140 @@ class InsuranceApi{
     }
 
 
+    getAllPolicyHeader(){
+        const userid = sessionStorage.getItem("userid")
+        return axios.get(`http://localhost:8090/policyheader/getall/${userid}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    getPolicyHeader(id){
+        const userid = sessionStorage.getItem("userid")
+        return axios.get(`http://localhost:8090/policyheader/${id}/${userid}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+
+    addPolicyHeader(conv){
+        const userid = sessionStorage.getItem("userid")
+        return axios.post(`http://localhost:8090/policyheader/add/${userid}`, conv,{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    clonePolicyHeader(conv){
+        const userid = sessionStorage.getItem("userid")
+        return axios.post(`http://localhost:8090/policyheader/clone/${userid}`, conv,{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    updatePolicyHeader(id, body){
+        const userid = sessionStorage.getItem("userid")
+        return axios.patch(`http://localhost:8090/policyheader/${id}/${userid}`, body,{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    softPolicyHeader(id){
+        const userid = sessionStorage.getItem("userid")
+        return axios.patch(`http://localhost:8090/policyheader/softdelete/${id}/${userid}`, {},{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    getAllPolicyCover(){
+        const userid = sessionStorage.getItem("userid")
+        return axios.get(`http://localhost:8090/policycover/getall/${userid}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    getPolicyCover(id){
+        const userid = sessionStorage.getItem("userid")
+        return axios.get(`http://localhost:8090/policycover/${id}/${userid}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    getPolicyCoverByHeader(id){
+        return axios.get(`http://localhost:8090/policycover/header/${id}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+
+    addPolicyCover(conv){
+        const userid = sessionStorage.getItem("userid")
+        return axios.post(`http://localhost:8090/policycover/add/${userid}`, conv,{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    clonePolicyCover(conv){
+        const userid = sessionStorage.getItem("userid")
+        return axios.post(`http://localhost:8090/policycover/clone/${userid}`, conv,{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    updatePolicyCover(id, body){
+        const userid = sessionStorage.getItem("userid")
+        return axios.patch(`http://localhost:8090/policycover/${id}/${userid}`, body,{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    softPolicyCover(id){
+        const userid = sessionStorage.getItem("userid")
+        return axios.patch(`http://localhost:8090/policycover/softdelete/${id}/${userid}`, {},{
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    getAllCoverageStatus(){
+        return axios.get(`http://localhost:8090/cpstatus/getall`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
+    getAllCoverageProductNames(){
+        return axios.get(`http://localhost:8090/productnames/getall`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+        })
+    }
+
 }
 
 export default new InsuranceApi();
