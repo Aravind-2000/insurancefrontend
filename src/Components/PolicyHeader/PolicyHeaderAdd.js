@@ -24,6 +24,8 @@ const PolicyHeaderAdd = ({getAll, close, company, agent, currencies, status, pro
     const [productId, setProductId] = useState("");
 
 
+
+
     const formSubmit = (e) => {
         e.preventDefault()
         const startDate = moment(startdate).format("MM-DD-YYYY")
