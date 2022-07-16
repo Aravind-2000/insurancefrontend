@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
         color: "white",
     },
 }));
-const PolicyHeaderCoverDetails = ({policyCover, setPolicyCover, headerId, policyNumber, companyId}) => {
+const PolicyHeaderCoverDetails = ({policyCover, setPolicyCover, headerId, policyNumber, companyId, getAll}) => {
     const classes = useStyles();
     const access = JSON.parse(sessionStorage.getItem("specialaccess"))
 
@@ -92,6 +92,7 @@ const PolicyHeaderCoverDetails = ({policyCover, setPolicyCover, headerId, policy
     const addClose = () => {
         setAdd(false)
         getPolicyCovers()
+        getAll()
     }
 
     //Pagination
