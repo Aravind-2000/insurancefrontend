@@ -43,7 +43,7 @@ const PolicyCoverClone = ({policyCovers, close, getAll}) => {
                         >
                             {
                                 policyCovers.map((val) => (
-                                    <MenuItem value={val.id}> PolicyNumber-{val.policyNumber} || Life-{val.life} || Coverage Name-{val.coverageName}</MenuItem>
+                                    <MenuItem value={val.id}> PolicyNumber-{val.policyNumber} || Life-{val.life} || Coverage Name-{val.coverageName?.statusDesc}</MenuItem>
                                 ))
                             }
                         </TextField>
