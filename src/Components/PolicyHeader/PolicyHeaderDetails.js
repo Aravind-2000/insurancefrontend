@@ -435,7 +435,7 @@ const PolicyHeaderDetails = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="container">
-                        <PolicyHeaderCoverDetails headerId={headerId} companyId={compId} policyNumber={polNum} policyCover={policyCovers} setPolicyCover={setPolicyCovers}/>
+                        <PolicyHeaderCoverDetails getAll={getPolicyHeaders} headerId={headerId} companyId={compId} policyNumber={polNum} policyCover={policyCovers} setPolicyCover={setPolicyCovers}/>
                     </div>
                 </Modal.Body>
             </Modal>
