@@ -13,7 +13,7 @@ import moment from "moment";
 const ListCandidates = () => {
 
     const access = JSON.parse(sessionStorage.getItem("specialaccess"))
-
+    
     const [candidates, setCandidates] = useState([]);
     const [candidaterecord, setCandidaterecord] = useState("");
     const [proofs, setProofs] = useState([]);

@@ -30,6 +30,10 @@ const TrainingAdd = ({close, getAll, modules, modes, levels, types, agents}) => 
     const [trainer, setTrainer] = useState("");
     const [continuanceId, setContinuanceId] = useState("");
 
+    const [types1, setTypes1] = useState([
+        "A", "B", "C", "D"
+    ]);
+
 
     const [dateError, setDateError] = useState("");
 
