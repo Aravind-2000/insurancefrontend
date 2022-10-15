@@ -33,6 +33,7 @@ import TransactionJournalDetails from "./Components/TransactionJournal/Transacti
 import SubAccountCodeDetails from "./Components/SubAccountCode/SubAccountCodeDetails";
 import PolicyHeaderDetails from "./Components/PolicyHeader/PolicyHeaderDetails";
 import PolicyCoverDetails from "./Components/PolicyCover/PolicyCoverDetails";
+import ChangePassword from './Components/LoginAndSignup/ChangePassword';
 
 const App = () => {
   return (
@@ -42,6 +43,7 @@ const App = () => {
               <br/> <br/>
               <Routes>
                   <Route exact path={"/login"} element={<Login/>} />
+                  <Route exact path={"/changePass"} element={<ChangePassword/>} />
                   <Route exact path={"signup"} element={<Signup/>} />
                   <Route exact path={"logindetails"} element={<AgentLoginDetails/>} />
                   <Route exact path={"/mainpage"} element={<Mainpage/>} />
