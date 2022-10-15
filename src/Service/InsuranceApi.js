@@ -952,6 +952,13 @@ class InsuranceApi{
         return axios.get(`http://localhost:8090/methods/service/${id}`)
     }
 
+    updateUserPassword(mail, password){
+        return axios.patch(
+          `http://localhost:8090/api/auth/user/updatePassword/${mail}`,
+          {password}
+        );
+    }
+
 }
 
 export default new InsuranceApi();

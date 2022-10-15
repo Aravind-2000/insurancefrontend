@@ -6,13 +6,14 @@ import {
   TextField,
   Button,
   Typography,
-  Link, Box, IconButton,
+  Link,
+  Box,
+  IconButton,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import axios from "axios";
-import ContextProvide from "../ContextAPI/ContextProvider";
-import {InputAdornment, OutlinedInput} from "@material-ui/core";
-import {Visibility, VisibilityOff} from "@mui/icons-material";
+import { InputAdornment } from "@material-ui/core";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const Login = () => {
   const paperStyle = {
@@ -22,8 +23,7 @@ const Login = () => {
     margin: "20px auto",
   };
   const avatarStyle = { backgroundColor: "#1bbd7e" };
-  const btnstyle = { margin: "8px 0" , marginLeft: "12.5rem"};
-
+  const btnstyle = { margin: "8px 0", marginLeft: "12.5rem" };
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -32,11 +32,8 @@ const Login = () => {
   const [error, setError] = useState(false);
 
   const accessMethod = (arr) => {
-    arr.map((val) => (
-        access.push(val.method)
-    ))
-  }
-
+    arr.map((val) => access.push(val.method));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -49,15 +46,17 @@ const Login = () => {
       .then((response) => {
         sessionStorage.setItem("token", response.data.accessToken);
         sessionStorage.setItem("userid", response.data.id);
-        response.data.agent !== null ? sessionStorage.setItem("agent", response.data.agent?.id) : sessionStorage.setItem("agent", null)
-        sessionStorage.setItem("username", response.data.username)
-        localStorage.setItem("username", response.data.username)
-        sessionStorage.setItem("email", response.data.email)
-        sessionStorage.setItem("refreshtoken", response.data.refreshToken)
-        accessMethod(response.data.specialAccess)
-        sessionStorage.setItem("specialaccess", JSON.stringify(access))
-        sessionStorage.setItem("condition", "true")
-        window.location = "logindetails"
+        response.data.agent !== null
+          ? sessionStorage.setItem("agent", response.data.agent?.id)
+          : sessionStorage.setItem("agent", null);
+        sessionStorage.setItem("username", response.data.username);
+        localStorage.setItem("username", response.data.username);
+        sessionStorage.setItem("email", response.data.email);
+        sessionStorage.setItem("refreshtoken", response.data.refreshToken);
+        accessMethod(response.data.specialAccess);
+        sessionStorage.setItem("specialaccess", JSON.stringify(access));
+        sessionStorage.setItem("condition", "true");
+        window.location = "logindetails";
       })
       .catch((err) => {
         console.log(err.message);
@@ -72,9 +71,8 @@ const Login = () => {
   };
 
   const handleClickShowPassword = () => {
-    setShowPassword(!showPassword)
-  }
-
+    setShowPassword(!showPassword);
+  };
 
   return (
     <div>
@@ -84,12 +82,12 @@ const Login = () => {
             <LockOutlinedIcon />
           </Avatar>
           <h2>Sign In</h2>
-          <br/>
+          <br />
         </Grid>
         <form onSubmit={handleSubmit} autoComplete="off">
-          <Box sx={{flexGrow: 1}}>
-          <Grid container spacing={2}>
-            <TextField
+          <Box sx={{ flexGrow: 1 }}>
+            <Grid container spacing={2}>
+              <TextField
                 className="formtext"
                 label="E-Mail"
                 value={email}
@@ -97,11 +95,11 @@ const Login = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 fullWidth
                 required
-            />
+              />
 
-            <br/>
-            <TextField
-                type={showPassword ? 'text' : 'password'}
+              <br />
+              <TextField
+                type={showPassword ? "text" : "password"}
                 className="formtext"
                 label="Password"
                 value={password}
@@ -112,50 +110,76 @@ const Login = () => {
                 required
                 InputProps={{
                   endAdornment: (
-                    <InputAdornment
-                        position="end"
-                    >
-                        <IconButton
+                    <InputAdornment position="end">
+                      <IconButton
                         onClick={handleClickShowPassword}
                         onMouseDown={handleMouseDownPassword}
-                        >
-                          {showPassword ? <Visibility /> : <VisibilityOff />}
-                        </IconButton>
+                      >
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
                     </InputAdornment>
-                  )
+                  ),
                 }}
-            />
+              />
 
-
-            <Button
+              <Button
                 type="submit"
                 color="primary"
                 variant="contained"
                 style={btnstyle}
-            >
-              Sign in
-            </Button>
-          </Grid>
-
-            <br/>
-
-            <br/>
-            <Grid container spacing={2}>
-
-              <Button  style={{color:"white", backgroundColor:"green", marginLeft:160}}> <Link href="signup" style={{color:"white", textDecoration:"none"}}>  Create An Account  </Link></Button>
-
-
-            {error ? (
-                <Typography style={{ color: "red" , margin:50 }}>
-                  Bad Credentials , Username or Password is wrong
-                </Typography>
-            ) : null}
+              >
+                Sign in
+              </Button>
             </Grid>
 
+            <br />
+
+            <br />
+            <Grid container spacing={2}>
+              <Button
+                style={{
+                  color: "white",
+                  backgroundColor: "green",
+                  marginLeft: 160,
+                }}
+              >
+                {" "}
+                <Link
+                  href="changePass"
+                  style={{ color: "white", textDecoration: "none" }}
+                >
+                  {" "}
+                  Forgot Password{" "}
+                </Link>
+              </Button>
+              <br />
+
+              <Button
+                style={{
+                  color: "white",
+                  backgroundColor: "green",
+                  marginLeft: 160,
+                }}
+              >
+                {" "}
+                <Link
+                  href="signup"
+                  style={{ color: "white", textDecoration: "none" }}
+                >
+                  {" "}
+                  Create An Account{" "}
+                </Link>
+              </Button>
+
+              {error ? (
+                <Typography style={{ color: "red", margin: 50 }}>
+                  Bad Credentials , Username or Password is wrong
+                </Typography>
+              ) : null}
+            </Grid>
           </Box>
         </form>
       </Paper>
-
     </div>
   );
 };
