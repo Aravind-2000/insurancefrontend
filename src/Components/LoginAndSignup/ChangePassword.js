@@ -10,16 +10,16 @@ const ChangePassword = () => {
     margin: "20px auto",
   };
 
-  const btnstyle = { margin: "8px 0", marginLeft: "12.5rem" };
+  const btnstyle = { margin: "8px 0", marginLeft: "10.5rem" };
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setconfirmPassword] = useState("");
-  const [usermail, setusermail] = useState("");
+  const [email, setEmail] = useState("");
 
   const [passError, setpassError] = useState("");
 
   const ChangePasswordSubmit = () => {
-    InsuranceApi.updateUserPassword(usermail, confirmPassword)
+    InsuranceApi.updateUserPassword(email, password)
       .then((res) => {
         console.log(res.data);
         window.location = "login";
@@ -47,14 +47,14 @@ const ChangePassword = () => {
       <Paper elevation={10} style={paperStyle}>
         <br /> <br />
         <form onSubmit={checkingPassword} autoComplete="off">
-          <Box sx={{ flexGrow: 1 }}> 
+          <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={2}>
               <TextField
                 className="formtext"
                 label="E-Mail"
-                value={usermail}
+                value={email}
                 placeholder="Enter your  E-Mail"
-                onChange={(e) => setusermail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
                 fullWidth
                 required
               />
@@ -79,7 +79,7 @@ const ChangePassword = () => {
                 required
               />
 
-              <Typography style={{ color: "red", margin: 50 }}>
+              <Typography style={{ color: "red", marginLeft: 25, marginTop:10 }}>
                 {passError}
               </Typography>
             </Grid>

@@ -122,51 +122,50 @@ const Login = () => {
                 }}
               />
 
-              <Button
-                type="submit"
-                color="primary"
-                variant="contained"
-                style={btnstyle}
-              >
-                Sign in
-              </Button>
+              <div className="row">
+                <div className="col">
+                  <Button
+                    type="submit"
+                    color="primary"
+                    variant="contained"
+                    style={btnstyle}
+                  >
+                    Sign in
+                  </Button>
+                </div>
+
+                <div className="col">
+                  <Button
+                    style={{
+                      color: "white",
+                      backgroundColor: "red",
+                      marginLeft: 160,
+                    }}
+                  >
+                    <Link
+                      href="changePass"
+                      style={{ color: "white", textDecoration: "none" }}
+                    >
+                      Forgot Password ?
+                    </Link>
+                  </Button>
+                </div>
+              </div>
             </Grid>
 
-            <br />
-
-            <br />
             <Grid container spacing={2}>
               <Button
                 style={{
                   color: "white",
                   backgroundColor: "green",
                   marginLeft: 160,
+                  marginTop: 75,
                 }}
               >
-                {" "}
-                <Link
-                  href="changePass"
-                  style={{ color: "white", textDecoration: "none" }}
-                >
-                  {" "}
-                  Forgot Password{" "}
-                </Link>
-              </Button>
-              <br />
-
-              <Button
-                style={{
-                  color: "white",
-                  backgroundColor: "green",
-                  marginLeft: 160,
-                }}
-              >
-                {" "}
                 <Link
                   href="signup"
                   style={{ color: "white", textDecoration: "none" }}
                 >
-                  {" "}
                   Create An Account{" "}
                 </Link>
               </Button>
