@@ -10,6 +10,7 @@ import {Modal, Navbar, NavDropdown} from "react-bootstrap";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import Button from "@mui/material/Button";
+import Avatar from "@mui/material/Avatar";
 
 const NavBar = () => {
     let navigate = useNavigate();
@@ -23,7 +24,9 @@ const NavBar = () => {
     // }, [sessionStorage.getItem("userid")]);
 
     const userId = sessionStorage.getItem("userid");
-    const refreshToken  = sessionStorage.getItem("refreshtoken");
+    const refreshToken = sessionStorage.getItem("refreshtoken");
+    const username = sessionStorage.getItem("username") 
+    const profile = sessionStorage.getItem("profile")
 
     const formSubmit = () => {
         axios.post(`http://localhost:8090/api/auth/logout`, {
@@ -56,6 +59,21 @@ const NavBar = () => {
                 <Bars />
 
                 <NavMenu>
+
+                    {
+                        sessionStorage.getItem("condition") === null ? null : 
+                            sessionStorage.getItem("profile") === null ?
+                            (<>
+                                <NavLink activeStyle>
+                                    <AccountCircleIcon/>
+                                </NavLink>
+                                </>) :
+                               ( <Avatar
+                                    alt={username}
+                                    src={profile}
+                                    sx={{ width: 56, height: 56 }}
+                                />)
+                    }
 
                     {
                         sessionStorage.getItem("condition") === null ? null :
