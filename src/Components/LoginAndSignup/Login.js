@@ -55,6 +55,7 @@ const Login = () => {
         sessionStorage.setItem("refreshtoken", response.data.refreshToken);
         accessMethod(response.data.specialAccess);
         sessionStorage.setItem("specialaccess", JSON.stringify(access));
+        sessionStorage.setItem("profile", response.data.profilePicture)
         sessionStorage.setItem("condition", "true");
         window.location = "logindetails";
       })
